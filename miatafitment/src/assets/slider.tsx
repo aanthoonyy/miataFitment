@@ -5,8 +5,7 @@ function Slider() {
 
     const handleChange = (event: any) => {
         setValue(event.target.value);
-        // Update the cube's y-axis position here
-        // cube.position.y = event.target.value;
+
     };
 
     return (
