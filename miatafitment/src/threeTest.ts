@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 const renderer = render();
 const { camera, controls } = makeCamera(renderer, 100);
 
-scene.add(makeCar(THREE));
+scene.add(makeCar(THREE, scene));
 scene.add(floorMaker(THREE, 10000, 10000));
 
 animate(scene, camera, renderer, controls);
