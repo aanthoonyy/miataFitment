@@ -1,4 +1,5 @@
-import { slider } from "./slider";
+import { camberSlider } from "./sliders/CamberSlider";
+import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { makeTire } from "./tire";
 import { makeWheels } from "./wheels";
 
@@ -16,7 +17,7 @@ export function makeCar(THREE: any, scene: any){
     const cube = new THREE.Mesh(geometry, material);
 
     cube.position.y = 2.5;
-    slider(cube);
+    rideHeightSlider(cube);
 
 
     // windshield
@@ -32,24 +33,32 @@ export function makeCar(THREE: any, scene: any){
 
 
     // Wheels
-    let wheels = 0;
-    wheels = makeWheels(THREE, 4, 2.75, 1);
-    scene.add(wheels);  
-    wheels = makeWheels(THREE, -4, 2.75, 1);
-    scene.add(wheels);
-    wheels = makeWheels(THREE, -4, -2.75, 1);
-    scene.add(wheels);
-    wheels = makeWheels(THREE, 4, -2.75, 1);
-    scene.add(wheels);
-    let tires = 0
-    tires = makeTire(THREE, 4, 2.75, 1);
-    scene.add(tires);
-    tires = makeTire(THREE, -4, 2.75, 1);
-    scene.add(tires);
-    tires = makeTire(THREE, -4, -2.75, 1);
-    scene.add(tires);
-    tires = makeTire(THREE, 4, -2.75, 1);
-    scene.add(tires);
+    // let wheels = 0;
+    const wheelsFL = makeWheels(THREE, 4, 2.75, 1);
+    camberSlider(wheelsFL, "FL");
+    scene.add(wheelsFL);  
+    const wheelsFR = makeWheels(THREE, -4, 2.75, 1);
+    camberSlider(wheelsFR, "BL");
+    scene.add(wheelsFR);
+    const wheelsBL = makeWheels(THREE, -4, -2.75, 1);
+    camberSlider(wheelsBL, "BR");
+    scene.add(wheelsBL);
+    const wheelsBR = makeWheels(THREE, 4, -2.75, 1);
+    camberSlider(wheelsBR, "FR");
+    scene.add(wheelsBR);
+
+    const tiresFL = makeTire(THREE, 4, 2.75, 1);
+    camberSlider(tiresFL, "FL");
+    scene.add(tiresFL);
+    const tiresBL = makeTire(THREE, -4, 2.75, 1);
+    camberSlider(tiresBL, "BL");
+    scene.add(tiresBL);
+    const tiresFR = makeTire(THREE, -4, -2.75, 1);
+    camberSlider(tiresFR, "BR");
+    scene.add(tiresFR);
+    const tiresBR = makeTire(THREE, 4, -2.75, 1);
+    camberSlider(tiresBR, "FR");
+    scene.add(tiresBR);
     
     return cube;
 }

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { camberSlider } from './sliders/CamberSlider';
 
 export function makeTire(THREE: any, x: number, y: number, z: number){
     const tireGeometry = new THREE.CylinderGeometry(14/12, 14/12, 7.2/12, 32); // radiusTop, radiusBottom, height, radialSegments
@@ -12,6 +13,7 @@ export function makeTire(THREE: any, x: number, y: number, z: number){
     tireSideWall.position.y = 3/12;
     tire.add(tireSideWall);
 
+    
     tire.rotation.x = Math.PI / 2;
     tire.position.x = x;
     tire.position.z = y;
