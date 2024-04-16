@@ -8,6 +8,7 @@ import { render } from "./assets/renderer";
 const scene = new THREE.Scene();
 
 const renderer = render();
+renderer.setClearColor( 0x424242, 1 );
 const { camera, controls } = makeCamera(renderer, 100);
 
 scene.add(makeCar(THREE, scene));

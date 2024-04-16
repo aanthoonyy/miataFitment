@@ -3,6 +3,7 @@
     "vite": "^5.2.8"
   },
   "dependencies": {
-    "three": "^0.132.2"
+    "three": "^0.132.2",
+    "three-js-csg": "^72.0.0"
   }
 }

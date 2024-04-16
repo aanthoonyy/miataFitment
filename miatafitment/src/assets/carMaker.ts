@@ -1,4 +1,5 @@
 import { slider } from "./slider";
+import { makeTire } from "./tire";
 import { makeWheels } from "./wheels";
 
 export function makeCar(THREE: any, scene: any){
@@ -40,6 +41,16 @@ export function makeCar(THREE: any, scene: any){
     scene.add(wheels);
     wheels = makeWheels(THREE, 4, -2.75, 1);
     scene.add(wheels);
+    let tires = 0
+    tires = makeTire(THREE, 4, 2.75, 1);
+    scene.add(tires);
+    tires = makeTire(THREE, -4, 2.75, 1);
+    scene.add(tires);
+    tires = makeTire(THREE, -4, -2.75, 1);
+    scene.add(tires);
+    tires = makeTire(THREE, 4, -2.75, 1);
+    scene.add(tires);
+    
     return cube;
 }
 
