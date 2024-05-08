@@ -1,5 +1,7 @@
 import { camberSlider } from "./sliders/CamberSlider";
+import { casterSlider } from "./sliders/CasterSlider";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
+import { toeSlider } from "./sliders/ToeSlider";
 import { makeTire } from "./tire";
 import { makeWheels } from "./wheels";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -38,9 +40,10 @@ export function makeCar(THREE: any, scene: any){
         'src/assets/miata.glb',
         // Function when resource is loaded
         function ( gltf ) {
-            gltf.scene.scale.set(3.5, 3.5, 3.5);
+            gltf.scene.scale.set(4, 4, 4);
             gltf.scene.rotation.y = Math.PI / 2;
-            gltf.scene.position.y = -0.2
+            gltf.scene.position.y = -0.4
+            rideHeightSlider(gltf.scene);
             scene.add( gltf.scene );
         },
         // Function called while loading is progressing
@@ -55,30 +58,42 @@ export function makeCar(THREE: any, scene: any){
 
     // Wheels
     // let wheels = 0;
-    const wheelsFL = makeWheels(THREE,4.1, 2.7, 1);
+    const wheelsFL = makeWheels(THREE,4.65, 3, 1);
     camberSlider(wheelsFL, "FL");
+    toeSlider(wheelsFL, "FL");
+    casterSlider(wheelsFL, "FL");
     scene.add(wheelsFL);  
-    const wheelsFR = makeWheels(THREE, -3.85, 2.75, 1);
+    const wheelsFR = makeWheels(THREE, -4.45, 3.08, 1);
     camberSlider(wheelsFR, "BL");
+    toeSlider(wheelsFR, "BL");
     scene.add(wheelsFR);
-    // const wheelsBL = makeWheels(THREE, -4, -2.75, 1);
-    // camberSlider(wheelsBL, "BR");
-    // scene.add(wheelsBL);
-    const wheelsBR = makeWheels(THREE, 4.1, -2.7, 1);
+    const wheelsBL = makeWheels(THREE, -4.45, -3.08, 1);
+    camberSlider(wheelsBL, "BR");
+    toeSlider(wheelsBL, "BR");
+    scene.add(wheelsBL);
+    const wheelsBR = makeWheels(THREE, 4.65, -3, 1);
     camberSlider(wheelsBR, "FR");
+    toeSlider(wheelsBR, "FR");
+    casterSlider(wheelsBR, "FR");
     scene.add(wheelsBR);
 
-    const tiresFL = makeTire(THREE, 4.1, 2.7, 1);
+    const tiresFL = makeTire(THREE, 4.65, 3, 1);
     camberSlider(tiresFL, "FL");
+    toeSlider(tiresFL, "FL");
+    casterSlider(tiresFL, "FL");
     scene.add(tiresFL);
-    const tiresBL = makeTire(THREE, -3.85, 2.75, 1);
+    const tiresBL = makeTire(THREE, -4.45, 3.08, 1);
     camberSlider(tiresBL, "BL");
+    toeSlider(tiresBL, "BL");
     scene.add(tiresBL);
-    // const tiresFR = makeTire(THREE, -4, -2.75, 1);
-    // camberSlider(tiresFR, "BR");
-    // scene.add(tiresFR);
-    const tiresBR = makeTire(THREE, 4, -2.7, 1);
+    const tiresFR = makeTire(THREE, -4.5, -3.08, 1);
+    camberSlider(tiresFR, "BR");
+    toeSlider(tiresFR, "BR");
+    scene.add(tiresFR);
+    const tiresBR = makeTire(THREE, 4.65, -3, 1);
     camberSlider(tiresBR, "FR");
+    toeSlider(tiresBR, "FR");
+    casterSlider(tiresBR, "FR");
     scene.add(tiresBR);
     
     return cube;
