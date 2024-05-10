@@ -13,7 +13,7 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        width: 300px;
+        width: 350px;
         height: auto; /* Auto height based on content */
         background: #fff;
         padding: 20px;
@@ -28,9 +28,21 @@
         flex-direction: column;
         align-items: center;
       }
-      input[type="range"] {
+      .input-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      input[type="range"],
+      input[type="number"] {
         width: 100%;
         cursor: pointer; /* Cursor pointer for better user indication */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px; /* Consistent input styling */
+      }
+      input[type="number"] {
+        width: 100px; /* Increased width for number inputs */
       }
       label {
         font-size: 14px;
@@ -111,6 +123,64 @@
           value="0"
           step="0.1"
         />
+      </div>
+      <div class="input-group">
+        <div class="input-item">
+          <label for="tireWidth">Tire Width</label>
+          <input
+            id="tireWidth"
+            type="number"
+            min="0"
+            placeholder="Width (mm)"
+          />
+        </div>
+        <div class="input-item">
+          <label for="tireSidewall">Tire Sidewall</label>
+          <input
+            id="tireSidewall"
+            type="number"
+            min="0"
+            placeholder="Sidewall (%)"
+          />
+        </div>
+        <div class="input-item">
+          <label for="tireRadius">Tire Radius</label>
+          <input
+            id="tireRadius"
+            type="number"
+            min="0"
+            placeholder="Radius (in)"
+          />
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="input-item">
+          <label for="wheelWidth">Wheel Width</label>
+          <input
+            id="wheelWidth"
+            type="number"
+            min="0"
+            placeholder="Width (in)"
+          />
+        </div>
+        <div class="input-item">
+          <label for="wheelDiameter">Wheel Diameter</label>
+          <input
+            id="wheelDiameter"
+            type="number"
+            min="0"
+            placeholder="Diameter (in)"
+          />
+        </div>
+        <div class="input-item">
+          <label for="wheelOffset">Wheel Offset</label>
+          <input
+            id="wheelOffset"
+            type="number"
+            min="0"
+            placeholder="Offset (mm)"
+          />
+        </div>
       </div>
     </div>
     <script type="module" src="src/threeTest.ts"></script>
