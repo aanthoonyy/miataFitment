@@ -13,7 +13,6 @@ renderer.setClearColor( 0x424242, 1 );
 const { camera, controls } = makeCamera(renderer, 100);
 setUpLighting(scene);
 
-
 scene.add(makeCar(THREE, scene));
 scene.add(floorMaker(THREE, 10000, 10000));
 
