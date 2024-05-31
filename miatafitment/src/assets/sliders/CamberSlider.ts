@@ -21,9 +21,10 @@ export function camberSlider(camber: any, wheelPos: string){
     }
 }
 
+
 // 1.2217 = -20 degrees
 // 1.5708 = 0 degrees
-// 1.5375 = -2 degrees
+// 1.5375 = -2 degrees 
 // 1.5219 = -3 degrees
 // 1.5070 = -4 degrees
 // 1.4900 = -5 degrees

@@ -2,6 +2,7 @@ import { camberSlider } from "./sliders/CamberSlider";
 import { casterSlider } from "./sliders/CasterSlider";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { toeSlider } from "./sliders/ToeSlider";
+import { getWheelWidth } from "./sliders/WheelWidth";
 import { makeTire } from "./tire";
 import { makeWheels } from "./wheels";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -58,7 +59,7 @@ export function makeCar(THREE: any, scene: any){
 
     // Wheels
     // let wheels = 0;
-    const wheelsFL = makeWheels(THREE,4.65, 3.12, 1);
+    const wheelsFL = makeWheels(THREE,4.65, 3.12, 1, getWheelWidth());
     camberSlider(wheelsFL, "FL");
     toeSlider(wheelsFL, "FL");
     casterSlider(wheelsFL, "FL");
@@ -77,11 +78,11 @@ export function makeCar(THREE: any, scene: any){
     // casterSlider(wheelsBR, "FR");
     // scene.add(wheelsBR);
 
-    const tiresFL = makeTire(THREE, 4.65, 3.12, 1);
-    camberSlider(tiresFL, "FL");
-    toeSlider(tiresFL, "FL");
-    casterSlider(tiresFL, "FL");
-    scene.add(tiresFL);
+    // const tiresFL = makeTire(THREE, 4.65, 3.09, 1);
+    // camberSlider(tiresFL, "FL");
+    // toeSlider(tiresFL, "FL");
+    // casterSlider(tiresFL, "FL");
+    // scene.add(tiresFL);
     // const tiresBL = makeTire(THREE, -4.45, 3.08, 1);
     // camberSlider(tiresBL, "BL");
     // toeSlider(tiresBL, "BL");
