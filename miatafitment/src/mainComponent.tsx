@@ -8,7 +8,8 @@ import { makeCamera } from "./assets/cameraMaker";
 import { render } from "./assets/renderer";
 import { setUpLighting } from "./assets/lighting";
 import { makeWheels } from "./assets/wheels";
-import { getWheelWidth } from "./assets/sliders/WheelWidth";
+import { getWheelWidth } from "./assets/buttons/getWheelWidth";
+import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
 
 const MainComponent = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -19,8 +20,8 @@ const MainComponent = () => {
     tireWidth: 0,
     tireSidewall: 0,
     tireRadius: 0,
-    wheelWidth: 0,
-    wheelDiameter: 0,
+    wheelWidth: 5.5,
+    wheelDiameter: 14,
     wheelOffset: 0,
   });
 
@@ -51,24 +52,52 @@ const MainComponent = () => {
     const { camera, controls } = makeCamera(renderer, 100);
     setUpLighting(scene);
 
-    const car = makeCar(THREE, scene, settings.wheelWidth);
+    const car = makeCar(THREE, scene);
     carRef.current = car;
     scene.add(car);
 
     // Wheels
-    const wheelsFL = makeWheels(THREE, 4.65, 3.12, 1, getWheelWidth());
+    const wheelsFL = makeWheels(
+      THREE,
+      4.65,
+      3.12,
+      1,
+      getWheelWidth(),
+      getWheelDiameter()
+    );
     wheelRefs.current.push(wheelsFL);
     scene.add(wheelsFL);
 
-    const wheelsFR = makeWheels(THREE, -4.45, 3.08, 1, getWheelWidth());
+    const wheelsFR = makeWheels(
+      THREE,
+      -4.45,
+      3.08,
+      1,
+      getWheelWidth(),
+      getWheelDiameter()
+    );
     wheelRefs.current.push(wheelsFR);
     scene.add(wheelsFR);
 
-    const wheelsBL = makeWheels(THREE, -4.45, -3.08, 1, getWheelWidth());
+    const wheelsBL = makeWheels(
+      THREE,
+      -4.45,
+      -3.08,
+      1,
+      getWheelWidth(),
+      getWheelDiameter()
+    );
     wheelRefs.current.push(wheelsBL);
     scene.add(wheelsBL);
 
-    const wheelsBR = makeWheels(THREE, 4.65, -3, 1, getWheelWidth());
+    const wheelsBR = makeWheels(
+      THREE,
+      4.65,
+      -3,
+      1,
+      getWheelWidth(),
+      getWheelDiameter()
+    );
     wheelRefs.current.push(wheelsBR);
     scene.add(wheelsBR);
 
@@ -105,19 +134,47 @@ const MainComponent = () => {
       wheelRefs.current = [];
 
       // Create new wheels with updated settings
-      const newWheelsFL = makeWheels(THREE, 4.65, 3.12, 1, getWheelWidth());
+      const newWheelsFL = makeWheels(
+        THREE,
+        4.65,
+        3.12,
+        1,
+        getWheelWidth(),
+        getWheelDiameter()
+      );
       wheelRefs.current.push(newWheelsFL);
       sceneRef.current.add(newWheelsFL);
 
-      const newWheelsFR = makeWheels(THREE, -4.45, 3.08, 1, getWheelWidth());
+      const newWheelsFR = makeWheels(
+        THREE,
+        -4.45,
+        3.08,
+        1,
+        getWheelWidth(),
+        getWheelDiameter()
+      );
       wheelRefs.current.push(newWheelsFR);
       sceneRef.current.add(newWheelsFR);
 
-      const newWheelsBL = makeWheels(THREE, -4.45, -3.08, 1, getWheelWidth());
+      const newWheelsBL = makeWheels(
+        THREE,
+        -4.45,
+        -3.08,
+        1,
+        getWheelWidth(),
+        getWheelDiameter()
+      );
       wheelRefs.current.push(newWheelsBL);
       sceneRef.current.add(newWheelsBL);
 
-      const newWheelsBR = makeWheels(THREE, 4.65, -3, 1, getWheelWidth());
+      const newWheelsBR = makeWheels(
+        THREE,
+        4.65,
+        -3,
+        1,
+        getWheelWidth(),
+        getWheelDiameter()
+      );
       wheelRefs.current.push(newWheelsBR);
       sceneRef.current.add(newWheelsBR);
     }

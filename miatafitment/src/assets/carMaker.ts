@@ -1,14 +1,7 @@
-import { numberInputHandler } from "./buttons/numberInputHandler";
-import { camberSlider } from "./sliders/CamberSlider";
-import { casterSlider } from "./sliders/CasterSlider";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
-import { toeSlider } from "./sliders/ToeSlider";
-import { getWheelWidth } from "./sliders/WheelWidth";
-import { makeTire } from "./tire";
-import { makeWheels } from "./wheels";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-export function makeCar(THREE: any, scene: any, testWheel: number){
+export function makeCar(THREE: any, scene: any){
 
     // materials
     const material = new THREE.MeshBasicMaterial({color: 0xff0000}, 0); // this is red
@@ -26,9 +19,7 @@ export function makeCar(THREE: any, scene: any, testWheel: number){
 
     const loader = new GLTFLoader();
     loader.load(
-        // URL to the 3D model file
         'src/assets/miata.glb',
-        // Function when resource is loaded
         function ( gltf ) {
             gltf.scene.scale.set(4, 4, 4);
             gltf.scene.rotation.y = Math.PI / 2;
@@ -36,11 +27,9 @@ export function makeCar(THREE: any, scene: any, testWheel: number){
             rideHeightSlider(gltf.scene);
             scene.add( gltf.scene );
         },
-        // Function called while loading is progressing
         function ( xhr ) {
             console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
-        // Function called when loading has errors
         function ( error ) {
             console.log( 'An error happened', error );
         }
