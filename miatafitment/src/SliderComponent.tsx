@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import "./styles.css"; // Make sure to adjust the path to your CSS file
+import "./styles.css";
 
 const SliderComponent = () => {
-  // State hooks for slider values
   const [rideHeight, setRideHeight] = useState(-0.4);
   const [frontCaster, setFrontCaster] = useState(4.65);
   const [frontCamber, setFrontCamber] = useState(90);
   const [rearCamber, setRearCamber] = useState(90);
   const [rearToe, setRearToe] = useState(0);
   const [frontToe, setFrontToe] = useState(0);
-  const [tireWidth, setTireWidth] = useState("");
-  const [tireSidewall, setTireSidewall] = useState("");
-  const [tireRadius, setTireRadius] = useState("");
-  const [wheelWidth, setWheelWidth] = useState("");
-  const [wheelDiameter, setWheelDiameter] = useState("");
-  const [wheelOffset, setWheelOffset] = useState("");
+  const [tireWidth, setTireWidth] = useState("185");
+  const [tireSidewall, setTireSidewall] = useState("60");
+  const [tireRadius, setTireRadius] = useState("14");
+  const [wheelWidth, setWheelWidth] = useState("6");
+  const [wheelDiameter, setWheelDiameter] = useState("14");
+  const [wheelOffset, setWheelOffset] = useState("45");
 
   return (
     <div id="sliderContainer">

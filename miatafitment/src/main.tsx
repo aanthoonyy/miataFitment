@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import MenuComponent from "./App.tsx";
-import ThreeDScene from "./threeTest.tsx";
+import ReactDOM from "react-dom";
+import MainComponent from "./mainComponent";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const App = () => {
+  return (
+    <div>
+      <MainComponent />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));

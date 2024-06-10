@@ -1,3 +1,4 @@
+import { numberInputHandler } from "./buttons/numberInputHandler";
 import { camberSlider } from "./sliders/CamberSlider";
 import { casterSlider } from "./sliders/CasterSlider";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
@@ -7,7 +8,7 @@ import { makeTire } from "./tire";
 import { makeWheels } from "./wheels";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-export function makeCar(THREE: any, scene: any){
+export function makeCar(THREE: any, scene: any, testWheel: number){
 
     // materials
     const material = new THREE.MeshBasicMaterial({color: 0xff0000}, 0); // this is red
@@ -22,18 +23,6 @@ export function makeCar(THREE: any, scene: any){
 
     cube.position.y = 2.5;
     rideHeightSlider(cube);
-
-
-    // windshield
-    // let windshieldGeometry = new THREE.BoxGeometry(48/12, 12/12, widthInFeet);
-
-    // let windshield = new THREE.Mesh(windshieldGeometry, material);
-
-    // windshield.rotation.z = -Math.PI / 4;
-
-    // windshield.position.x = 1.75;
-    // windshield.position.y = 2;
-    // cube.add(windshield);
 
     const loader = new GLTFLoader();
     loader.load(
@@ -59,11 +48,11 @@ export function makeCar(THREE: any, scene: any){
 
     // Wheels
     // let wheels = 0;
-    const wheelsFL = makeWheels(THREE,4.65, 3.12, 1, getWheelWidth());
-    camberSlider(wheelsFL, "FL");
-    toeSlider(wheelsFL, "FL");
-    casterSlider(wheelsFL, "FL");
-    scene.add(wheelsFL);  
+    // const wheelsFL = makeWheels(THREE, 4.65, 3.12, 1, testWheel);
+    // camberSlider(wheelsFL, "FL");
+    // toeSlider(wheelsFL, "FL");
+    // casterSlider(wheelsFL, "FL");
+    // scene.add(wheelsFL);  
     // const wheelsFR = makeWheels(THREE, -4.45, 3.08, 1);
     // camberSlider(wheelsFR, "BL");
     // toeSlider(wheelsFR, "BL");
