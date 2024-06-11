@@ -1,3 +1,5 @@
+import { getWheelOffset } from "./buttons/getWheelOffset";
+
 function barrelAndLipOffsetCalculation(totalWheelWidth: number) {
     // Calculate the offset based on the total wheel width
     // The offset decreases by 0.2 for each decrease of 1 in total wheel width
@@ -32,7 +34,7 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     wheel.position.z = y;
     wheel.position.y = z;
 
-    wheel.position.z += 0.5/12
+    wheel.position.z -= getWheelOffset()/12
 
     return wheel;
 }

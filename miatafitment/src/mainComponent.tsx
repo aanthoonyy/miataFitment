@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import CarSettings from "./carSettings";
 import { floorMaker } from "./assets/floor";
 import { makeCar } from "./assets/carMaker";
 import { animate } from "./assets/animate";
@@ -10,6 +9,7 @@ import { setUpLighting } from "./assets/lighting";
 import { makeWheels } from "./assets/wheels";
 import { getWheelWidth } from "./assets/buttons/getWheelWidth";
 import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
+import FitmentSettings from "./fitmentSettings";
 
 const MainComponent = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -23,6 +23,11 @@ const MainComponent = () => {
     wheelWidth: 5.5,
     wheelDiameter: 14,
     wheelOffset: 0,
+    frontCamber: 0,
+    rearCamber: 0,
+    frontCaster: 0,
+    frontToe: 0,
+    rearToe: 0,
   });
 
   const updateModel = useCallback(
@@ -34,6 +39,11 @@ const MainComponent = () => {
         wheelWidth: number;
         wheelDiameter: number;
         wheelOffset: number;
+        frontCamber: number;
+        rearCamber: number;
+        frontCaster: number;
+        frontToe: number;
+        rearToe: number;
       }>
     ) => {
       setSettings(newSettings);
@@ -133,7 +143,6 @@ const MainComponent = () => {
       });
       wheelRefs.current = [];
 
-      // Create new wheels with updated settings
       const newWheelsFL = makeWheels(
         THREE,
         4.65,
@@ -182,7 +191,7 @@ const MainComponent = () => {
 
   return (
     <div>
-      <CarSettings updateModel={updateModel} />
+      <FitmentSettings updateModel={updateModel} />
       <div id="three-container" style={{ width: "100%", height: "100vh" }} />
     </div>
   );
