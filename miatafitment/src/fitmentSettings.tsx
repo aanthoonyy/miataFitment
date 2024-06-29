@@ -11,6 +11,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [frontCaster, setFrontCaster] = useState(0);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
+  const [rideHeight, setRideHeight] = useState(0);
 
   const [tireWidth, setTireWidth] = useState(0);
   const [tireSidewall, setTireSidewall] = useState(0);
@@ -59,8 +60,8 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           <input
             id="frontCamber"
             type="range"
-            min="-10"
-            max="10"
+            min="-20"
+            max="1"
             step="0.1"
             value={frontCamber}
             onChange={(e) => setFrontCamber(parseFloat(e.target.value))}
@@ -74,8 +75,8 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           <input
             id="rearCamber"
             type="range"
-            min="-10"
-            max="10"
+            min="-20"
+            max="1"
             step="0.1"
             value={rearCamber}
             onChange={(e) => setRearCamber(parseFloat(e.target.value))}
@@ -124,6 +125,21 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             step="0.1"
             value={rearToe}
             onChange={(e) => setRearToe(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <div className="label-value">
+            <label htmlFor="rideHeight">Ride Height</label>
+            <span>{rideHeight} mm</span>
+          </div>
+          <input
+            id="rearToe"
+            type="range"
+            min="-50"
+            max="50"
+            step="0.1"
+            value={rideHeight}
+            onChange={(e) => setRideHeight(parseFloat(e.target.value))}
           />
         </div>
       </div>

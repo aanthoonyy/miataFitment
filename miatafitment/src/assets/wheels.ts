@@ -1,4 +1,7 @@
+import { getCamberFront } from "./buttons/getCamberFront";
+import { getCamberRear } from "./buttons/getCamberRear";
 import { getWheelOffset } from "./buttons/getWheelOffset";
+import { camberSlider } from "./sliders/CamberSlider";
 
 function barrelAndLipOffsetCalculation(totalWheelWidth: number) {
     const offset = 2 - (8 - totalWheelWidth) * 0.2;
@@ -6,7 +9,7 @@ function barrelAndLipOffsetCalculation(totalWheelWidth: number) {
     return offset;
 }
 
-export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWidth: number, wheelDiameter: number) {
+export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWidth: number, wheelDiameter: number, position: string) {
     const wheelGeometry = new THREE.CylinderGeometry(7/12, 7/12, 0.01/12, 32);
     const wheelMaterial = new THREE.MeshBasicMaterial({color: 0xC0C0C0, transparent: true, opacity: 0.5});
     const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
@@ -31,6 +34,11 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
 
     // Adjusting for wheel offset
     wheel.position.z -= getWheelOffset()/12;
+    // Changing for alignment
+    position === "FL" ? wheel.rotation.x = Math.PI / 2 + getCamberFront() : null;
+    position === "FR" ? wheel.rotation.x = Math.PI / 2 - getCamberFront() : null;
+    position === "BL" ? wheel.rotation.x = Math.PI / 2 + getCamberRear() : null;
+    position === "BR" ? wheel.rotation.x = Math.PI / 2 - getCamberRear() : null;
 
     return wheel;
 }

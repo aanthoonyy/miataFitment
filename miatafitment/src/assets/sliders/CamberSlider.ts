@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export function camberSlider(camber: any, wheelPos: string){
+export function camberSlider(camber: any, wheelPos: string): number {
     const frontCamberSlider = document.getElementById('frontCamber');
     const rearCamberSlider = document.getElementById('rearCamber');
 
@@ -8,7 +8,8 @@ export function camberSlider(camber: any, wheelPos: string){
         frontCamberSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             camber.rotation.x = wheelPos === 'FL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(camber.rotation.x)
+            console.log(camber.rotation.x);
+            return camber.rotation.x;
         });
     }
 
@@ -16,17 +17,10 @@ export function camberSlider(camber: any, wheelPos: string){
         rearCamberSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             camber.rotation.x = wheelPos === 'BL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(camber.rotation.x)
+            console.log(camber.rotation.x);
+            return camber.rotation.x;
         });
     }
+
+    return 0;
 }
-
-
-// 1.2217 = -20 degrees
-// 1.5708 = 0 degrees
-// 1.5375 = -2 degrees 
-// 1.5219 = -3 degrees
-// 1.5070 = -4 degrees
-// 1.4900 = -5 degrees
-// 1.4503 = -7 degrees
-//https://www.fitmentindustries.com/wheel-offset-gallery/389516/1990-mazda-mx-5-miata-rota-rkr-hsd-coilovers-nankang-ns2

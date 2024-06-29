@@ -1,3 +1,5 @@
+import { getCamberFront } from "./buttons/getCamberFront";
+import { getCamberRear } from "./buttons/getCamberRear";
 import { getWheelOffset } from "./buttons/getWheelOffset";
 
 function milliMeterToInch(mm: number){
@@ -9,7 +11,7 @@ function rollingDiameter(wheelDiameter: number, tireWidth: number, tireSideWall:
     return totalDiameter;
 }
 
-export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, tireWidth: number, tireSideWall: number) {
+export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, tireWidth: number, tireSideWall: number, position: string) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSideWall);
     const tireGeometry = new THREE.CylinderGeometry(totalDiameter / 2 / 12, totalDiameter / 2 / 12, tireWidth / 25.4 / 12, 32);
     const tireMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
@@ -20,7 +22,13 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
     tire.position.z = y;
     tire.position.y = z;
 
+
+    
     tire.position.z -= getWheelOffset() / 12;
+    position === "FL" ? tire.rotation.x = Math.PI / 2 + getCamberFront() : null;
+    position === "FR" ? tire.rotation.x = Math.PI / 2 - getCamberFront() : null;
+    position === "BL" ? tire.rotation.x = Math.PI / 2 + getCamberRear() : null;
+    position === "BR" ? tire.rotation.x = Math.PI / 2 - getCamberRear() : null;
 
     return tire;
 }

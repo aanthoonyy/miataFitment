@@ -1,3 +1,4 @@
+import { getRideHeight } from "./buttons/getRideHeight";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -14,8 +15,7 @@ export function makeCar(THREE: any, scene: any){
     let geometry = new THREE.BoxGeometry(lengthInFeet, heightInFeet, widthInFeet);
     const cube = new THREE.Mesh(geometry, material);
 
-    cube.position.y = 2.5;
-    rideHeightSlider(cube);
+    cube.position.y = getRideHeight();
 
     const loader = new GLTFLoader();
     loader.load(
