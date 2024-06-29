@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../src/assets/CSS/alignmentSettings.css";
-// import "../src/assets/CSS/fitmentSettings.css"; // Uncomment if fitmentSettings.css is used
 
 type SettingsProps = {
   updateModel: (model: any) => void;

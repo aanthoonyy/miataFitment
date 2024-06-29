@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
 export function camberSlider(camber: any, wheelPos: string){
-    const frontCamberSlider = document.getElementById('frontCamberSlider');
-    const rearCamberSlider = document.getElementById('rearCamberSlider');
+    const frontCamberSlider = document.getElementById('frontCamber');
+    const rearCamberSlider = document.getElementById('rearCamber');
 
     if (frontCamberSlider != null && (wheelPos === 'FL' || wheelPos === 'FR')) {
         frontCamberSlider.addEventListener('input', (event) => {
