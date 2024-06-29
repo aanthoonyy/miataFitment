@@ -10,12 +10,16 @@ import { makeWheels } from "./assets/wheels";
 import { getWheelWidth } from "./assets/buttons/getWheelWidth";
 import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
 import FitmentSettings from "./fitmentSettings";
+import { makeTires } from "./assets/tire";
+import { getTireWidth } from "./assets/buttons/getTireWidth";
+import { getTireSidewall } from "./assets/buttons/getTireSidewall";
 
 const MainComponent = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const carRef = useRef<THREE.Object3D | null>(null);
   const wheelRefs = useRef<THREE.Object3D[]>([]);
+  const tireRefs = useRef<THREE.Object3D[]>([]); // Add tireRefs
   const [settings, setSettings] = useState({
     tireWidth: 0,
     tireSidewall: 0,
@@ -111,6 +115,55 @@ const MainComponent = () => {
     wheelRefs.current.push(wheelsBR);
     scene.add(wheelsBR);
 
+    // Tires
+    const tiresFL = makeTires(
+      THREE,
+      4.65,
+      3.12,
+      1,
+      getWheelDiameter(),
+      getTireWidth(),
+      getTireSidewall()
+    );
+    tireRefs.current.push(tiresFL);
+    scene.add(tiresFL);
+
+    const tiresFR = makeTires(
+      THREE,
+      -4.45,
+      3.08,
+      1,
+      getWheelDiameter(),
+      getTireWidth(),
+      getTireSidewall()
+    );
+    tireRefs.current.push(tiresFR);
+    scene.add(tiresFR);
+
+    const tiresBL = makeTires(
+      THREE,
+      -4.45,
+      -3.08,
+      1,
+      getWheelDiameter(),
+      getTireWidth(),
+      getTireSidewall()
+    );
+    tireRefs.current.push(tiresBL);
+    scene.add(tiresBL);
+
+    const tiresBR = makeTires(
+      THREE,
+      4.65,
+      -3,
+      1,
+      getWheelDiameter(),
+      getTireWidth(),
+      getTireSidewall()
+    );
+    tireRefs.current.push(tiresBR);
+    scene.add(tiresBR);
+
     scene.add(floorMaker(THREE, 10000, 10000));
 
     animate(scene, camera, renderer, controls);
@@ -126,7 +179,11 @@ const MainComponent = () => {
   }, []);
 
   useEffect(() => {
-    if (sceneRef.current && wheelRefs.current.length) {
+    if (
+      sceneRef.current &&
+      wheelRefs.current.length &&
+      tireRefs.current.length
+    ) {
       // Remove all existing wheels
       wheelRefs.current.forEach((wheel) => {
         wheel.traverse((object) => {
@@ -186,6 +243,70 @@ const MainComponent = () => {
       );
       wheelRefs.current.push(newWheelsBR);
       sceneRef.current.add(newWheelsBR);
+
+      // Remove all existing tires
+      tireRefs.current.forEach((tire) => {
+        tire.traverse((object) => {
+          if (object instanceof THREE.Mesh) {
+            object.geometry.dispose();
+            if (Array.isArray(object.material)) {
+              object.material.forEach((material) => material.dispose());
+            } else {
+              object.material.dispose();
+            }
+          }
+        });
+        sceneRef.current?.remove(tire);
+      });
+      tireRefs.current = [];
+
+      const newTiresFL = makeTires(
+        THREE,
+        4.65,
+        3.12,
+        1,
+        getWheelDiameter(),
+        getTireWidth(),
+        getTireSidewall()
+      );
+      tireRefs.current.push(newTiresFL);
+      sceneRef.current.add(newTiresFL);
+
+      const newTiresFR = makeTires(
+        THREE,
+        -4.45,
+        3.08,
+        1,
+        getWheelDiameter(),
+        getTireWidth(),
+        getTireSidewall()
+      );
+      tireRefs.current.push(newTiresFR);
+      sceneRef.current.add(newTiresFR);
+
+      const newTiresBL = makeTires(
+        THREE,
+        -4.45,
+        -3.08,
+        1,
+        getWheelDiameter(),
+        getTireWidth(),
+        getTireSidewall()
+      );
+      tireRefs.current.push(newTiresBL);
+      sceneRef.current.add(newTiresBL);
+
+      const newTiresBR = makeTires(
+        THREE,
+        4.65,
+        -3,
+        1,
+        getWheelDiameter(),
+        getTireWidth(),
+        getTireSidewall()
+      );
+      tireRefs.current.push(newTiresBR);
+      sceneRef.current.add(newTiresBR);
     }
   }, [settings]);
 

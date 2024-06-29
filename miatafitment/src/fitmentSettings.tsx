@@ -150,17 +150,6 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             onChange={(e) => setTireSidewall(parseFloat(e.target.value))}
           />
         </div>
-        <div className="input-item">
-          <label htmlFor="tireRadius">Tire Radius</label>
-          <input
-            id="tireRadius"
-            type="number"
-            min="0"
-            placeholder="Radius (in)"
-            value={tireRadius}
-            onChange={(e) => setTireRadius(parseFloat(e.target.value))}
-          />
-        </div>
       </div>
       <div className="input-group">
         <div className="input-item">
