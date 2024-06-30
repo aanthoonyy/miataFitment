@@ -1,6 +1,13 @@
 import { getCamberFront } from "./buttons/getCamberFront";
 import { getCamberRear } from "./buttons/getCamberRear";
+import { getCaster } from "./buttons/getCaster";
+import { getTireSidewall } from "./buttons/getTireSidewall";
+import { getTireWidth } from "./buttons/getTireWidth";
+import { getToeFront } from "./buttons/getToeFront";
+import { getToeRear } from "./buttons/getToeRear";
+import { getWheelDiameter } from "./buttons/getWheelDiameter";
 import { getWheelOffset } from "./buttons/getWheelOffset";
+import rollingDiameter from "./common/rollingDiameter";
 import { camberSlider } from "./sliders/CamberSlider";
 
 function barrelAndLipOffsetCalculation(totalWheelWidth: number) {
@@ -35,10 +42,25 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     // Adjusting for wheel offset
     wheel.position.z -= getWheelOffset()/12;
     // Changing for alignment
-    position === "FL" ? wheel.rotation.x = Math.PI / 2 + getCamberFront() : null;
-    position === "FR" ? wheel.rotation.x = Math.PI / 2 - getCamberFront() : null;
-    position === "BL" ? wheel.rotation.x = Math.PI / 2 + getCamberRear() : null;
-    position === "BR" ? wheel.rotation.x = Math.PI / 2 - getCamberRear() : null;
 
+    if (position === "FL"){
+        wheel.rotation.x = Math.PI / 2 + getCamberFront()
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        wheel.position.x += (getCaster() / 5.74)/12;
+    }
+    if (position === "FR"){
+        wheel.rotation.x = Math.PI / 2 - getCamberFront()
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        wheel.position.x += (getCaster() / 5.74)/12;
+    }
+    if (position === "BL"){
+        wheel.rotation.x = Math.PI / 2 + getCamberRear()
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+
+    }
+    if (position === "BR"){
+        wheel.rotation.x = Math.PI / 2 - getCamberRear()
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+    }
     return wheel;
 }

@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 export function casterSlider(caster: any, wheelPos: string){
     const frontCasterSlider = document.getElementById('frontCasterSlider');
 

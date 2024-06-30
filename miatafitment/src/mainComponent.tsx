@@ -13,6 +13,7 @@ import { getTireSidewall } from "./assets/buttons/getTireSidewall";
 import { getTireWidth } from "./assets/buttons/getTireWidth";
 import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
 import { getWheelWidth } from "./assets/buttons/getWheelWidth";
+import { getRideHeight } from "./assets/buttons/getRideHeight";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -100,11 +101,11 @@ const useThreeScene = () => {
     };
   }, []);
 
-  return { sceneRef, wheelRefs, tireRefs };
+  return { sceneRef, wheelRefs, tireRefs, carRef };
 };
 
 const MainComponent = () => {
-  const { sceneRef, wheelRefs, tireRefs } = useThreeScene();
+  const { sceneRef, wheelRefs, tireRefs, carRef } = useThreeScene();
   const [settings, setSettings] = useState({
     tireWidth: 0,
     tireSidewall: 0,
@@ -117,6 +118,7 @@ const MainComponent = () => {
     frontCaster: 0,
     frontToe: 0,
     rearToe: 0,
+    rideHeight: getRideHeight(),
   });
 
   const updateModel = useCallback((newSettings: any) => {
@@ -127,8 +129,11 @@ const MainComponent = () => {
     if (
       sceneRef.current &&
       wheelRefs.current.length &&
-      tireRefs.current.length
+      tireRefs.current.length &&
+      carRef.current
     ) {
+      sceneRef.current.remove(carRef.current);
+
       const updateWheelsAndTires = (refs: any, createFn: any) => {
         refs.current.forEach((object: any) => {
           object.traverse((obj: any) => {
@@ -200,8 +205,14 @@ const MainComponent = () => {
         createAndAddTires(-4.45, -3.08, 1, "BR");
         createAndAddTires(4.65, -3, 1, "FR");
       });
+
+      const newCar = makeCar(THREE, sceneRef.current);
+      newCar.position.y = settings.rideHeight;
+      console.log("211", settings.rideHeight)
+      carRef.current = newCar;
+      sceneRef.current.add(newCar);
     }
-  }, [settings, sceneRef, wheelRefs, tireRefs]);
+  }, [settings, sceneRef, wheelRefs, tireRefs, carRef]);
 
   return (
     <div>

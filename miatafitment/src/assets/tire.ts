@@ -1,15 +1,13 @@
 import { getCamberFront } from "./buttons/getCamberFront";
 import { getCamberRear } from "./buttons/getCamberRear";
+import { getCaster } from "./buttons/getCaster";
+import { getTireSidewall } from "./buttons/getTireSidewall";
+import { getTireWidth } from "./buttons/getTireWidth";
+import { getToeFront } from "./buttons/getToeFront";
+import { getToeRear } from "./buttons/getToeRear";
+import { getWheelDiameter } from "./buttons/getWheelDiameter";
 import { getWheelOffset } from "./buttons/getWheelOffset";
-
-function milliMeterToInch(mm: number){
-    return mm / 25.4;
-}
-function rollingDiameter(wheelDiameter: number, tireWidth: number, tireSideWall: number) {
-    let sidewallHeightInInches = milliMeterToInch(tireWidth * (tireSideWall / 100));
-    let totalDiameter = wheelDiameter + (2 * sidewallHeightInInches);
-    return totalDiameter;
-}
+import rollingDiameter from "./common/rollingDiameter";
 
 export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, tireWidth: number, tireSideWall: number, position: string) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSideWall);
@@ -21,14 +19,29 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
     tire.position.x = x;
     tire.position.z = y;
     tire.position.y = z;
-
-
     
     tire.position.z -= getWheelOffset() / 12;
-    position === "FL" ? tire.rotation.x = Math.PI / 2 + getCamberFront() : null;
-    position === "FR" ? tire.rotation.x = Math.PI / 2 - getCamberFront() : null;
-    position === "BL" ? tire.rotation.x = Math.PI / 2 + getCamberRear() : null;
-    position === "BR" ? tire.rotation.x = Math.PI / 2 - getCamberRear() : null;
+
+    if (position === "FL"){
+        tire.rotation.x = Math.PI / 2 + getCamberFront()
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        tire.position.x += (getCaster() / 5.74)/12;
+
+    }
+    if (position === "FR"){
+        tire.rotation.x = Math.PI / 2 - getCamberFront()
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        tire.position.x += (getCaster() / 5.74)/12;
+    }
+    if (position === "BL"){
+        tire.rotation.x = Math.PI / 2 + getCamberRear()
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+
+    }
+    if (position === "BR"){
+        tire.rotation.x = Math.PI / 2 - getCamberRear()
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+    }
 
     return tire;
 }

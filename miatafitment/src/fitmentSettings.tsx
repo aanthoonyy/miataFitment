@@ -8,10 +8,10 @@ type SettingsProps = {
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [frontCamber, setFrontCamber] = useState(0);
   const [rearCamber, setRearCamber] = useState(0);
-  const [frontCaster, setFrontCaster] = useState(0);
+  const [frontCaster, setFrontCaster] = useState(5.7);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
-  const [rideHeight, setRideHeight] = useState(0);
+  const [rideHeight, setRideHeight] = useState(2.5);
 
   const [tireWidth, setTireWidth] = useState(0);
   const [tireSidewall, setTireSidewall] = useState(0);
@@ -90,8 +90,9 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           <input
             id="frontCaster"
             type="range"
-            min="0"
-            max="10"
+            min="5"
+            defaultValue={5.7}
+            max="8"
             step="0.1"
             value={frontCaster}
             onChange={(e) => setFrontCaster(parseFloat(e.target.value))}
@@ -100,14 +101,14 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
         <div className="input-item">
           <div className="label-value">
             <label htmlFor="frontToe">Front Toe</label>
-            <span>{frontToe} mm</span>
+            <span>{frontToe}°</span>
           </div>
           <input
             id="frontToe"
             type="range"
-            min="-10"
-            max="10"
-            step="0.1"
+            min="-0.05"
+            max="0.05"
+            step="0.01"
             value={frontToe}
             onChange={(e) => setFrontToe(parseFloat(e.target.value))}
           />
@@ -115,14 +116,14 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
         <div className="input-item">
           <div className="label-value">
             <label htmlFor="rearToe">Rear Toe</label>
-            <span>{rearToe} mm</span>
+            <span>{rearToe} °</span>
           </div>
           <input
             id="rearToe"
             type="range"
-            min="-10"
-            max="10"
-            step="0.1"
+            min="-0.05"
+            max="0.05"
+            step="0.01"
             value={rearToe}
             onChange={(e) => setRearToe(parseFloat(e.target.value))}
           />
