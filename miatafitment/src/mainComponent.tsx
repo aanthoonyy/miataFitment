@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { floorMaker } from "./assets/floor";
 import { makeCar } from "./assets/carMaker";
@@ -14,11 +13,12 @@ import { getTireWidth } from "./assets/buttons/getTireWidth";
 import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
 import { getWheelWidth } from "./assets/buttons/getWheelWidth";
 import { getRideHeight } from "./assets/buttons/getRideHeight";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const carRef = useRef<THREE.Object3D | null>(null);
+  const carRefs = useRef<THREE.Object3D[]>([]);
   const wheelRefs = useRef<THREE.Object3D[]>([]);
   const tireRefs = useRef<THREE.Object3D[]>([]);
 
@@ -33,9 +33,11 @@ const useThreeScene = () => {
     const { camera, controls } = makeCamera(renderer, 100);
     setUpLighting(scene);
 
-    const car = makeCar(THREE, scene);
-    carRef.current = car;
-    scene.add(car);
+    const createAndAddCar = () => {
+      const car = makeCar(THREE, scene);
+      carRefs.current.push(car);
+      scene.add(car);
+    };
 
     const createAndAddWheels = (
       x: number,
@@ -57,10 +59,11 @@ const useThreeScene = () => {
       scene.add(wheels);
     };
 
+    createAndAddCar();
     createAndAddWheels(4.65, 3.12, 1, "FL");
     createAndAddWheels(-4.45, 3.08, 1, "BL");
     createAndAddWheels(-4.45, -3.08, 1, "BR");
-    createAndAddWheels(4.65, -3, 1, "FR");
+    createAndAddWheels(4.65, -3.12, 1, "FR");
 
     const createAndAddTires = (
       x: number,
@@ -85,7 +88,7 @@ const useThreeScene = () => {
     createAndAddTires(4.65, 3.12, 1, "FL");
     createAndAddTires(-4.45, 3.08, 1, "BL");
     createAndAddTires(-4.45, -3.08, 1, "BR");
-    createAndAddTires(4.65, -3, 1, "FR");
+    createAndAddTires(4.65, -3.12, 1, "FR");
 
     scene.add(floorMaker(THREE, 10000, 10000));
 
@@ -101,11 +104,11 @@ const useThreeScene = () => {
     };
   }, []);
 
-  return { sceneRef, wheelRefs, tireRefs, carRef };
+  return { sceneRef, wheelRefs, tireRefs, carRefs };
 };
 
 const MainComponent = () => {
-  const { sceneRef, wheelRefs, tireRefs, carRef } = useThreeScene();
+  const { sceneRef, wheelRefs, tireRefs, carRefs } = useThreeScene();
   const [settings, setSettings] = useState({
     tireWidth: 0,
     tireSidewall: 0,
@@ -130,9 +133,9 @@ const MainComponent = () => {
       sceneRef.current &&
       wheelRefs.current.length &&
       tireRefs.current.length &&
-      carRef.current
+      carRefs.current.length
     ) {
-      sceneRef.current.remove(carRef.current);
+      const car = carRefs.current[0];
 
       const updateWheelsAndTires = (refs: any, createFn: any) => {
         refs.current.forEach((object: any) => {
@@ -149,7 +152,6 @@ const MainComponent = () => {
           sceneRef.current?.remove(object);
         });
         refs.current = [];
-
         createFn();
       };
 
@@ -176,7 +178,7 @@ const MainComponent = () => {
         createAndAddWheels(4.65, 3.12, 1, "FL");
         createAndAddWheels(-4.45, 3.08, 1, "BL");
         createAndAddWheels(-4.45, -3.08, 1, "BR");
-        createAndAddWheels(4.65, -3, 1, "FR");
+        createAndAddWheels(4.65, -3.12, 1, "FR");
       });
 
       updateWheelsAndTires(tireRefs, () => {
@@ -203,16 +205,16 @@ const MainComponent = () => {
         createAndAddTires(4.65, 3.12, 1, "FL");
         createAndAddTires(-4.45, 3.08, 1, "BL");
         createAndAddTires(-4.45, -3.08, 1, "BR");
-        createAndAddTires(4.65, -3, 1, "FR");
+        createAndAddTires(4.65, -3.12, 1, "FR");
       });
 
-      const newCar = makeCar(THREE, sceneRef.current);
-      newCar.position.y = settings.rideHeight;
-      console.log("211", settings.rideHeight)
-      carRef.current = newCar;
-      sceneRef.current.add(newCar);
+      // Update car position based on new ride height
+      car.position.y = settings.rideHeight;
+      console.log(carRefs);
+      console.log("mainComponent.tsx: car.position.y: ", settings.rideHeight);
+      sceneRef.current.add(car);
     }
-  }, [settings, sceneRef, wheelRefs, tireRefs, carRef]);
+  }, [settings, sceneRef, wheelRefs, tireRefs, carRefs]);
 
   return (
     <div>

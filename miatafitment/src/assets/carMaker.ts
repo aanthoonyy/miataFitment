@@ -15,15 +15,13 @@ export function makeCar(THREE: any, scene: any){
     let geometry = new THREE.BoxGeometry(lengthInFeet, heightInFeet, widthInFeet);
     const cube = new THREE.Mesh(geometry, material);
 
-    cube.position.y = getRideHeight();
-
     const loader = new GLTFLoader();
     loader.load(
         'src/assets/miata.glb',
         function ( gltf ) {
             gltf.scene.scale.set(4, 4, 4);
             gltf.scene.rotation.y = Math.PI / 2;
-            gltf.scene.position.y = -0.4
+            gltf.scene.position.y = getRideHeight();
             rideHeightSlider(gltf.scene);
             scene.add( gltf.scene );
         },

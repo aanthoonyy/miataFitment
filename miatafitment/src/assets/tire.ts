@@ -20,27 +20,31 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
     tire.position.z = y;
     tire.position.y = z;
     
-    tire.position.z -= getWheelOffset() / 12;
 
+
+    
     if (position === "FL"){
         tire.rotation.x = Math.PI / 2 + getCamberFront()
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
         tire.position.x += (getCaster() / 5.74)/12;
-
+        tire.position.z -= getWheelOffset()/12;
     }
     if (position === "FR"){
         tire.rotation.x = Math.PI / 2 - getCamberFront()
-        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeFront())/12)
         tire.position.x += (getCaster() / 5.74)/12;
+        tire.position.z += getWheelOffset()/12;
     }
     if (position === "BL"){
         tire.rotation.x = Math.PI / 2 + getCamberRear()
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+        tire.position.z -= getWheelOffset()/12;
 
     }
     if (position === "BR"){
         tire.rotation.x = Math.PI / 2 - getCamberRear()
-        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+        tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeRear())/12)
+        tire.position.z += getWheelOffset()/12;
     }
 
     return tire;

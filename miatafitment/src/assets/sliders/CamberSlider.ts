@@ -8,7 +8,6 @@ export function camberSlider(camber: any, wheelPos: string): number {
         frontCamberSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             camber.rotation.x = wheelPos === 'FL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(camber.rotation.x);
             return camber.rotation.x;
         });
     }
@@ -17,7 +16,6 @@ export function camberSlider(camber: any, wheelPos: string): number {
         rearCamberSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             camber.rotation.x = wheelPos === 'BL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(camber.rotation.x);
             return camber.rotation.x;
         });
     }

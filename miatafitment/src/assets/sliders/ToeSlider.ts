@@ -8,7 +8,6 @@ export function toeSlider(caster: any, wheelPos: string){
         frontToeSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             caster.rotation.z = wheelPos === 'FL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(caster.rotation.z)
         });
     }
 
@@ -16,7 +15,6 @@ export function toeSlider(caster: any, wheelPos: string){
         rearToeSlider.addEventListener('input', (event) => {
             let degrees = parseFloat((<HTMLInputElement>event.target).value);
             caster.rotation.z = wheelPos === 'BL' ? THREE.MathUtils.degToRad(degrees) : -THREE.MathUtils.degToRad(degrees);
-            console.log(caster.rotation.z)
         });
     }
 }

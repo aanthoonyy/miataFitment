@@ -1,6 +1,7 @@
 import { getCamberFront } from "./buttons/getCamberFront";
 import { getCamberRear } from "./buttons/getCamberRear";
 import { getCaster } from "./buttons/getCaster";
+import { getRideHeight } from "./buttons/getRideHeight";
 import { getTireSidewall } from "./buttons/getTireSidewall";
 import { getTireWidth } from "./buttons/getTireWidth";
 import { getToeFront } from "./buttons/getToeFront";
@@ -39,28 +40,29 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     wheel.position.z = y;
     wheel.position.y = z;
 
-    // Adjusting for wheel offset
-    wheel.position.z -= getWheelOffset()/12;
-    // Changing for alignment
-
+    
     if (position === "FL"){
         wheel.rotation.x = Math.PI / 2 + getCamberFront()
         wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
         wheel.position.x += (getCaster() / 5.74)/12;
+        wheel.position.z -= getWheelOffset()/12;
     }
     if (position === "FR"){
         wheel.rotation.x = Math.PI / 2 - getCamberFront()
-        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeFront())/12)
         wheel.position.x += (getCaster() / 5.74)/12;
+        wheel.position.z += getWheelOffset()/12;
     }
     if (position === "BL"){
         wheel.rotation.x = Math.PI / 2 + getCamberRear()
         wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+        wheel.position.z -= getWheelOffset()/12;
 
     }
     if (position === "BR"){
         wheel.rotation.x = Math.PI / 2 - getCamberRear()
-        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
+        wheel.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeRear())/12)
+        wheel.position.z += getWheelOffset()/12;
     }
     return wheel;
 }
