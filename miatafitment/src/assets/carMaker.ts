@@ -2,7 +2,7 @@ import { getRideHeight } from "./buttons/getRideHeight";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-export function makeCar(THREE: any, scene: any){
+export function makeCar(THREE: any, scene: any, y: number){
 
     // materials
     const material = new THREE.MeshBasicMaterial({color: 0xff0000}, 0); // this is red
@@ -21,7 +21,7 @@ export function makeCar(THREE: any, scene: any){
         function ( gltf ) {
             gltf.scene.scale.set(4, 4, 4);
             gltf.scene.rotation.y = Math.PI / 2;
-            gltf.scene.position.y = getRideHeight();
+            gltf.scene.position.y = y;
             rideHeightSlider(gltf.scene);
             scene.add( gltf.scene );
         },

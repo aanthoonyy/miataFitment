@@ -34,7 +34,7 @@ const useThreeScene = () => {
     setUpLighting(scene);
 
     const createAndAddCar = () => {
-      const car = makeCar(THREE, scene);
+      const car = makeCar(THREE, scene, getRideHeight());
       carRefs.current.push(car);
       scene.add(car);
     };
@@ -121,7 +121,7 @@ const MainComponent = () => {
     frontCaster: 0,
     frontToe: 0,
     rearToe: 0,
-    rideHeight: getRideHeight(),
+    rideHeight: 0,
   });
 
   const updateModel = useCallback((newSettings: any) => {
@@ -208,11 +208,16 @@ const MainComponent = () => {
         createAndAddTires(4.65, -3.12, 1, "FR");
       });
 
-      // Update car position based on new ride height
-      car.position.y = settings.rideHeight;
-      console.log(carRefs);
-      console.log("mainComponent.tsx: car.position.y: ", settings.rideHeight);
-      sceneRef.current.add(car);
+      updateWheelsAndTires(carRefs, () => {
+        const createAndAddCar = () => {
+          const car = makeCar(THREE, sceneRef.current, getRideHeight());
+          carRefs.current = [];
+          carRefs.current.push(car);
+          sceneRef.current?.add(car);
+        };
+
+        createAndAddCar();
+      });
     }
   }, [settings, sceneRef, wheelRefs, tireRefs, carRefs]);
 
