@@ -28,7 +28,7 @@ const useThreeScene = () => {
 
     const renderer = render();
     rendererRef.current = renderer;
-    renderer.setClearColor(0x424242, 1);
+    renderer.setClearColor("#2b2d42", 1);
 
     const { camera, controls } = makeCamera(renderer, 100);
     setUpLighting(scene);
@@ -224,7 +224,10 @@ const MainComponent = () => {
   return (
     <div>
       <FitmentSettings updateModel={updateModel} />
-      <div id="three-container" style={{ width: "100%", height: "100vh" }} />
+      <div
+        id="three-container"
+        style={{ width: "100%", height: "100vh", overflow: "hidden" }}
+      />
     </div>
   );
 };

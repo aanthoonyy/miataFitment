@@ -200,7 +200,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
         <div className="input-item">
-          <label htmlFor="wheelOffset">Wheel Offset</label>
+          <label htmlFor="wheelOffset">Wheel Offset press arrow to go -</label>
           <input
             id="wheelOffset"
             type="number"
