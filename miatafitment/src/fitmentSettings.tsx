@@ -11,7 +11,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [frontCaster, setFrontCaster] = useState(7.7);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
-  const [rideHeight, setRideHeight] = useState(0);
+  const [rideHeight, setRideHeight] = useState(-2.75);
 
   const [tireWidth, setTireWidth] = useState(185);
   const [tireSidewall, setTireSidewall] = useState(60);
@@ -59,8 +59,8 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           <input
             id="rideHeight"
             type="range"
-            min="-1"
-            max="1"
+            min="-3.5"
+            max="2"
             step="0.01"
             value={rideHeight}
             onChange={(e) => {

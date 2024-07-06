@@ -34,7 +34,7 @@ const useThreeScene = () => {
     setUpLighting(scene);
 
     const createAndAddCar = () => {
-      const car = makeCar(THREE, scene, getRideHeight());
+      const car = makeCar(THREE, scene, -1.4);
       carRefs.current.push(car);
       scene.add(car);
     };
@@ -60,10 +60,10 @@ const useThreeScene = () => {
     };
 
     createAndAddCar();
-    createAndAddWheels(4.65, 3.12, 1, "FL");
+    createAndAddWheels(4.45, 3.04, 1, "FL");
     createAndAddWheels(-4.45, 3.08, 1, "BL");
     createAndAddWheels(-4.45, -3.08, 1, "BR");
-    createAndAddWheels(4.65, -3.12, 1, "FR");
+    createAndAddWheels(4.45, -3.04, 1, "FR");
 
     const createAndAddTires = (
       x: number,
@@ -85,12 +85,12 @@ const useThreeScene = () => {
       scene.add(tires);
     };
 
-    createAndAddTires(4.65, 3.12, 1, "FL");
+    createAndAddTires(4.45, 3.04, 1, "FL");
     createAndAddTires(-4.45, 3.08, 1, "BL");
     createAndAddTires(-4.45, -3.08, 1, "BR");
-    createAndAddTires(4.65, -3.12, 1, "FR");
+    createAndAddTires(4.45, -3.04, 1, "FR");
 
-    scene.add(floorMaker(THREE, 10000, 10000));
+    // scene.add(floorMaker(THREE, 10000, 10000));
 
     animate(scene, camera, renderer, controls);
 
@@ -175,10 +175,10 @@ const MainComponent = () => {
           sceneRef.current?.add(wheels);
         };
 
-        createAndAddWheels(4.65, 3.12, 1, "FL");
-        createAndAddWheels(-4.45, 3.08, 1, "BL");
-        createAndAddWheels(-4.45, -3.08, 1, "BR");
-        createAndAddWheels(4.65, -3.12, 1, "FR");
+        createAndAddWheels(-10, 2.52, 1, "FL");
+        createAndAddWheels(-2.2, 2.55, 1, "BL");
+        createAndAddWheels(-2.2, -2.55, 1, "BR");
+        createAndAddWheels(-10, -2.52, 1, "FR");
       });
 
       updateWheelsAndTires(tireRefs, () => {
@@ -202,22 +202,22 @@ const MainComponent = () => {
           sceneRef.current?.add(tires);
         };
 
-        createAndAddTires(4.65, 3.12, 1, "FL");
-        createAndAddTires(-4.45, 3.08, 1, "BL");
-        createAndAddTires(-4.45, -3.08, 1, "BR");
-        createAndAddTires(4.65, -3.12, 1, "FR");
+        createAndAddTires(-10, 2.52, 1, "FL");
+        createAndAddTires(-2.2, 2.55, 1, "BL");
+        createAndAddTires(-2.2, -2.55, 1, "BR");
+        createAndAddTires(-10, -2.52, 1, "FR");
       });
 
-      updateWheelsAndTires(carRefs, () => {
-        const createAndAddCar = () => {
-          const car = makeCar(THREE, sceneRef.current, getRideHeight());
-          carRefs.current = [];
-          carRefs.current.push(car);
-          sceneRef.current?.add(car);
-        };
+      // updateWheelsAndTires(carRefs, () => {
+      //   const createAndAddCar = () => {
+      //     const car = makeCar(THREE, sceneRef.current, getRideHeight());
+      //     carRefs.current = [];
+      //     carRefs.current.push(car);
+      //     sceneRef.current?.add(car);
+      //   };
 
-        createAndAddCar();
-      });
+      //   createAndAddCar();
+      // });
     }
   }, [settings, sceneRef, wheelRefs, tireRefs, carRefs]);
 
