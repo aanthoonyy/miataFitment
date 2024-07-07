@@ -17,6 +17,11 @@ const NavBar: React.FC = () => {
         <li>
           <a>How to use</a>
         </li>
+        <li>
+          <a href="https://www.w3schools.com/html/default.asp">
+            Development Blog
+          </a>
+        </li>
       </ul>
     </nav>
   );

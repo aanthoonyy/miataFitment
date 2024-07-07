@@ -6,18 +6,18 @@ type SettingsProps = {
 };
 
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
-  const [frontCamber, setFrontCamber] = useState(-0.5);
-  const [rearCamber, setRearCamber] = useState(-1.5);
-  const [frontCaster, setFrontCaster] = useState(7.7);
+  const [frontCamber, setFrontCamber] = useState(-4);
+  const [rearCamber, setRearCamber] = useState(-4.1);
+  const [frontCaster, setFrontCaster] = useState(5);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
-  const [rideHeight, setRideHeight] = useState(-2.75);
+  const [rideHeight, setRideHeight] = useState(-2.51);
 
   const [tireWidth, setTireWidth] = useState(185);
-  const [tireSidewall, setTireSidewall] = useState(60);
-  const [wheelWidth, setWheelWidth] = useState(6);
+  const [tireSidewall, setTireSidewall] = useState(55);
+  const [wheelWidth, setWheelWidth] = useState(8.5);
   const [wheelDiameter, setWheelDiameter] = useState(14);
-  const [wheelOffset, setWheelOffset] = useState(40);
+  const [wheelOffset, setWheelOffset] = useState(-7);
 
   useEffect(() => {
     updateModel({
@@ -49,7 +49,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   ]);
 
   return (
-    <div id="sliderContainer" style={{ width: "300px" }}>
+    <div id="sliderContainer">
       <div className="input-group">
         <div className="input-item">
           <div className="label-value">
@@ -200,13 +200,13 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
         <div className="input-item">
-          <label htmlFor="wheelOffset">Wheel Offset press arrow to go -</label>
+          <label htmlFor="wheelOffset">Wheel Offset</label>
           <input
             id="wheelOffset"
             type="number"
             placeholder="Offset (mm)"
             value={wheelOffset}
-            onChange={(e) => setWheelOffset(parseFloat(e.target.value))}
+            onChange={(e) => setWheelOffset(e.target.value)}
           />
         </div>
       </div>
