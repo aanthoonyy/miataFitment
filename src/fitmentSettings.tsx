@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../src/assets/CSS/alignmentSettings.css";
 
 type SettingsProps = {
@@ -206,6 +206,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             type="number"
             placeholder="Offset (mm)"
             value={wheelOffset}
+            // @ts-ignore
             onChange={(e) => setWheelOffset(e.target.value)}
           />
         </div>

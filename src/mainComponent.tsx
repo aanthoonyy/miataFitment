@@ -133,6 +133,7 @@ const MainComponent = () => {
       tireRefs.current.length &&
       carRefs.current.length
     ) {
+      // @ts-ignore
       const car = carRefs.current[0];
 
       const updateWheelsAndTires = (refs: any, createFn: any) => {
