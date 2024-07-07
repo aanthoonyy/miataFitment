@@ -8,7 +8,7 @@ import { getToeFront } from "./buttons/getToeFront";
 import { getToeRear } from "./buttons/getToeRear";
 import { getWheelDiameter } from "./buttons/getWheelDiameter";
 import { getWheelOffset } from "./buttons/getWheelOffset";
-import { getWheelWidth } from "./buttons/getWheelWidth";
+// import { getWheelWidth } from "./buttons/getWheelWidth";
 import rollingDiameter from "./common/rollingDiameter";
 
 export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, tireWidth: number, tireSideWall: number, position: string) {

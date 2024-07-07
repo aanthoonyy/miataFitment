@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import MainComponent from "./mainComponent";
-import NavBar from "./navBar";
+// import NavBar from "./navBar";
 
 const App = () => {
   return (

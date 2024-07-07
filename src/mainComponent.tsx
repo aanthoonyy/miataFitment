@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { floorMaker } from "./assets/floor";
 import { makeCar } from "./assets/carMaker";
 import { animate } from "./assets/animate";
 import { makeCamera } from "./assets/cameraMaker";
@@ -12,7 +11,6 @@ import { getTireSidewall } from "./assets/buttons/getTireSidewall";
 import { getTireWidth } from "./assets/buttons/getTireWidth";
 import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
 import { getWheelWidth } from "./assets/buttons/getWheelWidth";
-import { getRideHeight } from "./assets/buttons/getRideHeight";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const useThreeScene = () => {

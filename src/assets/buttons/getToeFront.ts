@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 function getToeFront() {
     let toeInput  = document.getElementById('frontToe') as HTMLInputElement;
 

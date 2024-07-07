@@ -9,7 +9,6 @@ import { getToeRear } from "./buttons/getToeRear";
 import { getWheelDiameter } from "./buttons/getWheelDiameter";
 import { getWheelOffset } from "./buttons/getWheelOffset";
 import rollingDiameter from "./common/rollingDiameter";
-import { camberSlider } from "./sliders/CamberSlider";
 
 function barrelAndLipOffsetCalculation(totalWheelWidth: number) {
     const offset = 2 - (8 - totalWheelWidth) * 0.2;
@@ -25,7 +24,6 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     const sideCylinderGeometry = new THREE.CylinderGeometry((wheelDiameter/2)/12, (wheelDiameter/2)/12, (wheelWidth/2)/12, 32);
     const sideCylinderMaterial = new THREE.MeshBasicMaterial({color: 0xC0C0C0, transparent: true, opacity: 0.5});
 
-    // Add the cylinders to each side of the wheel
     const sideCylinder1 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
     sideCylinder1.position.y = barrelAndLipOffsetCalculation(wheelWidth)/12;
     wheel.add(sideCylinder1);
@@ -34,7 +32,6 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     sideCylinder2.position.y = -barrelAndLipOffsetCalculation(wheelWidth)/12;
     wheel.add(sideCylinder2);
 
-    // Rotate the wheel 90 degrees around the x-axis
     wheel.rotation.x = Math.PI / 2;
     wheel.position.x = x;
     wheel.position.z = y;

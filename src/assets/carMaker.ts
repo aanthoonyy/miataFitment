@@ -1,4 +1,3 @@
-import { getRideHeight } from "./buttons/getRideHeight";
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
