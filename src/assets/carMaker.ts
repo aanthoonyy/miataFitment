@@ -16,7 +16,7 @@ export function makeCar(THREE: any, scene: any, y: number){
 
     const loader = new GLTFLoader();
     loader.load(
-        'src/assets/models/miatanowheels4.glb',
+        '/miatanowheels4.glb',
         function ( gltf ) {
             gltf.scene.scale.set(1/12, 1/12, 1/12);
             gltf.scene.rotation.y = Math.PI / 2;
