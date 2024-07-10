@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 export function makeCar(THREE: any, scene: any, y: number){
 
     // materials
-    const material = new THREE.MeshBasicMaterial({color: 0xff0000}, 0); // this is red
+    const material = new THREE.MeshPhysicalMaterial({color: 0xff0000}, 0); // this is red
     material.visible = false;
     // cube
     const lengthInFeet = 156 / 12;
