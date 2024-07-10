@@ -18,6 +18,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [wheelWidth, setWheelWidth] = useState(8.5);
   const [wheelDiameter, setWheelDiameter] = useState(14);
   const [wheelOffset, setWheelOffset] = useState(-7);
+  const [wheelSpacer, setWheelSpacer] = useState(0);
 
   useEffect(() => {
     updateModel({
@@ -32,6 +33,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       wheelWidth,
       wheelDiameter,
       wheelOffset,
+      wheelSpacer,
     });
   }, [
     frontCamber,
@@ -45,6 +47,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
     wheelWidth,
     wheelDiameter,
     wheelOffset,
+    wheelSpacer,
     updateModel,
   ]);
 
@@ -208,6 +211,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             value={wheelOffset}
             // @ts-ignore
             onChange={(e) => setWheelOffset(e.target.value)}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="wheelSpacer">Wheel Spacer</label>
+          <input
+            id="wheelSpacer"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={wheelSpacer}
+            onChange={(e) => setWheelSpacer(parseFloat(e.target.value))}
           />
         </div>
       </div>

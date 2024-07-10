@@ -120,6 +120,7 @@ const MainComponent = () => {
     frontToe: 0,
     rearToe: 0,
     rideHeight: 0,
+    spacer: 0,
   });
 
   const updateModel = useCallback((newSettings: any) => {

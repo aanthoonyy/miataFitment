@@ -8,6 +8,7 @@ import { getToeFront } from "./buttons/getToeFront";
 import { getToeRear } from "./buttons/getToeRear";
 import { getWheelDiameter } from "./buttons/getWheelDiameter";
 import { getWheelOffset } from "./buttons/getWheelOffset";
+import { getWheelSpacer } from "./buttons/getWheelSpacer";
 // import { getWheelWidth } from "./buttons/getWheelWidth";
 import rollingDiameter from "./common/rollingDiameter";
 
@@ -36,6 +37,7 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeFront())/12)
         tire.position.x += (getCaster() / 5.74)/12;
         tire.position.z -= getWheelOffset()/12;
+        tire.position.z -= getWheelSpacer()/12;
         tire.position.y = getRideHeight()
 
     }
@@ -44,6 +46,7 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeFront())/12)
         tire.position.x += (getCaster() / 5.74)/12;
         tire.position.z += getWheelOffset()/12;
+        tire.position.z += getWheelSpacer()/12;
         tire.position.y = getRideHeight()
 
     }
@@ -51,6 +54,7 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
         tire.rotation.x = Math.PI / 2 + getCamberRear()
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  Math.sin(getToeRear())/12)
         tire.position.z -= getWheelOffset()/12;
+        tire.position.z -= getWheelSpacer()/12;
         tire.position.y = getRideHeight()
 
 
@@ -59,6 +63,7 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
         tire.rotation.x = Math.PI / 2 - getCamberRear()
         tire.rotation.z = (rollingDiameter(getWheelDiameter(), getTireWidth(), getTireSidewall()) *  -Math.sin(getToeRear())/12)
         tire.position.z += getWheelOffset()/12;
+        tire.position.z += getWheelSpacer()/12;
         tire.position.y = getRideHeight()
 
     }
