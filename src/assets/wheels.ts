@@ -23,7 +23,13 @@ export function makeWheels(THREE: any, x: number, y: number, z: number, wheelWid
     const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 
     const sideCylinderGeometry = new THREE.CylinderGeometry((wheelDiameter/2)/12, (wheelDiameter/2)/12, (wheelWidth/2)/12, 32);
-    const sideCylinderMaterial = new THREE.MeshBasicMaterial({color: 0xC0C0C0, transparent: false, opacity: 0.5});
+    const sideCylinderMaterial = new THREE.MeshPhysicalMaterial({color: 0xFFFFFF});
+    sideCylinderMaterial.roughness = 0.2;
+    sideCylinderMaterial.metalness = .5;
+    sideCylinderMaterial.specularIntensity = 1;
+    sideCylinderMaterial.clearcoat = 1;
+    sideCylinderMaterial.clearcoatRoughness = 0.1;
+
 
     const sideCylinder1 = new THREE.Mesh(sideCylinderGeometry, sideCylinderMaterial);
     sideCylinder1.position.y = barrelAndLipOffsetCalculation(wheelWidth)/12;

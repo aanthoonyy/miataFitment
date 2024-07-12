@@ -28,7 +28,8 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
     treadmidpoint = treadmidpoint.divideScalar(12);
     beadright = beadright.divideScalar(12);
 
-    let bevelpercent = Math.abs(getTireWidth() - getWheelWidth()) / getTireWidth() / 2;
+    // let bevelpercent = Math.abs(getTireWidth() - getWheelWidth()) / getTireWidth() / 2;
+    let bevelpercent = 0.1;
     let betweenbeadleftandtreadleft = beadleft.clone().lerp(treadleft, 1 - bevelpercent);
     let betweentreadleftandmidpoint = treadleft.clone().lerp(treadmidpoint, bevelpercent);
     let betweentreadrightandmidpoint = treadright.clone().lerp(treadmidpoint, bevelpercent);
