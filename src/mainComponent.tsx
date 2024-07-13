@@ -32,7 +32,7 @@ const useThreeScene = () => {
     setUpLighting(scene);
 
     const createAndAddCar = () => {
-      const car = makeCar(THREE, scene, -1.4);
+      const car = makeCar(THREE, -1.4);
       carRefs.current.push(car);
       scene.add(car);
     };

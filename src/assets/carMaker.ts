@@ -1,7 +1,7 @@
 import { rideHeightSlider } from "./sliders/RideHeightSlider";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-export function makeCar(THREE: any, scene: any, y: number){
+export function makeCar(THREE: any, y: number){
 
     const material = new THREE.MeshPhysicalMaterial({color: 0xff0000}, 0); // this is red
     
