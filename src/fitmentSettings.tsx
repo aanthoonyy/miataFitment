@@ -6,7 +6,7 @@ type SettingsProps = {
 };
 
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
-  const [frontCamber, setFrontCamber] = useState(-4);
+  const [frontCamber, setFrontCamber] = useState(-4.1);
   const [rearCamber, setRearCamber] = useState(-4.1);
   const [frontCaster, setFrontCaster] = useState(5);
   const [frontToe, setFrontToe] = useState(0);
@@ -57,17 +57,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
         <div className="input-item">
           <div className="label-value">
             <label htmlFor="rideHeight">Ride Height</label>
-            <span>{rideHeight} mm</span>
+            <span></span>
           </div>
           <input
             id="rideHeight"
             type="range"
-            min="-3.5"
-            max="2"
+            min="-3"
+            max="-2"
             step="0.01"
             value={rideHeight}
             onChange={(e) => {
-              console.log("New rideHeight:", e.target.value);
               setRideHeight(parseFloat(e.target.value));
             }}
           />
@@ -85,7 +84,6 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             step="0.1"
             value={frontCamber}
             onChange={(e) => {
-              console.log("New frontCamber:", e.target.value);
               setFrontCamber(parseFloat(e.target.value));
             }}
           />
@@ -197,7 +195,6 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             placeholder="Diameter (in)"
             value={wheelDiameter}
             onChange={(e) => {
-              console.log("New rideHeight:", e.target.value);
               setWheelDiameter(parseFloat(e.target.value));
             }}
           />
