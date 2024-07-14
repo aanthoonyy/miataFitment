@@ -19,6 +19,12 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [wheelDiameter, setWheelDiameter] = useState(14);
   const [wheelOffset, setWheelOffset] = useState(-7);
   const [wheelSpacer, setWheelSpacer] = useState(0);
+  const [test1, setTest1] = useState(0);
+  const [test2, setTest2] = useState(0);
+  const [test3, setTest3] = useState(0);
+  const [test4, setTest4] = useState(0);
+  const [test5, setTest5] = useState(0);
+  const [test6, setTest6] = useState(0);
 
   useEffect(() => {
     updateModel({
@@ -34,6 +40,12 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       wheelDiameter,
       wheelOffset,
       wheelSpacer,
+      test1,
+      test2,
+      test3,
+      test4,
+      test5,
+      test6,
     });
   }, [
     frontCamber,
@@ -48,6 +60,12 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
     wheelDiameter,
     wheelOffset,
     wheelSpacer,
+    test1,
+    test2,
+    test3,
+    test4,
+    test5,
+    test6,
     updateModel,
   ]);
 
@@ -56,8 +74,23 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       <div className="input-group">
         <div className="input-item">
           <div className="label-value">
-            <label htmlFor="rideHeight">Ride Height</label>
-            <span></span>
+            <label htmlFor="rideHeight">Front Ride Height</label>
+          </div>
+          <input
+            id="rideHeight"
+            type="range"
+            min="-3"
+            max="-2"
+            step="0.01"
+            value={rideHeight}
+            onChange={(e) => {
+              setRideHeight(parseFloat(e.target.value));
+            }}
+          />
+        </div>
+        <div className="input-item">
+          <div className="label-value">
+            <label htmlFor="rideHeight">Rear Ride Height</label>
           </div>
           <input
             id="rideHeight"
@@ -150,7 +183,7 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
       </div>
-      <div className="input-group">
+      <div className="input-group-grid">
         <div className="input-item">
           <label htmlFor="tireWidth">Tire Width</label>
           <input
@@ -160,6 +193,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             placeholder="Width (mm)"
             value={tireWidth}
             onChange={(e) => setTireWidth(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="test1">test1</label>
+          <input
+            id="test1"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test1}
+            onChange={(e) => setTest1(parseFloat(e.target.value))}
           />
         </div>
         <div className="input-item">
@@ -173,8 +216,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             onChange={(e) => setTireSidewall(parseFloat(e.target.value))}
           />
         </div>
-      </div>
-      <div className="input-group">
+        <div className="input-item">
+          <label htmlFor="test2">test2</label>
+          <input
+            id="test2"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test2}
+            onChange={(e) => setTest2(parseFloat(e.target.value))}
+          />
+        </div>
         <div className="input-item">
           <label htmlFor="wheelWidth">Wheel Width</label>
           <input
@@ -184,6 +235,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             placeholder="Width (in)"
             value={wheelWidth}
             onChange={(e) => setWheelWidth(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="test3">test3</label>
+          <input
+            id="test3"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test3}
+            onChange={(e) => setTest3(parseFloat(e.target.value))}
           />
         </div>
         <div className="input-item">
@@ -200,6 +261,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
         <div className="input-item">
+          <label htmlFor="test4">test4</label>
+          <input
+            id="test4"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test4}
+            onChange={(e) => setTest4(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
           <label htmlFor="wheelOffset">Wheel Offset</label>
           <input
             id="wheelOffset"
@@ -211,6 +282,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
         <div className="input-item">
+          <label htmlFor="test5">test5</label>
+          <input
+            id="test5"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test5}
+            onChange={(e) => setTest5(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
           <label htmlFor="wheelSpacer">Wheel Spacer</label>
           <input
             id="wheelSpacer"
@@ -218,6 +299,16 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
             placeholder="Spacer (mm)"
             value={wheelSpacer}
             onChange={(e) => setWheelSpacer(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="test6">test6</label>
+          <input
+            id="test6"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={test6}
+            onChange={(e) => setTest6(parseFloat(e.target.value))}
           />
         </div>
       </div>
