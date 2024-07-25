@@ -10,7 +10,7 @@ export function makeCar(THREE: any, scene: any, y: number){
 
     const loader = new GLTFLoader();
     loader.load(
-        '/miatanowheels4.glb',
+        '/MiataFixed.glb',
         ( gltf ) => {
             gltf.scene.scale.set(1/12, 1/12, 1/12);
             gltf.scene.rotation.y = Math.PI / 2;
