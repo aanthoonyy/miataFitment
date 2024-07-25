@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import "../src/assets/CSS/alignmentSettings.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import Grid from "@mui/material/Grid"; // Grid version 1
+import { Container, Slider, TextField, Typography } from "@mui/material";
+import { marks } from "./assets/common/fitmentSettingsHelper";
 
 type SettingsProps = {
   updateModel: (model: any) => void;
@@ -73,250 +79,244 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   ]);
 
   return (
-    <div id="sliderContainer">
-      <div className="input-group">
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightFront">Front Ride Height</label>
-          </div>
-          <input
-            id="rideHeightFront"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightFront}
-            onChange={(e) => {
-              setRideHeightFront(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightRear">Rear Ride Height</label>
-          </div>
-          <input
-            id="rideHeightRear"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightRear}
-            onChange={(e) => {
-              setRideHeightRear(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCamber">Front Camber</label>
-            <span>{frontCamber}°</span>
-          </div>
-          <input
-            id="frontCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={frontCamber}
-            onChange={(e) => {
-              setFrontCamber(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearCamber">Rear Camber</label>
-            <span>{rearCamber}°</span>
-          </div>
-          <input
-            id="rearCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={rearCamber}
-            onChange={(e) => setRearCamber(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCaster">Front Caster</label>
-            <span>{frontCaster}°</span>
-          </div>
-          <input
-            id="frontCaster"
-            type="range"
-            min="5"
-            defaultValue={5.7}
-            max="8"
-            step="0.1"
-            value={frontCaster}
-            onChange={(e) => setFrontCaster(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontToe">Front Toe</label>
-            <span>{frontToe}°</span>
-          </div>
-          <input
-            id="frontToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={frontToe}
-            onChange={(e) => setFrontToe(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearToe">Rear Toe</label>
-            <span>{rearToe} °</span>
-          </div>
-          <input
-            id="rearToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={rearToe}
-            onChange={(e) => setRearToe(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-      <div className="input-group-grid">
-        <div className="input-item">
-          <label htmlFor="frontTireWidth">Front Tire Width</label>
-          <input
-            id="frontTireWidth"
-            type="number"
-            min="0"
-            placeholder="Width (mm)"
-            value={frontTireWidth}
-            onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireWidth">Rear Tire Width</label>
-          <input
-            id="rearTireWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireWidth}
-            onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontTireSidewall">Front Tire Sidewall</label>
-          <input
-            id="frontTireSidewall"
-            type="number"
-            min="0"
-            placeholder="Sidewall (%)"
-            value={frontTireSidewall}
-            onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireSidewall">Rear Tire Sidewall</label>
-          <input
-            id="rearTireSidewall"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireSidewall}
-            onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelWidth">Front Wheel Width</label>
-          <input
-            id="frontWheelWidth"
-            type="number"
-            min="0"
-            placeholder="Width (in)"
-            value={frontWheelWidth}
-            onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelWidth">Rear Wheel Width</label>
-          <input
-            id="rearWheelWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelWidth}
-            onChange={(e) => setRearWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelDiameter">Front Wheel Diameter</label>
-          <input
-            id="frontWheelDiameter"
-            type="number"
-            min="0"
-            placeholder="Diameter (in)"
-            value={frontWheelDiameter}
-            onChange={(e) => {
-              setFrontWheelDiameter(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelDiameter">Rear Wheel Diameter</label>
-          <input
-            id="rearWheelDiameter"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelDiameter}
-            onChange={(e) => setRearWheelDiameter(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelOffset">Front Wheel Offset</label>
-          <input
-            id="frontWheelOffset"
-            type="number"
-            placeholder="Offset (mm)"
-            value={frontWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setFrontWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelOffset">Rear Wheel Offset</label>
-          <input
-            id="rearWheelOffset"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setRearWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelSpacer">Front Wheel Spacer</label>
-          <input
-            id="frontWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={frontWheelSpacer}
-            onChange={(e) => setFrontWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelSpacer">Rear Spacer</label>
-          <input
-            id="rearWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelSpacer}
-            onChange={(e) => setRearWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-    </div>
+    <Container maxWidth="lg">
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Front Ride Height
+              </Typography>
+              <Slider
+                size="small"
+                aria-label="Default"
+                valueLabelDisplay="auto"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Rear Ride Height
+              </Typography>
+              <Slider
+                size="small"
+                defaultValue={50}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Front Camber
+              </Typography>
+              <Slider
+                size="small"
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                defaultValue={0}
+                min={-20}
+                max={20}
+                marks={marks}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Rear Camber
+              </Typography>
+              <Slider
+                size="small"
+                aria-label="Default"
+                valueLabelDisplay="auto"
+                defaultValue={0}
+                min={-20}
+                max={20}
+                marks={marks}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Front Toe
+              </Typography>
+              <Slider
+                size="small"
+                defaultValue={50}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Rear Toe
+              </Typography>
+              <Slider
+                size="small"
+                defaultValue={50}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body2" gutterBottom>
+                Front Caster
+              </Typography>
+              <Slider
+                size="small"
+                defaultValue={50}
+                aria-label="Default"
+                valueLabelDisplay="auto"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={6}>
+          <Grid container spacing={1}>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Tire Width
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Tire Width"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Ride Width
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Tire Width"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Tire Sidewall
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Tire Sidewall"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Tire Sidewall
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Tire Sidewall"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Wheel Width
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Wheel Width"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Wheel Width
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Wheel Width"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Wheel Diameter
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Wheel Diameter"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Wheel Diameter
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Wheel Diameter"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Wheel Offset
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Wheel Offset"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Wheel Offset
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Wheel Offset"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Front Wheel Spacer
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Front Wheel Spacer"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Typography variant="body2" gutterBottom>
+                Rear Wheel Spacer
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Rear Wheel Spacer"
+                variant="outlined"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

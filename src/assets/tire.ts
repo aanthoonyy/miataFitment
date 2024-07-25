@@ -20,11 +20,11 @@ import rollingDiameter from "./common/rollingDiameter";
 export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, wheelWidth: number, tireWidth: number, tireSideWall: number, position: string) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSideWall);
     let points = [];
-    let beadleft = new THREE.Vector2( wheelDiameter/2, -1 * (wheelWidth - 0.0)/2);
+    let beadleft = new THREE.Vector2( wheelDiameter/2, -1 * (wheelWidth - 0.25)/2);
     let treadleft = new THREE.Vector2( totalDiameter/2, -1 * tireWidth/2/12/2);
     let treadright = new THREE.Vector2( totalDiameter/2, tireWidth/2/12/2);
     let treadmidpoint = new THREE.Vector2( totalDiameter/2, 0);
-    let beadright = new THREE.Vector2( wheelDiameter/2, (wheelWidth - 0.0)/2);
+    let beadright = new THREE.Vector2( wheelDiameter/2, (wheelWidth - 0.25)/2);
     beadleft = beadleft.divideScalar(12);
     treadleft = treadleft.divideScalar(12);
     treadright = treadright.divideScalar(12);
