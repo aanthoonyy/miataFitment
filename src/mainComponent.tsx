@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import FitmentSettings from "./fitmentSettings";
 import { makeCar } from "./assets/carMaker";
 import { animate } from "./assets/animate";
 import { makeCamera } from "./assets/cameraMaker";
@@ -6,12 +7,15 @@ import { render } from "./assets/renderer";
 import { setUpLighting } from "./assets/lighting";
 import { makeWheels } from "./assets/wheels";
 import { makeTires } from "./assets/tire";
-import FitmentSettings from "./fitmentSettings";
-import { getTireSidewall } from "./assets/buttons/getTireSidewall";
-import { getTireWidth } from "./assets/buttons/getTireWidth";
-import { getWheelDiameter } from "./assets/buttons/getWheelDiameter";
-import { getWheelWidth } from "./assets/buttons/getWheelWidth";
+import { getTireWidthFront } from "./assets/buttons/getTireWidthFront";
+import { getWheelDiameterFront } from "./assets/buttons/getWheelDiameterFront";
+import { getWheelDiameterRear } from "./assets/buttons/getWheelDiameterRear";
+import { getWheelWidthFront } from "./assets/buttons/getWheelWidthFront";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getWheelWidthRear } from "./assets/buttons/getWheelWidthRear";
+import { getTireWidthRear } from "./assets/buttons/getTireWidthRear";
+import { getTireSidewallFront } from "./assets/buttons/getTireSidewallFront";
+import { getTireSidewallRear } from "./assets/buttons/getTireSidewallRear";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -26,7 +30,7 @@ const useThreeScene = () => {
 
     const renderer = render();
     rendererRef.current = renderer;
-    renderer.setClearColor("#2b2d42", 1);
+    renderer.setClearColor("#d3d3d3", 1);
 
     const { camera, controls } = makeCamera(renderer, 100);
     setUpLighting(scene);
@@ -41,15 +45,17 @@ const useThreeScene = () => {
       x: number,
       y: number,
       z: number,
-      position: string
+      position: string,
+      wheelDiameter: number,
+      wheelWidth: number
     ) => {
       const wheels = makeWheels(
         THREE,
         x,
         y,
         z,
-        getWheelWidth(),
-        getWheelDiameter(),
+        wheelWidth,
+        wheelDiameter,
         position
       );
 
@@ -58,35 +64,104 @@ const useThreeScene = () => {
     };
 
     createAndAddCar();
-    createAndAddWheels(4.45, 3.04, 1, "FL");
-    createAndAddWheels(-4.45, 3.08, 1, "BL");
-    createAndAddWheels(-4.45, -3.08, 1, "BR");
-    createAndAddWheels(4.45, -3.04, 1, "FR");
+    createAndAddWheels(
+      4.45,
+      3.04,
+      1,
+      "FL",
+      getWheelDiameterFront(),
+      getWheelWidthFront()
+    );
+    createAndAddWheels(
+      -4.45,
+      3.08,
+      1,
+      "BL",
+      getWheelDiameterRear(),
+      getWheelWidthRear()
+    );
+    createAndAddWheels(
+      -4.45,
+      -3.08,
+      1,
+      "BR",
+      getWheelDiameterRear(),
+      getWheelWidthRear()
+    );
+    createAndAddWheels(
+      4.45,
+      -3.04,
+      1,
+      "FR",
+      getWheelDiameterFront(),
+      getWheelWidthFront()
+    );
 
     const createAndAddTires = (
       x: number,
       y: number,
       z: number,
-      position: string
+      position: string,
+      wheelDiameter: number,
+      wheelWidth: number,
+      tireWidth: number,
+      tireSidewall: number
     ) => {
       const tires = makeTires(
         THREE,
         x,
         y,
         z,
-        getWheelDiameter(),
-        getTireWidth(),
-        getTireSidewall(),
+        wheelDiameter,
+        wheelWidth,
+        tireWidth,
+        tireSidewall,
         position
       );
       tireRefs.current.push(tires);
       scene.add(tires);
     };
 
-    createAndAddTires(4.45, 3.04, 1, "FL");
-    createAndAddTires(-4.45, 3.08, 1, "BL");
-    createAndAddTires(-4.45, -3.08, 1, "BR");
-    createAndAddTires(4.45, -3.04, 1, "FR");
+    createAndAddTires(
+      4.45,
+      3.04,
+      1,
+      "FL",
+      getWheelDiameterFront(),
+      getWheelWidthFront(),
+      getTireWidthFront(),
+      getTireSidewallFront()
+    );
+    createAndAddTires(
+      -4.45,
+      3.08,
+      1,
+      "BL",
+      getWheelDiameterRear(),
+      getWheelWidthRear(),
+      getTireWidthRear(),
+      getTireSidewallRear()
+    );
+    createAndAddTires(
+      -4.45,
+      -3.08,
+      1,
+      "BR",
+      getWheelDiameterRear(),
+      getWheelWidthRear(),
+      getTireWidthRear(),
+      getTireSidewallRear()
+    );
+    createAndAddTires(
+      4.45,
+      -3.04,
+      1,
+      "FR",
+      getWheelDiameterFront(),
+      getWheelDiameterFront(),
+      getTireWidthFront(),
+      getTireSidewallFront()
+    );
 
     // scene.add(floorMaker(THREE, 10000, 10000));
 
@@ -160,25 +235,55 @@ const MainComponent = () => {
           x: number,
           y: number,
           z: number,
-          position: string
+          position: string,
+          wheelDiameter: number,
+          wheelWidth: number
         ) => {
           const wheels = makeWheels(
             THREE,
             x,
             y,
             z,
-            getWheelWidth(),
-            getWheelDiameter(),
+            wheelWidth,
+            wheelDiameter,
             position
           );
           wheelRefs.current.push(wheels);
           sceneRef.current?.add(wheels);
         };
 
-        createAndAddWheels(-10, 2.52, 1, "FL");
-        createAndAddWheels(-2.2, 2.55, 1, "BL");
-        createAndAddWheels(-2.2, -2.55, 1, "BR");
-        createAndAddWheels(-10, -2.52, 1, "FR");
+        createAndAddWheels(
+          -10,
+          2.52,
+          1,
+          "FL",
+          getWheelDiameterFront(),
+          getWheelWidthFront()
+        );
+        createAndAddWheels(
+          -2.2,
+          2.55,
+          1,
+          "BL",
+          getWheelDiameterRear(),
+          getWheelWidthRear()
+        );
+        createAndAddWheels(
+          -2.2,
+          -2.55,
+          1,
+          "BR",
+          getWheelDiameterRear(),
+          getWheelWidthRear()
+        );
+        createAndAddWheels(
+          -10,
+          -2.52,
+          1,
+          "FR",
+          getWheelDiameterFront(),
+          getWheelWidthFront()
+        );
       });
 
       updateWheelsAndTires(tireRefs, () => {
@@ -186,38 +291,68 @@ const MainComponent = () => {
           x: number,
           y: number,
           z: number,
-          position: string
+          position: string,
+          wheelDiameter: number,
+          wheelWidth: number,
+          tireWidth: number,
+          tireSidewall: number
         ) => {
           const tires = makeTires(
             THREE,
             x,
             y,
             z,
-            getWheelDiameter(),
-            getTireWidth(),
-            getTireSidewall(),
+            wheelDiameter,
+            wheelWidth,
+            tireWidth,
+            tireSidewall,
             position
           );
           tireRefs.current.push(tires);
           sceneRef.current?.add(tires);
         };
 
-        createAndAddTires(-10, 2.52, 1, "FL");
-        createAndAddTires(-2.2, 2.55, 1, "BL");
-        createAndAddTires(-2.2, -2.55, 1, "BR");
-        createAndAddTires(-10, -2.52, 1, "FR");
+        createAndAddTires(
+          -10,
+          2.52,
+          1,
+          "FL",
+          getWheelDiameterFront(),
+          getWheelWidthFront(),
+          getTireWidthFront(),
+          getTireSidewallFront()
+        );
+        createAndAddTires(
+          -2.2,
+          2.55,
+          1,
+          "BL",
+          getWheelDiameterRear(),
+          getWheelWidthRear(),
+          getTireWidthRear(),
+          getTireSidewallRear()
+        );
+        createAndAddTires(
+          -2.2,
+          -2.55,
+          1,
+          "BR",
+          getWheelDiameterRear(),
+          getWheelWidthRear(),
+          getTireWidthRear(),
+          getTireSidewallRear()
+        );
+        createAndAddTires(
+          -10,
+          -2.52,
+          1,
+          "FR",
+          getWheelDiameterFront(),
+          getWheelWidthFront(),
+          getTireWidthFront(),
+          getTireSidewallFront()
+        );
       });
-
-      // updateWheelsAndTires(carRefs, () => {
-      //   const createAndAddCar = () => {
-      //     const car = makeCar(THREE, sceneRef.current, getRideHeight());
-      //     carRefs.current = [];
-      //     carRefs.current.push(car);
-      //     sceneRef.current?.add(car);
-      //   };
-
-      //   createAndAddCar();
-      // });
     }
   }, [settings, sceneRef, wheelRefs, tireRefs, carRefs]);
 

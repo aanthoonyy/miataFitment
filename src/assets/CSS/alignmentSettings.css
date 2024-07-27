@@ -1,34 +1,77 @@
-#sliderContainer {
-    width: "300px";
+
+
+
+
+  #sliderContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    height: auto; /* Auto height based on content */
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Consistent gap between elements */
   }
-  
+
   .input-group {
     display: flex;
     flex-direction: column;
   }
-  
+
   .input-item {
     display: flex;
     flex-direction: column;
     margin-bottom: 3px;
   }
-  
+
   .label-value {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 3px; 
+    margin-bottom: 3px;
   }
-  
+
   .label-value label {
     margin: 0;
   }
-  
+
   .input-item input {
     margin-bottom: 3px;
   }
-  
+
   .input-item span {
     margin-left: 3px;
     font-size: 0.9em;
   }
+
+  .input-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .slider-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  label {
+    font-size: 14px;
+    color: #333; /* Darker color for better visibility */
+    margin-bottom: 4px; /* Consistent margin for labels */
+  }
+  input[type="range"],
+  input[type="number"] {
+    width: 100%;
+    cursor: pointer; /* Cursor pointer for better user indication */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Consistent input styling */
+  }
+  input[type="number"] {
+    width: 100px; /* Increased width for number inputs */
+  }
   
+

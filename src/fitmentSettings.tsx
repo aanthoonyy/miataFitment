@@ -11,14 +11,21 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [frontCaster, setFrontCaster] = useState(5);
   const [frontToe, setFrontToe] = useState(0);
   const [rearToe, setRearToe] = useState(0);
-  const [rideHeight, setRideHeight] = useState(-2.51);
+  const [rideHeightFront, setRideHeightFront] = useState(-2.51);
+  const [rideHeightRear, setRideHeightRear] = useState(-2.51);
 
-  const [tireWidth, setTireWidth] = useState(185);
-  const [tireSidewall, setTireSidewall] = useState(55);
-  const [wheelWidth, setWheelWidth] = useState(8.5);
-  const [wheelDiameter, setWheelDiameter] = useState(14);
-  const [wheelOffset, setWheelOffset] = useState(-7);
-  const [wheelSpacer, setWheelSpacer] = useState(0);
+  const [frontTireWidth, setFrontTireWidth] = useState(185);
+  const [frontTireSidewall, setFrontTireSidewall] = useState(55);
+  const [frontWheelWidth, setFrontWheelWidth] = useState(8.5);
+  const [frontWheelDiameter, setFrontWheelDiameter] = useState(14);
+  const [frontWheelOffset, setFrontWheelOffset] = useState(-7);
+  const [frontWheelSpacer, setFrontWheelSpacer] = useState(5);
+  const [rearTireWidth, setRearTireWidth] = useState(185);
+  const [rearTireSidewall, setRearTireSidewall] = useState(55);
+  const [rearWheelWidth, setRearWheelWidth] = useState(8.5);
+  const [rearWheelDiameter, setRearWheelDiameter] = useState(14);
+  const [rearWheelOffset, setRearWheelOffset] = useState(-7);
+  const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
 
   useEffect(() => {
     updateModel({
@@ -27,13 +34,20 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       frontCaster,
       frontToe,
       rearToe,
-      rideHeight,
-      tireWidth,
-      tireSidewall,
-      wheelWidth,
-      wheelDiameter,
-      wheelOffset,
-      wheelSpacer,
+      rideHeight: rideHeightFront,
+      rideHeightRear,
+      tireWidth: frontTireWidth,
+      tireSidewall: frontTireSidewall,
+      wheelWidth: frontWheelWidth,
+      wheelDiameter: frontWheelDiameter,
+      wheelOffset: frontWheelOffset,
+      wheelSpacer: frontWheelSpacer,
+      test1: rearTireWidth,
+      test2: rearTireSidewall,
+      test3: rearWheelWidth,
+      test4: rearWheelDiameter,
+      test5: rearWheelOffset,
+      test6: rearWheelSpacer,
     });
   }, [
     frontCamber,
@@ -41,13 +55,20 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
     frontCaster,
     frontToe,
     rearToe,
-    rideHeight,
-    tireWidth,
-    tireSidewall,
-    wheelWidth,
-    wheelDiameter,
-    wheelOffset,
-    wheelSpacer,
+    rideHeightFront,
+    rideHeightRear,
+    frontTireWidth,
+    frontTireSidewall,
+    frontWheelWidth,
+    frontWheelDiameter,
+    frontWheelOffset,
+    frontWheelSpacer,
+    rearTireWidth,
+    rearTireSidewall,
+    rearWheelWidth,
+    rearWheelDiameter,
+    rearWheelOffset,
+    rearWheelSpacer,
     updateModel,
   ]);
 
@@ -56,18 +77,33 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       <div className="input-group">
         <div className="input-item">
           <div className="label-value">
-            <label htmlFor="rideHeight">Ride Height</label>
-            <span></span>
+            <label htmlFor="rideHeightFront">Front Ride Height</label>
           </div>
           <input
-            id="rideHeight"
+            id="rideHeightFront"
             type="range"
             min="-3"
             max="-2"
             step="0.01"
-            value={rideHeight}
+            value={rideHeightFront}
             onChange={(e) => {
-              setRideHeight(parseFloat(e.target.value));
+              setRideHeightFront(parseFloat(e.target.value));
+            }}
+          />
+        </div>
+        <div className="input-item">
+          <div className="label-value">
+            <label htmlFor="rideHeightRear">Rear Ride Height</label>
+          </div>
+          <input
+            id="rideHeightRear"
+            type="range"
+            min="-3"
+            max="-2"
+            step="0.01"
+            value={rideHeightRear}
+            onChange={(e) => {
+              setRideHeightRear(parseFloat(e.target.value));
             }}
           />
         </div>
@@ -150,74 +186,133 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
           />
         </div>
       </div>
-      <div className="input-group">
+      <div className="input-group-grid">
         <div className="input-item">
-          <label htmlFor="tireWidth">Tire Width</label>
+          <label htmlFor="frontTireWidth">Front Tire Width</label>
           <input
-            id="tireWidth"
+            id="frontTireWidth"
             type="number"
             min="0"
             placeholder="Width (mm)"
-            value={tireWidth}
-            onChange={(e) => setTireWidth(parseFloat(e.target.value))}
+            value={frontTireWidth}
+            onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
           />
         </div>
         <div className="input-item">
-          <label htmlFor="tireSidewall">Tire Sidewall</label>
+          <label htmlFor="rearTireWidth">Rear Tire Width</label>
           <input
-            id="tireSidewall"
+            id="rearTireWidth"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={rearTireWidth}
+            onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="frontTireSidewall">Front Tire Sidewall</label>
+          <input
+            id="frontTireSidewall"
             type="number"
             min="0"
             placeholder="Sidewall (%)"
-            value={tireSidewall}
-            onChange={(e) => setTireSidewall(parseFloat(e.target.value))}
+            value={frontTireSidewall}
+            onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
           />
         </div>
-      </div>
-      <div className="input-group">
         <div className="input-item">
-          <label htmlFor="wheelWidth">Wheel Width</label>
+          <label htmlFor="rearTireSidewall">Rear Tire Sidewall</label>
           <input
-            id="wheelWidth"
+            id="rearTireSidewall"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={rearTireSidewall}
+            onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="frontWheelWidth">Front Wheel Width</label>
+          <input
+            id="frontWheelWidth"
             type="number"
             min="0"
             placeholder="Width (in)"
-            value={wheelWidth}
-            onChange={(e) => setWheelWidth(parseFloat(e.target.value))}
+            value={frontWheelWidth}
+            onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
           />
         </div>
         <div className="input-item">
-          <label htmlFor="wheelDiameter">Wheel Diameter</label>
+          <label htmlFor="rearWheelWidth">Rear Wheel Width</label>
           <input
-            id="wheelDiameter"
+            id="rearWheelWidth"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={rearWheelWidth}
+            onChange={(e) => setRearWheelWidth(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="frontWheelDiameter">Front Wheel Diameter</label>
+          <input
+            id="frontWheelDiameter"
             type="number"
             min="0"
             placeholder="Diameter (in)"
-            value={wheelDiameter}
+            value={frontWheelDiameter}
             onChange={(e) => {
-              setWheelDiameter(parseFloat(e.target.value));
+              setFrontWheelDiameter(parseFloat(e.target.value));
             }}
           />
         </div>
         <div className="input-item">
-          <label htmlFor="wheelOffset">Wheel Offset</label>
+          <label htmlFor="rearWheelDiameter">Rear Wheel Diameter</label>
           <input
-            id="wheelOffset"
+            id="rearWheelDiameter"
             type="number"
-            placeholder="Offset (mm)"
-            value={wheelOffset}
-            // @ts-ignore
-            onChange={(e) => setWheelOffset(e.target.value)}
+            placeholder="Spacer (mm)"
+            value={rearWheelDiameter}
+            onChange={(e) => setRearWheelDiameter(parseFloat(e.target.value))}
           />
         </div>
         <div className="input-item">
-          <label htmlFor="wheelSpacer">Wheel Spacer</label>
+          <label htmlFor="frontWheelOffset">Front Wheel Offset</label>
           <input
-            id="wheelSpacer"
+            id="frontWheelOffset"
+            type="number"
+            placeholder="Offset (mm)"
+            value={frontWheelOffset}
+            // @ts-ignore
+            onChange={(e) => setFrontWheelOffset(e.target.value)}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="rearWheelOffset">Rear Wheel Offset</label>
+          <input
+            id="rearWheelOffset"
             type="number"
             placeholder="Spacer (mm)"
-            value={wheelSpacer}
-            onChange={(e) => setWheelSpacer(parseFloat(e.target.value))}
+            value={rearWheelOffset}
+            // @ts-ignore
+            onChange={(e) => setRearWheelOffset(e.target.value)}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="frontWheelSpacer">Front Wheel Spacer</label>
+          <input
+            id="frontWheelSpacer"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={frontWheelSpacer}
+            onChange={(e) => setFrontWheelSpacer(parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="input-item">
+          <label htmlFor="rearWheelSpacer">Rear Spacer</label>
+          <input
+            id="rearWheelSpacer"
+            type="number"
+            placeholder="Spacer (mm)"
+            value={rearWheelSpacer}
+            onChange={(e) => setRearWheelSpacer(parseFloat(e.target.value))}
           />
         </div>
       </div>
