@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { setRideHeightFront } from "./assets/buttons/getRideHeightFront";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -502,12 +503,13 @@ export default function ParentComponent() {
   const getRideHeightFront = () => state.rideHeightFront;
   const getRideHeightRear = () => state.rideHeightRear;
 
-  // Here you can use the state object or export it as needed
+  // Here you can use the state object or export i  t as needed
   React.useEffect(() => {
     console.log("Parent Component State:", state);
     console.log("Front Ride Height:", getRideHeightFront());
     console.log("Rear Ride Height:", getRideHeightRear());
     // You can export or use the state here
+    setRideHeightFront(getRideHeightFront());
   }, [state]);
 
   return <ResponsiveSettingsPanel state={state} setState={setState} />;

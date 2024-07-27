@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import FitmentSettings from "./fitmentSettings";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { makeCar } from "./assets/carMaker";
 import { animate } from "./assets/animate";
 import { makeCamera } from "./assets/cameraMaker";
@@ -11,11 +11,11 @@ import { getTireWidthFront } from "./assets/buttons/getTireWidthFront";
 import { getWheelDiameterFront } from "./assets/buttons/getWheelDiameterFront";
 import { getWheelDiameterRear } from "./assets/buttons/getWheelDiameterRear";
 import { getWheelWidthFront } from "./assets/buttons/getWheelWidthFront";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { getWheelWidthRear } from "./assets/buttons/getWheelWidthRear";
 import { getTireWidthRear } from "./assets/buttons/getTireWidthRear";
 import { getTireSidewallFront } from "./assets/buttons/getTireSidewallFront";
 import { getTireSidewallRear } from "./assets/buttons/getTireSidewallRear";
+import FitmentSettings from "./fitmentSettings";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -163,8 +163,6 @@ const useThreeScene = () => {
       getTireSidewallFront()
     );
 
-    // scene.add(floorMaker(THREE, 10000, 10000));
-
     animate(scene, camera, renderer, controls);
 
     const container = document.getElementById("three-container");
@@ -209,8 +207,9 @@ const MainComponent = () => {
       tireRefs.current.length &&
       carRefs.current.length
     ) {
-      // @ts-ignore
+      // Update car ride height
       const car = carRefs.current[0];
+      car.position.y = settings.rideHeight;
 
       const updateWheelsAndTires = (refs: any, createFn: any) => {
         refs.current.forEach((object: any) => {
@@ -358,7 +357,7 @@ const MainComponent = () => {
 
   return (
     <div>
-      <FitmentSettings updateModel={updateModel} />
+      <FitmentSettings />
       <div
         id="three-container"
         style={{ width: "100%", height: "100vh", overflow: "hidden" }}
