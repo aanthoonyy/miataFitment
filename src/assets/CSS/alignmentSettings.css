@@ -1,6 +1,20 @@
-@media (min-width: 1000px) {
+
+
+
+
   #sliderContainer {
-    width: 300px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    height: auto; /* Auto height based on content */
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Consistent gap between elements */
   }
 
   .input-group {
@@ -38,69 +52,26 @@
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
   }
-}
-
-@media (max-width: 1000px) {
-  #sliderContainer {
+  .slider-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  label {
+    font-size: 14px;
+    color: #333; /* Darker color for better visibility */
+    margin-bottom: 4px; /* Consistent margin for labels */
+  }
+  input[type="range"],
+  input[type="number"] {
     width: 100%;
-    height: 48vw;
-    display: flex;
-    position: fixed;
-    box-sizing: border-box;
-    margin-right: -10px;
+    cursor: pointer; /* Cursor pointer for better user indication */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Consistent input styling */
   }
+  input[type="number"] {
+    width: 100px; /* Increased width for number inputs */
+  }
+  
 
-  .input-container,
-  .slider-container {
-    width: 50%;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-  }
-
-  .slider-container {
-    align-items: flex-end;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-item {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 3px;
-    justify-content: space-between;
-  }
-
-  .label-value {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3px;
-  }
-
-  .label-value label {
-    margin: 0;
-  }
-
-  .input-item input {
-    flex: 1;
-    margin-bottom: 3px;
-    box-sizing: border-box;
-  }
-
-  .input-item span {
-    margin-left: 3px;
-    font-size: 0.9em;
-  }
-
-  .input-group-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px;
-    box-sizing: border-box;
-  }
-}

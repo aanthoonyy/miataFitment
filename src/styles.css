@@ -3,46 +3,10 @@ body {
   font-family: Arial, sans-serif; /* Improves readability */
   background: #f4f4f4; /* Lighter background for better contrast */
 }
-#sliderContainer {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 350px;
-  height: auto; /* Auto height based on content */
-  background: #fff;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
-  border-radius: 8px; /* Rounded corners */
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Consistent gap between elements */
-}
-.slider-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.input-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-input[type="range"],
-input[type="number"] {
-  width: 100%;
-  cursor: pointer; /* Cursor pointer for better user indication */
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px; /* Consistent input styling */
-}
-input[type="number"] {
-  width: 100px; /* Increased width for number inputs */
-}
-label {
-  font-size: 14px;
-  color: #333; /* Darker color for better visibility */
-  margin-bottom: 4px; /* Consistent margin for labels */
-}
+
+
+
+
 .value-display {
   margin-top: 4px;
   font-size: 12px;
