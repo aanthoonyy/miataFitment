@@ -1,323 +1,514 @@
-import { useState, useEffect } from "react";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import Grid from "@mui/material/Grid"; // Grid version 1
-import { Container, Slider, TextField, Typography } from "@mui/material";
-import { marks } from "./assets/common/fitmentSettingsHelper";
+import * as React from "react";
+import {
+  Box,
+  Typography,
+  Slider,
+  TextField,
+  Grid,
+  Tab,
+  Tabs,
+  Checkbox,
+  FormControlLabel,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
-type SettingsProps = {
-  updateModel: (model: any) => void;
-};
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
 
-const CombinedSettings = ({ updateModel }: SettingsProps) => {
-  const [frontCamber, setFrontCamber] = useState(-4.1);
-  const [rearCamber, setRearCamber] = useState(-4.1);
-  const [frontCaster, setFrontCaster] = useState(5);
-  const [frontToe, setFrontToe] = useState(0);
-  const [rearToe, setRearToe] = useState(0);
-  const [rideHeightFront, setRideHeightFront] = useState(-2.51);
-  const [rideHeightRear, setRideHeightRear] = useState(-2.51);
-
-  const [frontTireWidth, setFrontTireWidth] = useState(185);
-  const [frontTireSidewall, setFrontTireSidewall] = useState(55);
-  const [frontWheelWidth, setFrontWheelWidth] = useState(8.5);
-  const [frontWheelDiameter, setFrontWheelDiameter] = useState(14);
-  const [frontWheelOffset, setFrontWheelOffset] = useState(-7);
-  const [frontWheelSpacer, setFrontWheelSpacer] = useState(5);
-  const [rearTireWidth, setRearTireWidth] = useState(185);
-  const [rearTireSidewall, setRearTireSidewall] = useState(55);
-  const [rearWheelWidth, setRearWheelWidth] = useState(8.5);
-  const [rearWheelDiameter, setRearWheelDiameter] = useState(14);
-  const [rearWheelOffset, setRearWheelOffset] = useState(-7);
-  const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
-
-  useEffect(() => {
-    updateModel({
-      frontCamber,
-      rearCamber,
-      frontCaster,
-      frontToe,
-      rearToe,
-      rideHeight: rideHeightFront,
-      rideHeightRear,
-      tireWidth: frontTireWidth,
-      tireSidewall: frontTireSidewall,
-      wheelWidth: frontWheelWidth,
-      wheelDiameter: frontWheelDiameter,
-      wheelOffset: frontWheelOffset,
-      wheelSpacer: frontWheelSpacer,
-      test1: rearTireWidth,
-      test2: rearTireSidewall,
-      test3: rearWheelWidth,
-      test4: rearWheelDiameter,
-      test5: rearWheelOffset,
-      test6: rearWheelSpacer,
-    });
-  }, [
-    frontCamber,
-    rearCamber,
-    frontCaster,
-    frontToe,
-    rearToe,
-    rideHeightFront,
-    rideHeightRear,
-    frontTireWidth,
-    frontTireSidewall,
-    frontWheelWidth,
-    frontWheelDiameter,
-    frontWheelOffset,
-    frontWheelSpacer,
-    rearTireWidth,
-    rearTireSidewall,
-    rearWheelWidth,
-    rearWheelDiameter,
-    rearWheelOffset,
-    rearWheelSpacer,
-    updateModel,
-  ]);
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <Container maxWidth="lg">
-      <Grid container spacing={1}>
-        <Grid item xs={6}>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 2 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
+  };
+}
+
+interface ResponsiveSettingsPanelProps {
+  state: any;
+  setState: React.Dispatch<React.SetStateAction<any>>;
+}
+
+function ResponsiveSettingsPanel({
+  state,
+  setState,
+}: ResponsiveSettingsPanelProps) {
+  const [value, setValue] = React.useState(0);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleTiresCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setState((prevState: any) => ({
+      ...prevState,
+      isTiresStaggered: event.target.checked,
+    }));
+  };
+
+  const handleWheelsCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setState((prevState: any) => ({
+      ...prevState,
+      isWheelsStaggered: event.target.checked,
+    }));
+  };
+
+  const mobileHeight = 370;
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        bgcolor: "background.paper",
+        position: "fixed",
+        bottom: 0,
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 1000,
+        border: "1px dashed grey",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        height: isMobile ? `${mobileHeight}px` : "30vh",
+      }}
+    >
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        orientation={isMobile ? "horizontal" : "vertical"}
+        variant="scrollable"
+        scrollButtons="auto"
+        aria-label="Settings Tabs"
+        sx={{
+          borderRight: isMobile ? 0 : 1,
+          borderBottom: isMobile ? 1 : 0,
+          borderColor: "divider",
+          width: isMobile ? "100%" : "120px",
+        }}
+      >
+        <Tab label="Alignment" {...a11yProps(0)} />
+        <Tab label="Tires" {...a11yProps(1)} />
+        <Tab label="Wheels" {...a11yProps(2)} />
+      </Tabs>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <TabPanel value={value} index={0}>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="caption" gutterBottom>
                 Front Ride Height
               </Typography>
               <Slider
-                size="small"
-                aria-label="Default"
+                value={state.rideHeightFront}
+                min={-3}
+                max={-2}
+                step={0.01}
+                aria-label="Front Ride Height"
                 valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rideHeightFront: newValue as number,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="caption" gutterBottom>
                 Rear Ride Height
               </Typography>
               <Slider
-                size="small"
-                defaultValue={50}
-                aria-label="Default"
+                value={state.rideHeightRear}
+                min={-3}
+                max={-2}
+                step={0.01}
+                aria-label="Rear Ride Height"
                 valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rideHeightRear: newValue as number,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="caption" gutterBottom>
                 Front Camber
               </Typography>
               <Slider
-                size="small"
-                aria-label="Default"
-                valueLabelDisplay="auto"
-                defaultValue={0}
+                value={state.frontCamber}
                 min={-20}
-                max={20}
-                marks={marks}
+                max={1}
+                step={0.1}
+                aria-label="Front Camber"
+                valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontCamber: newValue as number,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="caption" gutterBottom>
                 Rear Camber
               </Typography>
               <Slider
-                size="small"
-                aria-label="Default"
-                valueLabelDisplay="auto"
-                defaultValue={0}
+                value={state.rearCamber}
                 min={-20}
-                max={20}
-                marks={marks}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
-                Front Toe
-              </Typography>
-              <Slider
-                size="small"
-                defaultValue={50}
-                aria-label="Default"
+                max={1}
+                step={0.1}
+                aria-label="Rear Camber"
                 valueLabelDisplay="auto"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
-                Rear Toe
-              </Typography>
-              <Slider
                 size="small"
-                defaultValue={50}
-                aria-label="Default"
-                valueLabelDisplay="auto"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearCamber: newValue as number,
+                  }))
+                }
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="caption" gutterBottom>
                 Front Caster
               </Typography>
               <Slider
-                size="small"
-                defaultValue={50}
-                aria-label="Default"
+                value={state.frontCaster}
+                min={5}
+                max={8}
+                step={0.1}
+                aria-label="Front Caster"
                 valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontCaster: newValue as number,
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="caption" gutterBottom>
+                Front Toe
+              </Typography>
+              <Slider
+                value={state.frontToe}
+                min={-0.05}
+                max={0.05}
+                step={0.01}
+                aria-label="Front Toe"
+                valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontToe: newValue as number,
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="caption" gutterBottom>
+                Rear Toe
+              </Typography>
+              <Slider
+                value={state.rearToe}
+                min={-0.05}
+                max={0.05}
+                step={0.01}
+                aria-label="Rear Toe"
+                valueLabelDisplay="auto"
+                size="small"
+                onChange={(e, newValue) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearToe: newValue as number,
+                  }))
+                }
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={6}>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
           <Grid container spacing={1}>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Tire Width
-              </Typography>
+            <Grid item xs={6}>
               <TextField
-                id="outlined-basic"
                 label="Front Tire Width"
-                variant="outlined"
+                value={state.frontTireWidth}
                 fullWidth
                 size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontTireWidth: parseFloat(e.target.value),
+                  }))
+                }
               />
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Ride Width
-              </Typography>
+            <Grid item xs={6}>
               <TextField
-                id="outlined-basic"
                 label="Rear Tire Width"
-                variant="outlined"
+                value={state.rearTireWidth}
                 fullWidth
                 size="small"
+                disabled={!state.isTiresStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearTireWidth: parseFloat(e.target.value),
+                  }))
+                }
               />
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Tire Sidewall
-              </Typography>
+            <Grid item xs={6}>
               <TextField
-                id="outlined-basic"
                 label="Front Tire Sidewall"
-                variant="outlined"
+                value={state.frontTireSidewall}
                 fullWidth
                 size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontTireSidewall: parseFloat(e.target.value),
+                  }))
+                }
               />
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Tire Sidewall
-              </Typography>
+            <Grid item xs={6}>
               <TextField
-                id="outlined-basic"
                 label="Rear Tire Sidewall"
-                variant="outlined"
+                value={state.rearTireSidewall}
                 fullWidth
                 size="small"
+                disabled={!state.isTiresStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearTireSidewall: parseFloat(e.target.value),
+                  }))
+                }
               />
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Wheel Width
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Front Wheel Width"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Wheel Width
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Rear Wheel Width"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Wheel Diameter
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Front Wheel Diameter"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Wheel Diameter
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Rear Wheel Diameter"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Wheel Offset
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Front Wheel Offset"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Wheel Offset
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Rear Wheel Offset"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Front Wheel Spacer
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Front Wheel Spacer"
-                variant="outlined"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" gutterBottom>
-                Rear Wheel Spacer
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Rear Wheel Spacer"
-                variant="outlined"
-                fullWidth
-                size="small"
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.isTiresStaggered}
+                    onChange={handleTiresCheckboxChange}
+                  />
+                }
+                label="Staggered"
               />
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-    </Container>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <TextField
+                label="Front Wheel Width"
+                value={state.frontWheelWidth}
+                fullWidth
+                size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontWheelWidth: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Rear Wheel Width"
+                value={state.rearWheelWidth}
+                fullWidth
+                size="small"
+                disabled={!state.isWheelsStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearWheelWidth: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Front Wheel Diameter"
+                value={state.frontWheelDiameter}
+                fullWidth
+                size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontWheelDiameter: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Rear Wheel Diameter"
+                value={state.rearWheelDiameter}
+                fullWidth
+                size="small"
+                disabled={!state.isWheelsStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearWheelDiameter: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Front Wheel Offset"
+                value={state.frontWheelOffset}
+                fullWidth
+                size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontWheelOffset: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Rear Wheel Offset"
+                value={state.rearWheelOffset}
+                fullWidth
+                size="small"
+                disabled={!state.isWheelsStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearWheelOffset: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Front Wheel Spacer"
+                value={state.frontWheelSpacer}
+                fullWidth
+                size="small"
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    frontWheelSpacer: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Rear Wheel Spacer"
+                value={state.rearWheelSpacer}
+                fullWidth
+                size="small"
+                disabled={!state.isWheelsStaggered}
+                onChange={(e) =>
+                  setState((prevState: any) => ({
+                    ...prevState,
+                    rearWheelSpacer: parseFloat(e.target.value),
+                  }))
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.isWheelsStaggered}
+                    onChange={handleWheelsCheckboxChange}
+                  />
+                }
+                label="Staggered"
+              />
+            </Grid>
+          </Grid>
+        </TabPanel>
+      </Box>
+    </Box>
   );
-};
+}
 
-export default CombinedSettings;
+export default function ParentComponent() {
+  const [state, setState] = React.useState({
+    isTiresStaggered: false,
+    isWheelsStaggered: false,
+    frontCamber: -4.1,
+    rearCamber: -4.1,
+    frontCaster: 5,
+    frontToe: 0,
+    rearToe: 0,
+    rideHeightFront: -2.51,
+    rideHeightRear: -2.51,
+    frontTireWidth: 185,
+    frontTireSidewall: 55,
+    frontWheelWidth: 8.5,
+    frontWheelDiameter: 14,
+    frontWheelOffset: -7,
+    frontWheelSpacer: 5,
+    rearTireWidth: 185,
+    rearTireSidewall: 55,
+    rearWheelWidth: 8.5,
+    rearWheelDiameter: 14,
+    rearWheelOffset: -7,
+    rearWheelSpacer: 0,
+  });
+
+  const getRideHeightFront = () => state.rideHeightFront;
+  const getRideHeightRear = () => state.rideHeightRear;
+
+  // Here you can use the state object or export it as needed
+  React.useEffect(() => {
+    console.log("Parent Component State:", state);
+    console.log("Front Ride Height:", getRideHeightFront());
+    console.log("Rear Ride Height:", getRideHeightRear());
+    // You can export or use the state here
+  }, [state]);
+
+  return <ResponsiveSettingsPanel state={state} setState={setState} />;
+}
