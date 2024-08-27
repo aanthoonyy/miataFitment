@@ -15,6 +15,7 @@ export function makeCar(THREE: any, y: number){
             gltf.scene.scale.set(1/12, 1/12, 1/12);
             gltf.scene.rotation.y = Math.PI / 2;
             gltf.scene.position.y = y;
+            gltf.scene.position.x = +5;
             rideHeightSlider(gltf.scene);
             //scene.add( gltf.scene );
             car.add(gltf.scene);

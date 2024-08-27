@@ -16,6 +16,7 @@ import { getWheelWidthRear } from "./assets/buttons/getWheelWidthRear";
 import { getTireWidthRear } from "./assets/buttons/getTireWidthRear";
 import { getTireSidewallFront } from "./assets/buttons/getTireSidewallFront";
 import { getTireSidewallRear } from "./assets/buttons/getTireSidewallRear";
+import { adjustCar } from "./assets/common/wheelPosition";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -65,8 +66,8 @@ const useThreeScene = () => {
 
     createAndAddCar();
     createAndAddWheels(
-      4.45,
-      3.04,
+      4.45 - adjustCar(),
+      3.04 - adjustCar(),
       1,
       "FL",
       getWheelDiameterFront(),
@@ -123,8 +124,8 @@ const useThreeScene = () => {
     };
 
     createAndAddTires(
-      4.45,
-      3.04,
+      4.45 - adjustCar(),
+      3.04 - adjustCar(),
       1,
       "FL",
       getWheelDiameterFront(),
@@ -253,7 +254,7 @@ const MainComponent = () => {
         };
 
         createAndAddWheels(
-          -10,
+          -10 - adjustCar(),
           2.52,
           1,
           "FL",
@@ -261,7 +262,7 @@ const MainComponent = () => {
           getWheelWidthFront()
         );
         createAndAddWheels(
-          -2.2,
+          -2.2 - adjustCar(),
           2.55,
           1,
           "BL",
@@ -269,7 +270,7 @@ const MainComponent = () => {
           getWheelWidthRear()
         );
         createAndAddWheels(
-          -2.2,
+          -2.2 - adjustCar(),
           -2.55,
           1,
           "BR",
@@ -277,7 +278,7 @@ const MainComponent = () => {
           getWheelWidthRear()
         );
         createAndAddWheels(
-          -10,
+          -10 - adjustCar(),
           -2.52,
           1,
           "FR",
@@ -313,7 +314,7 @@ const MainComponent = () => {
         };
 
         createAndAddTires(
-          -10,
+          -10 - adjustCar(),
           2.52,
           1,
           "FL",
@@ -323,7 +324,7 @@ const MainComponent = () => {
           getTireSidewallFront()
         );
         createAndAddTires(
-          -2.2,
+          -2.2 - adjustCar(),
           2.55,
           1,
           "BL",
@@ -333,7 +334,7 @@ const MainComponent = () => {
           getTireSidewallRear()
         );
         createAndAddTires(
-          -2.2,
+          -2.2 - adjustCar(),
           -2.55,
           1,
           "BR",
@@ -343,7 +344,7 @@ const MainComponent = () => {
           getTireSidewallRear()
         );
         createAndAddTires(
-          -10,
+          -10 - adjustCar(),
           -2.52,
           1,
           "FR",
