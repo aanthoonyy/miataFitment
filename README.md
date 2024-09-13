@@ -1,30 +1,54 @@
-# React + TypeScript + Vite
+# Miatafitment.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About the Project
 
-Currently, two official plugins are available:
+![alt text](/public/websiteExample1.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Miatafitment.com](https://miatafitment.com) is a web application that allows Mazda Miata drivers to test their perfect wheel, tire, and alignment setup. Whether the goal is optimizing performance or enhancing aesthetics, the app uses interactive 3D models to help you visualize and select the ideal fitment
 
-## Expanding the ESLint configuration
+## Built With
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **ReactJS** for efficient, component-based user interface development
+- **ThreeJS** to create 3D visualizations of wheel and tire setups
+- **TypeScript** ensures robust and scalable code with type safety
+- **Vite** for lightning-fast build and hot module replacement during development
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- 3D interactive models of wheels and tires
+- Real-time fitment calculations
+- Customizable alignment options
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Getting Started
+
+Here's how to set up the project locally.
+
+### Prerequisites
+
+- Node.js and NPM installed globally.
+  ```bash
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/aanthoonyy/miataFitment.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 – see the [LICENSE](LICENSE) file for details.
