@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom";
 import MainComponent from "./mainComponent";
-// import NavBar from "./navBar";
+import { Route, Router, Routes } from "react-router";
 
 const App = () => {
   return (
-    <div>
-      <MainComponent />
-    </div>
+    <Routes>
+      <Route path="/" element={<MainComponent />} />
+    </Routes>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default App;
