@@ -5,7 +5,6 @@ import MainComponent from "./mainComponent";
 const App = () => {
   return (
     <div>
-      {/* <NavBar /> */}
       <MainComponent />
     </div>
   );

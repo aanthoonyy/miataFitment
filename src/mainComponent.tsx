@@ -164,8 +164,6 @@ const useThreeScene = () => {
       getTireSidewallFront()
     );
 
-    // scene.add(floorMaker(THREE, 10000, 10000));
-
     animate(scene, camera, renderer, controls);
 
     const container = document.getElementById("three-container");
