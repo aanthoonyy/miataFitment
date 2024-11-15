@@ -3,8 +3,6 @@ export function setUpLighting(scene: any){
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
     
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
     
     const keyLight = new THREE.DirectionalLight(0xffffff, 1);
     keyLight.position.set(5, 5, 5);
