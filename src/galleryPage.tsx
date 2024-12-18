@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { Footer, Header } from "./landingPage";
 
-// Updated sample data: gallery images with chassis metadata
 const sampleImages = [
   {
     id: 1,
@@ -236,180 +235,151 @@ const GalleryPage: React.FC = () => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
-    <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundColor: "#F9F9F9",
+      }}
+    >
       <Header />
-      <Container maxWidth="lg">
-        <Typography variant="h3" align="center" gutterBottom sx={{ mt: 2 }}>
-          Gallery
-        </Typography>
+      <Box sx={{ flex: 1, py: 4 }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" align="center" gutterBottom sx={{ mt: 2 }}>
+            Gallery
+          </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 2,
-            flexWrap: "wrap",
-            mb: 4,
-          }}
-        >
-          <Select
-            multiple
-            value={wheelDiameter}
-            onChange={handleDiameterChange}
-            displayEmpty
-            input={<OutlinedInput />}
-            renderValue={(selected) =>
-              selected.length === 0 ? "Wheel Diameter" : selected.join(", ")
-            }
-            sx={{ minWidth: 200 }}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+              flexWrap: "wrap",
+              mb: 4,
+            }}
           >
-            {[13, 14, 15, 16, 17, 18].map((diameter) => (
-              <MenuItem key={diameter} value={diameter}>
-                {diameter}"
-              </MenuItem>
-            ))}
-          </Select>
+            <Select
+              multiple
+              value={wheelDiameter}
+              onChange={handleDiameterChange}
+              displayEmpty
+              input={<OutlinedInput />}
+              renderValue={(selected) =>
+                selected.length === 0 ? "Wheel Diameter" : selected.join(", ")
+              }
+              sx={{ minWidth: 200 }}
+            >
+              {[13, 14, 15, 16, 17, 18].map((diameter) => (
+                <MenuItem key={diameter} value={diameter}>
+                  {diameter}"
+                </MenuItem>
+              ))}
+            </Select>
 
-          <Select
-            multiple
-            value={wheelWidth}
-            onChange={handleWidthChange}
-            displayEmpty
-            input={<OutlinedInput />}
-            renderValue={(selected) =>
-              selected.length === 0 ? "Wheel Width" : selected.join(", ")
-            }
-            sx={{ minWidth: 200 }}
-          >
-            {[5, 6, 7, 8, 9, 10, 11, 12].map((width) => (
-              <MenuItem key={width} value={width}>
-                {width}"
-              </MenuItem>
-            ))}
-          </Select>
+            <Select
+              multiple
+              value={wheelWidth}
+              onChange={handleWidthChange}
+              displayEmpty
+              input={<OutlinedInput />}
+              renderValue={(selected) =>
+                selected.length === 0 ? "Wheel Width" : selected.join(", ")
+              }
+              sx={{ minWidth: 200 }}
+            >
+              {[5, 6, 7, 8, 9, 10, 11, 12].map((width) => (
+                <MenuItem key={width} value={width}>
+                  {width}"
+                </MenuItem>
+              ))}
+            </Select>
 
-          <Select
-            multiple
-            value={style}
-            onChange={handleStyleChange}
-            displayEmpty
-            input={<OutlinedInput />}
-            renderValue={(selected) =>
-              selected.length === 0 ? "Style" : selected.join(", ")
-            }
-            sx={{ minWidth: 200 }}
-          >
-            {["track", "stance", "street"].map((s) => (
-              <MenuItem key={s} value={s}>
-                {s.charAt(0).toUpperCase() + s.slice(1)}
-              </MenuItem>
-            ))}
-          </Select>
+            <Select
+              multiple
+              value={style}
+              onChange={handleStyleChange}
+              displayEmpty
+              input={<OutlinedInput />}
+              renderValue={(selected) =>
+                selected.length === 0 ? "Style" : selected.join(", ")
+              }
+              sx={{ minWidth: 200 }}
+            >
+              {["track", "stance", "street"].map((s) => (
+                <MenuItem key={s} value={s}>
+                  {s.charAt(0).toUpperCase() + s.slice(1)}
+                </MenuItem>
+              ))}
+            </Select>
 
-          <Select
-            multiple
-            value={chassis}
-            onChange={handleChassisChange}
-            displayEmpty
-            input={<OutlinedInput />}
-            renderValue={(selected) =>
-              selected.length === 0 ? "Chassis" : selected.join(", ")
-            }
-            sx={{ minWidth: 200 }}
-          >
-            {["NA", "NB", "NC", "ND"].map((c) => (
-              <MenuItem key={c} value={c}>
-                {c}
-              </MenuItem>
-            ))}
-          </Select>
+            <Select
+              multiple
+              value={chassis}
+              onChange={handleChassisChange}
+              displayEmpty
+              input={<OutlinedInput />}
+              renderValue={(selected) =>
+                selected.length === 0 ? "Chassis" : selected.join(", ")
+              }
+              sx={{ minWidth: 200 }}
+            >
+              {["NA", "NB", "NC", "ND"].map((c) => (
+                <MenuItem key={c} value={c}>
+                  {c}
+                </MenuItem>
+              ))}
+            </Select>
 
-          <Button variant="outlined" onClick={handleClearFilters}>
-            Clear Filters
-          </Button>
-        </Box>
-
-        <Grid container spacing={3}>
-          {paginatedImages.map((img) => (
-            <Grid item xs={12} sm={6} md={4} key={img.id}>
-              <Card
-                sx={{ position: "relative", cursor: "pointer" }}
-                onClick={() => handleOpenDialog(img)}
-              >
-                <CardMedia
-                  component="img"
-                  image={img.src}
-                  alt={img.model}
-                  sx={{ height: 200 }}
-                />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                    color: "white",
-                    textAlign: "center",
-                    py: 1,
-                  }}
-                >
-                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                    {`${img.model} | ${img.diameter}x${img.width} ${img.offset} | ${img.tirewidth}/${img.tireSidewall} | ${img.style}`}
-                  </Typography>
-                </Box>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={(_, page) => setCurrentPage(page)}
-          />
-        </Box>
-      </Container>
-
-      <Dialog
-        open={isDialogOpen}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>{selectedCar?.model}</DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <Box sx={{ flex: 1 }}>
-              <img
-                src={selectedCar?.src}
-                alt={selectedCar?.model}
-                style={{ width: "100%", borderRadius: "8px" }}
-              />
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography>
-                <strong>Wheel Size:</strong> {selectedCar?.diameter}x
-                {selectedCar?.width}
-              </Typography>
-              <Typography>
-                <strong>Tire:</strong> {selectedCar?.tirewidth}/
-                {selectedCar?.tireSidewall}
-              </Typography>
-              <Typography>
-                <strong>Offset:</strong> {selectedCar?.offset}
-              </Typography>
-              <Typography>
-                <strong>Style:</strong> {selectedCar?.style}
-              </Typography>
-              <Typography>
-                <strong>Description:</strong> {selectedCar?.description}
-              </Typography>
-            </Box>
+            <Button variant="outlined" onClick={handleClearFilters}>
+              Clear Filters
+            </Button>
           </Box>
-        </DialogContent>
-      </Dialog>
+
+          <Grid container spacing={3}>
+            {paginatedImages.map((img) => (
+              <Grid item xs={12} sm={6} md={4} key={img.id}>
+                <Card
+                  sx={{ position: "relative", cursor: "pointer" }}
+                  onClick={() => handleOpenDialog(img)}
+                >
+                  <CardMedia
+                    component="img"
+                    image={img.src}
+                    alt={img.model}
+                    sx={{ height: 200 }}
+                  />
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                      color: "white",
+                      textAlign: "center",
+                      py: 1,
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                      {`${img.model} | ${img.diameter}x${img.width} ${img.offset} | ${img.tirewidth}/${img.tireSidewall} | ${img.style}`}
+                    </Typography>
+                  </Box>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(_, page) => setCurrentPage(page)}
+            />
+          </Box>
+        </Container>
+      </Box>
+
       <Footer />
     </Box>
   );
