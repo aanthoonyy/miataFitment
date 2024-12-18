@@ -1,14 +1,19 @@
-import ReactDOM from "react-dom";
 import MainComponent from "./mainComponent";
-// import NavBar from "./navBar";
+import { Route, Routes } from "react-router";
+import LandingPage from "./landingPage";
+import GalleryPage from "./galleryPage";
+import MarketplacePage from "./marketPage";
 
 const App = () => {
   return (
-    <div>
-      {/* <NavBar /> */}
-      <MainComponent />
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="visualizer-na" element={<MainComponent />} />
+      <Route path="gallery" element={<GalleryPage />} />
+      <Route path="marketplace" element={<MarketplacePage />} />
+      <Route path="*" element={<LandingPage />} />
+    </Routes>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default App;
