@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -30,8 +30,11 @@ const LandingPage: React.FC = () => {
     navigate("/gallery");
   };
 
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const handleGoMarketplace = () => {
+    navigate("/marketplace");
+  };
 
+  const isMobile = useMediaQuery("(max-width:600px)");
   const galleryItems = isMobile ? [1] : [1, 2, 3, 4, 5, 6];
 
   return (
@@ -44,9 +47,7 @@ const LandingPage: React.FC = () => {
     >
       <Header />
 
-      <MainImage />
-
-      <FitmentSimulator
+      <MainImageAndSimulator
         isMobile={isMobile}
         generation={generation}
         handleGenerationChange={handleGenerationChange}
@@ -57,6 +58,8 @@ const LandingPage: React.FC = () => {
         galleryItems={galleryItems}
         handleSeeMoreGallery={handleSeeMoreGallery}
       />
+
+      <Marketplace handleGoMarketplace={handleGoMarketplace} />
 
       <Footer />
     </Box>
@@ -69,54 +72,41 @@ export default LandingPage;
 export const Header: React.FC = () => (
   <Box
     sx={{
-      py: 2,
+      py: 0,
       backgroundColor: "#1976D2",
       color: "#FFFFFF",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 2,
     }}
   >
     <Box>
-      <img
-        src="/faviconNoBG.png"
-        alt="Miata Fitment Logo"
-        style={{
-          height: "70px",
-          width: "auto",
-        }}
-      />
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <img
+          src="/faviconNoBG.png"
+          alt="Miata Fitment Logo"
+          style={{
+            height: "100px",
+            width: "auto",
+            cursor: "pointer",
+          }}
+        />
+      </Link>
     </Box>
-    <Typography variant="h3" component="h1" sx={{ margin: 0 }}>
-      MIATA FITMENT
-    </Typography>
   </Box>
 );
 
 // Main Image Component
 const MainImage: React.FC = () => (
-  <Box
-    sx={{
-      backgroundColor: "#D3D3D3",
-      width: "100vw",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      py: 4,
-      mx: "calc(-50vw + 50%)",
+  <img
+    src="/websiteExample1.png"
+    alt="MIATA FITMENT"
+    style={{
+      maxWidth: "100%",
+      height: "auto",
+      borderRadius: "8px",
     }}
-  >
-    <img
-      src="/websiteExample1.png"
-      alt="MIATA FITMENT"
-      style={{
-        maxWidth: "100%",
-        height: "auto",
-        borderRadius: "0px",
-      }}
-    />
-  </Box>
+  />
 );
 
 // Fitment Simulator Component
@@ -133,63 +123,92 @@ const FitmentSimulator: React.FC<FitmentSimulatorProps> = ({
   handleGenerationChange,
   handleGo,
 }) => (
-  <Container maxWidth="md" sx={{ mt: 4 }}>
-    <Box>
-      <Typography variant="h3" gutterBottom>
-        Fitment Simulator
+  <Box>
+    <Typography variant="h3" gutterBottom>
+      Fitment Simulator
+    </Typography>
+    <Typography variant="h6" gutterBottom>
+      Dial in your Miata's fitment with our simulator. Select your Miata's
+      generation and start customizing wheels, suspension, and more.
+    </Typography>
+    {isMobile && (
+      <Typography variant="h6" gutterBottom sx={{ color: "red", mt: 2 }}>
+        Mobile use is not recommended at the moment. Use a desktop or laptop.
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        Dial in your Miata's fitment with our simulator. Select your Miata's
-        generation and start customizing wheels, suspension, and more.
-      </Typography>
-      {isMobile && (
-        <Typography variant="h6" gutterBottom sx={{ color: "red", mt: 2 }}>
-          Mobile use is not recommended at the moment. Use a desktop or laptop.
-        </Typography>
-      )}
-      <Box
+    )}
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        gap: 2,
+        alignItems: "center",
+        mt: 2,
+      }}
+    >
+      <Select
+        value={generation}
+        onChange={handleGenerationChange}
+        variant="outlined"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 2,
-          alignItems: "center",
-          mt: 2,
+          width: "150px",
+          height: "56px",
         }}
       >
-        <Select
-          value={generation}
-          onChange={handleGenerationChange}
-          variant="outlined"
-          sx={{
-            width: "150px",
-            height: "56px",
-          }}
-        >
-          <MenuItem value="na">NA</MenuItem>
-          <MenuItem value="nb" disabled>
-            NB
-          </MenuItem>
-          <MenuItem value="nc" disabled>
-            NC
-          </MenuItem>
-          <MenuItem value="nd" disabled>
-            ND
-          </MenuItem>
-        </Select>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={handleGo}
-          sx={{
-            width: "150px",
-            height: "56px",
-          }}
-        >
-          Go
-        </Button>
-      </Box>
+        <MenuItem value="na">NA</MenuItem>
+        <MenuItem value="nb" disabled>
+          NB
+        </MenuItem>
+        <MenuItem value="nc" disabled>
+          NC
+        </MenuItem>
+        <MenuItem value="nd" disabled>
+          ND
+        </MenuItem>
+      </Select>
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        onClick={handleGo}
+        sx={{
+          width: "150px",
+          height: "56px",
+        }}
+      >
+        Go
+      </Button>
     </Box>
+  </Box>
+);
+
+// Combined Main Image and Fitment Simulator Component
+interface MainImageAndSimulatorProps {
+  isMobile: boolean;
+  generation: string;
+  handleGenerationChange: (event: SelectChangeEvent) => void;
+  handleGo: () => void;
+}
+
+const MainImageAndSimulator: React.FC<MainImageAndSimulatorProps> = ({
+  isMobile,
+  generation,
+  handleGenerationChange,
+  handleGo,
+}) => (
+  <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Grid container spacing={4} alignItems="center">
+      <Grid item xs={12} md={6}>
+        <FitmentSimulator
+          isMobile={isMobile}
+          generation={generation}
+          handleGenerationChange={handleGenerationChange}
+          handleGo={handleGo}
+        />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <MainImage />
+      </Grid>
+    </Grid>
   </Container>
 );
 
@@ -228,21 +247,78 @@ const GallerySection: React.FC<GallerySectionProps> = ({
       </Grid>
     </Container>
     <Typography variant="h6" gutterBottom sx={{ color: "black", mt: 2 }}>
-      Coming soon! Check out my current progress
+      See more cars in our gallery!
     </Typography>
     <Button
       variant="contained"
       color="primary"
       size="large"
+      disabled
       onClick={handleSeeMoreGallery}
       sx={{
         width: "150px",
         height: "56px",
       }}
     >
-      See More
+      Gallery
     </Button>
   </Box>
+);
+
+// Marketplace Component
+interface MarketplaceSectionProps {
+  handleGoMarketplace: () => void;
+}
+
+const Marketplace: React.FC<MarketplaceSectionProps> = ({
+  handleGoMarketplace,
+}) => (
+  <Container maxWidth="lg" sx={{ mt: 8 }}>
+    <Grid container spacing={4} alignItems="center">
+      <Grid item xs={12} md={6}>
+        <Box sx={{ textAlign: "center" }}>
+          <img
+            src="/Wheels.png"
+            alt="Marketplace"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              borderRadius: "8px",
+            }}
+          />
+        </Box>
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <Box>
+          <Typography variant="h3" gutterBottom>
+            Marketplace
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Discover the best deals on Miata parts and accessories. Browse
+            through a variety of wheels, suspension components, and more to
+            perfect your build. Coming soon!
+          </Typography>
+
+          <Box sx={{ mt: 4 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              disabled
+              onClick={handleGoMarketplace}
+              sx={{
+                width: "200px",
+                height: "56px",
+              }}
+            >
+              Marketplace
+            </Button>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
+  </Container>
 );
 
 // Footer Component

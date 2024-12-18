@@ -72,119 +72,7 @@ const sampleImages = [
     model: "ND Miata",
     chassis: "ND",
     description:
-      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.\ntest\ntest\n test",
-  },
-  {
-    id: 5,
-    src: "/landingpagegallery/miata1.png",
-    diameter: 15,
-    width: 7,
-    tirewidth: 195,
-    tireSidewall: 50,
-    offset: "+0",
-    style: "track",
-    model: "NA Miata",
-    chassis: "NA",
-    description:
-      "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-  },
-  {
-    id: 6,
-    src: "/landingpagegallery/miata2.png",
-    diameter: 17,
-    width: 8,
-    tirewidth: 205,
-    tireSidewall: 45,
-    offset: "+10",
-    style: "stance",
-    model: "NB Miata",
-    chassis: "NB",
-    description:
-      "A stance-style NB Miata with aggressive fitment and lowered suspension.",
-  },
-  {
-    id: 7,
-    src: "/landingpagegallery/miata3.png",
-    diameter: 16,
-    width: 9,
-    tirewidth: 215,
-    tireSidewall: 40,
-    offset: "+5",
-    style: "street",
-    model: "NC Miata",
-    chassis: "NC",
-    description:
-      "An NC Miata built for street use with performance wheels and tires.",
-  },
-  {
-    id: 8,
-    src: "/landingpagegallery/miata4.png",
-    diameter: 18,
-    width: 10,
-    tirewidth: 225,
-    tireSidewall: 35,
-    offset: "+15",
-    style: "track",
-    model: "ND Miata",
-    chassis: "ND",
-    description:
-      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.\ntest\ntest\n test",
-  },
-  {
-    id: 9,
-    src: "/landingpagegallery/miata1.png",
-    diameter: 15,
-    width: 7,
-    tirewidth: 195,
-    tireSidewall: 50,
-    offset: "+0",
-    style: "track",
-    model: "NA Miata",
-    chassis: "NA",
-    description:
-      "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-  },
-  {
-    id: 10,
-    src: "/landingpagegallery/miata2.png",
-    diameter: 17,
-    width: 8,
-    tirewidth: 205,
-    tireSidewall: 45,
-    offset: "+10",
-    style: "stance",
-    model: "NB Miata",
-    chassis: "NB",
-    description:
-      "A stance-style NB Miata with aggressive fitment and lowered suspension.",
-  },
-  {
-    id: 11,
-    src: "/landingpagegallery/miata3.png",
-    diameter: 16,
-    width: 9,
-    tirewidth: 215,
-    tireSidewall: 40,
-    offset: "+5",
-    style: "street",
-    model: "NC Miata",
-    chassis: "NC",
-    description:
-      "An NC Miata built for street use with performance wheels and tires.",
-  },
-  {
-    id: 12,
-    src: "/landingpagegallery/miata4.png",
-    diameter: 18,
-    width: 10,
-    tirewidth: 225,
-    tireSidewall: 35,
-    offset: "+15",
-    style: "track",
-    model: "ND Miata",
-    chassis: "ND",
-    description:
-      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.\ntest\ntest\n test",
+      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.",
   },
 ];
 
@@ -235,151 +123,182 @@ const GalleryPage: React.FC = () => {
   const handleCloseDialog = () => setIsDialogOpen(false);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundColor: "#F9F9F9",
-      }}
-    >
+    <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh", py: 4 }}>
       <Header />
-      <Box sx={{ flex: 1, py: 4 }}>
-        <Container maxWidth="lg">
-          <Typography variant="h3" align="center" gutterBottom sx={{ mt: 2 }}>
-            Gallery
-          </Typography>
+      <Container maxWidth="lg">
+        <Typography paddingTop="3" variant="h3" align="center" gutterBottom>
+          Gallery
+        </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 2,
-              flexWrap: "wrap",
-              mb: 4,
-            }}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 2,
+            flexWrap: "wrap",
+            mb: 4,
+          }}
+        >
+          <Select
+            multiple
+            value={wheelDiameter}
+            onChange={handleDiameterChange}
+            displayEmpty
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              selected.length === 0 ? "Wheel Diameter" : selected.join(", ")
+            }
+            sx={{ minWidth: 200 }}
           >
-            <Select
-              multiple
-              value={wheelDiameter}
-              onChange={handleDiameterChange}
-              displayEmpty
-              input={<OutlinedInput />}
-              renderValue={(selected) =>
-                selected.length === 0 ? "Wheel Diameter" : selected.join(", ")
-              }
-              sx={{ minWidth: 200 }}
-            >
-              {[13, 14, 15, 16, 17, 18].map((diameter) => (
-                <MenuItem key={diameter} value={diameter}>
-                  {diameter}"
-                </MenuItem>
-              ))}
-            </Select>
-
-            <Select
-              multiple
-              value={wheelWidth}
-              onChange={handleWidthChange}
-              displayEmpty
-              input={<OutlinedInput />}
-              renderValue={(selected) =>
-                selected.length === 0 ? "Wheel Width" : selected.join(", ")
-              }
-              sx={{ minWidth: 200 }}
-            >
-              {[5, 6, 7, 8, 9, 10, 11, 12].map((width) => (
-                <MenuItem key={width} value={width}>
-                  {width}"
-                </MenuItem>
-              ))}
-            </Select>
-
-            <Select
-              multiple
-              value={style}
-              onChange={handleStyleChange}
-              displayEmpty
-              input={<OutlinedInput />}
-              renderValue={(selected) =>
-                selected.length === 0 ? "Style" : selected.join(", ")
-              }
-              sx={{ minWidth: 200 }}
-            >
-              {["track", "stance", "street"].map((s) => (
-                <MenuItem key={s} value={s}>
-                  {s.charAt(0).toUpperCase() + s.slice(1)}
-                </MenuItem>
-              ))}
-            </Select>
-
-            <Select
-              multiple
-              value={chassis}
-              onChange={handleChassisChange}
-              displayEmpty
-              input={<OutlinedInput />}
-              renderValue={(selected) =>
-                selected.length === 0 ? "Chassis" : selected.join(", ")
-              }
-              sx={{ minWidth: 200 }}
-            >
-              {["NA", "NB", "NC", "ND"].map((c) => (
-                <MenuItem key={c} value={c}>
-                  {c}
-                </MenuItem>
-              ))}
-            </Select>
-
-            <Button variant="outlined" onClick={handleClearFilters}>
-              Clear Filters
-            </Button>
-          </Box>
-
-          <Grid container spacing={3}>
-            {paginatedImages.map((img) => (
-              <Grid item xs={12} sm={6} md={4} key={img.id}>
-                <Card
-                  sx={{ position: "relative", cursor: "pointer" }}
-                  onClick={() => handleOpenDialog(img)}
-                >
-                  <CardMedia
-                    component="img"
-                    image={img.src}
-                    alt={img.model}
-                    sx={{ height: 200 }}
-                  />
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      backgroundColor: "rgba(0, 0, 0, 0.7)",
-                      color: "white",
-                      textAlign: "center",
-                      py: 1,
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                      {`${img.model} | ${img.diameter}x${img.width} ${img.offset} | ${img.tirewidth}/${img.tireSidewall} | ${img.style}`}
-                    </Typography>
-                  </Box>
-                </Card>
-              </Grid>
+            {[13, 14, 15, 16, 17, 18].map((diameter) => (
+              <MenuItem key={diameter} value={diameter}>
+                {diameter}"
+              </MenuItem>
             ))}
-          </Grid>
+          </Select>
 
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={(_, page) => setCurrentPage(page)}
-            />
+          <Select
+            multiple
+            value={wheelWidth}
+            onChange={handleWidthChange}
+            displayEmpty
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              selected.length === 0 ? "Wheel Width" : selected.join(", ")
+            }
+            sx={{ minWidth: 200 }}
+          >
+            {[5, 6, 7, 8, 9, 10, 11, 12].map((width) => (
+              <MenuItem key={width} value={width}>
+                {width}"
+              </MenuItem>
+            ))}
+          </Select>
+
+          {/* Style Filter */}
+          <Select
+            multiple
+            value={style}
+            onChange={handleStyleChange}
+            displayEmpty
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              selected.length === 0 ? "Style" : selected.join(", ")
+            }
+            sx={{ minWidth: 200 }}
+          >
+            {["track", "stance", "street"].map((s) => (
+              <MenuItem key={s} value={s}>
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <Select
+            multiple
+            value={chassis}
+            onChange={handleChassisChange}
+            displayEmpty
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              selected.length === 0 ? "Chassis" : selected.join(", ")
+            }
+            sx={{ minWidth: 200 }}
+          >
+            {["NA", "NB", "NC", "ND"].map((c) => (
+              <MenuItem key={c} value={c}>
+                {c}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </Box>
+
+        <Grid container spacing={3}>
+          {paginatedImages.map((img) => (
+            <Grid item xs={12} sm={6} md={4} key={img.id}>
+              <Card
+                sx={{ position: "relative", cursor: "pointer" }}
+                onClick={() => handleOpenDialog(img)}
+              >
+                <CardMedia
+                  component="img"
+                  image={img.src}
+                  alt={img.model}
+                  sx={{ height: 200 }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    color: "white",
+                    textAlign: "center",
+                    py: 1,
+                  }}
+                >
+                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                    {`${img.model} | ${img.diameter}x${img.width} ${img.offset} | ${img.tirewidth}/${img.tireSidewall} | ${img.style}`}
+                  </Typography>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        {/* Pagination */}
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={(_, page) => setCurrentPage(page)}
+          />
+        </Box>
+      </Container>
+
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>{selectedCar?.model}</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Box sx={{ flex: 1 }}>
+              <img
+                src={selectedCar?.src}
+                alt={selectedCar?.model}
+                style={{ width: "100%", borderRadius: "8px" }}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Typography>
+                <strong>Wheel Size:</strong> {selectedCar?.diameter}x
+                {selectedCar?.width}
+              </Typography>
+              <Typography>
+                <strong>Tire:</strong> {selectedCar?.tirewidth}/
+                {selectedCar?.tireSidewall}
+              </Typography>
+              <Typography>
+                <strong>Offset:</strong> {selectedCar?.offset}
+              </Typography>
+              <Typography>
+                <strong>Style:</strong> {selectedCar?.style}
+              </Typography>
+              <Typography>
+                <strong>Description:</strong> {selectedCar?.description}
+              </Typography>
+            </Box>
           </Box>
-        </Container>
-      </Box>
-
+        </DialogContent>
+      </Dialog>
       <Footer />
     </Box>
   );
