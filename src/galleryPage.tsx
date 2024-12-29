@@ -20,7 +20,7 @@ import { Footer, Header } from "./landingPage";
 const sampleImages = [
   {
     id: 1,
-    src: "/landingpagegallery/miata1.png",
+    src: "https://media.discordapp.net/attachments/397905533014900747/1319548689727098941/image.png?ex=677191bb&is=6770403b&hm=40aa4cd53ab12c0842d06a5474ed5d7c38bd6d0d9c21303b87508842dba6af03&=&format=webp&quality=lossless",
     diameter: 15,
     width: 7,
     tirewidth: 195,

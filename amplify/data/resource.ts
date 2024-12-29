@@ -6,12 +6,24 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any unauthenticated user can "create", "read", "update", 
 and "delete" any "Todo" records.
 =========================================================================*/
+// https://d-92679df276.awsapps.com/start#/
 const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+      id: a.string(),
+      src: a.string(),
+      diameter: a.string(),
+      width: a.string(),
+      tirewidth: a.string(),
+      tireSidewall: a.string(),
+      offset: a.string(),
+      style: a.string(),
+      model: a.string(),
+      chassis: a.string(),
+      description:a.string(),
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -20,7 +32,8 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'iam',
-  },
+
+  }
 });
 
 /*== STEP 2 ===============================================================
