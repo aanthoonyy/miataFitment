@@ -22,8 +22,6 @@ export default function TodoList() {
       content: window.prompt("Todo content?"),
       isDone: false,
     });
-    // no more manual refetchTodos required!
-    // - fetchTodos()
   };
 
   return (
