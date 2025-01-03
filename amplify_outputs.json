@@ -1,5 +1,5 @@
 {
-  "auth": { 
+  "auth": {
     "user_pool_id": "us-west-2_I4rKCPZQm",
     "aws_region": "us-west-2",
     "user_pool_client_id": "6vlcgtr57psq7iio14fr7j93b0",
