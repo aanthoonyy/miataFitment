@@ -25,7 +25,7 @@ const GalleryPage: React.FC = () => {
   const [carData, setCarData] = useState<any["CarData"]>(["type"]);
 
   const fetchCarData = async () => {
-    const { data: items, errors } = await client.models.CarData.list();
+    const { data: items } = await client.models.CarData.list();
     setCarData(items);
   };
 
