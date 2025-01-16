@@ -22,10 +22,11 @@ import { generateClient } from "aws-amplify/api";
 const client = generateClient<Schema>();
 
 const GalleryPage: React.FC = () => {
-  const [carData, setCarData] = useState<any["CarData"]>(["type"]);
+  const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
 
   const fetchCarData = async () => {
     const { data: items } = await client.models.CarData.list();
+    console.log("carData", items);
     setCarData(items);
   };
 
@@ -85,7 +86,6 @@ const GalleryPage: React.FC = () => {
         <Typography paddingTop="3" variant="h3" align="center" gutterBottom>
           Gallery
         </Typography>
-
         <Box
           sx={{
             display: "flex",
@@ -131,7 +131,6 @@ const GalleryPage: React.FC = () => {
             ))}
           </Select>
 
-          {/* Style Filter */}
           <Select
             multiple
             value={style}
@@ -172,10 +171,9 @@ const GalleryPage: React.FC = () => {
             Clear Filters
           </Button>
         </Box>
-
         <Grid container spacing={3}>
           {paginatedImages.map((img: any) => (
-            <Grid item xs={12} sm={6} md={4} key={img.id}>
+            <Grid item xs={12} sm={6} md={4} key={img.numberid}>
               <Card
                 sx={{ position: "relative", cursor: "pointer" }}
                 onClick={() => handleOpenDialog(img)}
@@ -206,8 +204,6 @@ const GalleryPage: React.FC = () => {
             </Grid>
           ))}
         </Grid>
-
-        {/* Pagination */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Pagination
             count={totalPages}

@@ -15,17 +15,15 @@ const schema = a.schema({
       chassis: a.string(),
       description:a.string(),
     })
-    .authorization(allow => [allow.owner()]),
+    .authorization(allow => [allow.publicApiKey()]),
 });
 
-// Used for code completion / highlighting when making requests from frontend
 export type Schema = ClientSchema<typeof schema>;
 
-// defines the data resource to be deployed
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
-
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: { expiresInDays: 30 }
   }
 });
