@@ -35,8 +35,8 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "Todo": {
-          "name": "Todo",
+        "CarData": {
+          "name": "CarData",
           "fields": {
             "id": {
               "name": "id",
@@ -147,7 +147,7 @@
             }
           },
           "syncable": true,
-          "pluralName": "Todos",
+          "pluralName": "CarData",
           "attributes": [
             {
               "type": "model",

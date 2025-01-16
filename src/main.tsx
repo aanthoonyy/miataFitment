@@ -6,8 +6,6 @@ import LandingPage from "./landingPage";
 import GalleryPage from "./galleryPage";
 import MarketplacePage from "./marketPage";
 
-import TodoList from "./todo";
-
 Amplify.configure(outputs);
 
 const App = () => {
@@ -17,7 +15,6 @@ const App = () => {
       <Route path="visualizer-na" element={<MainComponent />} />
       <Route path="gallery" element={<GalleryPage />} />
       <Route path="marketplace" element={<MarketplacePage />} />
-      <Route path="todo" element={<TodoList />} />
       <Route path="*" element={<LandingPage />} />
     </Routes>
   );

@@ -21,18 +21,18 @@ import { generateClient } from "aws-amplify/api";
 
 const client = generateClient<Schema>();
 
-const [carData, setCarData] = useState<any[]>([]);
-
-const fetchCarData = async () => {
-  const { data: items, errors } = await client.models.CarData.list();
-  setCarData(items);
-};
-
-useEffect(() => {
-  fetchCarData();
-}, []);
-
 const GalleryPage: React.FC = () => {
+  const [carData, setCarData] = useState<any["CarData"]>(["type"]);
+
+  const fetchCarData = async () => {
+    const { data: items, errors } = await client.models.CarData.list();
+    setCarData(items);
+  };
+
+  useEffect(() => {
+    fetchCarData();
+  }, []);
+
   const [wheelDiameter, setWheelDiameter] = useState<number[]>([]);
   const [wheelWidth, setWheelWidth] = useState<number[]>([]);
   const [style, setStyle] = useState<string[]>([]);
@@ -56,7 +56,7 @@ const GalleryPage: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const filteredImages = carData.filter((img) => {
+  const filteredImages = carData.filter((img: any) => {
     const diameterMatch =
       wheelDiameter.length === 0 || wheelDiameter.includes(img.diameter);
     const widthMatch =
@@ -174,7 +174,7 @@ const GalleryPage: React.FC = () => {
         </Box>
 
         <Grid container spacing={3}>
-          {paginatedImages.map((img) => (
+          {paginatedImages.map((img: any) => (
             <Grid item xs={12} sm={6} md={4} key={img.id}>
               <Card
                 sx={{ position: "relative", cursor: "pointer" }}
