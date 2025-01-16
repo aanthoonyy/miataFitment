@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -16,65 +16,21 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { Footer, Header } from "./landingPage";
+import { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/api";
 
-const sampleImages = [
-  {
-    id: 1,
-    src: "/landingpagegallery/miata1.png",
-    diameter: 15,
-    width: 7,
-    tirewidth: 195,
-    tireSidewall: 50,
-    offset: "+0",
-    style: "track",
-    model: "NA Miata",
-    chassis: "NA",
-    description:
-      "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-  },
-  {
-    id: 2,
-    src: "/landingpagegallery/miata2.png",
-    diameter: 17,
-    width: 8,
-    tirewidth: 205,
-    tireSidewall: 45,
-    offset: "+10",
-    style: "stance",
-    model: "NB Miata",
-    chassis: "NB",
-    description:
-      "A stance-style NB Miata with aggressive fitment and lowered suspension.",
-  },
-  {
-    id: 3,
-    src: "/landingpagegallery/miata3.png",
-    diameter: 16,
-    width: 9,
-    tirewidth: 215,
-    tireSidewall: 40,
-    offset: "+5",
-    style: "street",
-    model: "NC Miata",
-    chassis: "NC",
-    description:
-      "An NC Miata built for street use with performance wheels and tires.",
-  },
-  {
-    id: 4,
-    src: "/landingpagegallery/miata4.png",
-    diameter: 18,
-    width: 10,
-    tirewidth: 225,
-    tireSidewall: 35,
-    offset: "+15",
-    style: "track",
-    model: "ND Miata",
-    chassis: "ND",
-    description:
-      "A track-focused ND Miata with wide wheels and aerodynamic upgrades.",
-  },
-];
+const client = generateClient<Schema>();
+
+const [carData, setCarData] = useState<any[]>([]);
+
+const fetchCarData = async () => {
+  const { data: items, errors } = await client.models.CarData.list();
+  setCarData(items);
+};
+
+useEffect(() => {
+  fetchCarData();
+}, []);
 
 const GalleryPage: React.FC = () => {
   const [wheelDiameter, setWheelDiameter] = useState<number[]>([]);
@@ -100,7 +56,7 @@ const GalleryPage: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const filteredImages = sampleImages.filter((img) => {
+  const filteredImages = carData.filter((img) => {
     const diameterMatch =
       wheelDiameter.length === 0 || wheelDiameter.includes(img.diameter);
     const widthMatch =

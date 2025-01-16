@@ -1,11 +1,21 @@
 import { a, defineData, type ClientSchema } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  Todo: a.model({
+  CarData: a.model({
       content: a.string(),
-      isDone: a.boolean()
+      idnumber: a.string(),
+      src: a.string(),
+      diameter: a.string(),
+      width: a.string(),
+      tirewidth: a.string(),
+      tireSidewall: a.string(),
+      offset: a.string(),
+      style: a.string(),
+      model: a.string(),
+      chassis: a.string(),
+      description:a.string(),
     })
-    .authorization(allow => [allow.publicApiKey()])
+    .authorization(allow => [allow.owner()]),
 });
 
 // Used for code completion / highlighting when making requests from frontend
@@ -15,7 +25,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
-    apiKeyAuthorizationMode: { expiresInDays: 30 }
+    defaultAuthorizationMode: 'iam',
+
   }
 });
