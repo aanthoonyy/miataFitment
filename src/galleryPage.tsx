@@ -23,16 +23,6 @@ const client = generateClient<Schema>();
 
 const GalleryPage: React.FC = () => {
   const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
-  const [wheelDiameter, setWheelDiameter] = useState<number[]>([]);
-  const [wheelWidth, setWheelWidth] = useState<number[]>([]);
-  const [style, setStyle] = useState<string[]>([]);
-  const [chassis, setChassis] = useState<string[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [selectedCar, setSelectedCar] = useState<any>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const itemsPerPage = 9;
 
   const fetchCarData = async () => {
     const { data: items } = await client.models.CarData.list();
@@ -43,6 +33,16 @@ const GalleryPage: React.FC = () => {
   useEffect(() => {
     fetchCarData();
   }, []);
+
+  const [wheelDiameter, setWheelDiameter] = useState<number[]>([]);
+  const [wheelWidth, setWheelWidth] = useState<number[]>([]);
+  const [style, setStyle] = useState<string[]>([]);
+  const [chassis, setChassis] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedCar, setSelectedCar] = useState<any>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const itemsPerPage = 9;
 
   const handleDiameterChange = (event: any) =>
     setWheelDiameter(event.target.value);
@@ -76,18 +76,9 @@ const GalleryPage: React.FC = () => {
 
   const handleOpenDialog = (car: any) => {
     setSelectedCar(car);
-    setCurrentImageIndex(0); // Reset to the first image
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
-
-  const handleImageClick = () => {
-    if (selectedCar?.src && Array.isArray(selectedCar.src)) {
-      setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % selectedCar.src.length
-      );
-    }
-  };
 
   return (
     <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh", py: 4 }}>
@@ -234,14 +225,9 @@ const GalleryPage: React.FC = () => {
           <Box sx={{ display: "flex", gap: 2 }}>
             <Box sx={{ flex: 1 }}>
               <img
-                src={selectedCar?.src?.[currentImageIndex] || ""}
+                src={selectedCar?.src}
                 alt={selectedCar?.model}
-                style={{
-                  width: "100%",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                }}
-                onClick={handleImageClick}
+                style={{ width: "100%", borderRadius: "8px" }}
               />
             </Box>
             <Box sx={{ flex: 1 }}>
