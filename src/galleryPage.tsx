@@ -225,7 +225,7 @@ const GalleryPage: React.FC = () => {
           <Box sx={{ display: "flex", gap: 2 }}>
             <Box sx={{ flex: 1 }}>
               <img
-                src={selectedCar?.src}
+                src={selectedCar?.src[0]}
                 alt={selectedCar?.model}
                 style={{ width: "100%", borderRadius: "8px" }}
               />
@@ -234,13 +234,18 @@ const GalleryPage: React.FC = () => {
               <Typography>
                 <strong>Wheel Size:</strong> {selectedCar?.diameter}x
                 {selectedCar?.width}
+                {selectedCar?.width &&
+                  ` | ${selectedCar?.diameter2}x${selectedCar?.wheelWidth2}`}
               </Typography>
               <Typography>
                 <strong>Tire:</strong> {selectedCar?.tirewidth}/
                 {selectedCar?.tireSidewall}
+                {selectedCar?.tireSidewall2 &&
+                  ` | ${selectedCar?.tirewidth2}/${selectedCar?.tireSidewall2}`}
               </Typography>
               <Typography>
                 <strong>Offset:</strong> {selectedCar?.offset}
+                {selectedCar?.offset2 && ` | ${selectedCar?.offset2}`}
               </Typography>
               <Typography>
                 <strong>Style:</strong> {selectedCar?.style}
