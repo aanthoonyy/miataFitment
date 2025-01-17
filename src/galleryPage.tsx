@@ -59,9 +59,10 @@ const GalleryPage: React.FC = () => {
 
   const filteredImages = carData.filter((img: any) => {
     const diameterMatch =
-      wheelDiameter.length === 0 || wheelDiameter.includes(img.diameter);
+      wheelDiameter.length === 0 ||
+      wheelDiameter.includes(Number(img.diameter));
     const widthMatch =
-      wheelWidth.length === 0 || wheelWidth.includes(img.width);
+      wheelWidth.length === 0 || wheelWidth.includes(Number(img.width));
     const styleMatch = style.length === 0 || style.includes(img.style);
     const chassisMatch = chassis.length === 0 || chassis.includes(img.chassis);
     return diameterMatch && widthMatch && styleMatch && chassisMatch;

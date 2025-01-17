@@ -4,7 +4,7 @@ const schema = a.schema({
   CarData: a.model({
       content: a.string(),
       idnumber: a.string(),
-      src: a.string(),
+      src: a.string().array(),
       diameter: a.string(),
       width: a.string(),
       tirewidth: a.string(),
