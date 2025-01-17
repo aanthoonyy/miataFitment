@@ -253,7 +253,6 @@ const GallerySection: React.FC<GallerySectionProps> = ({
       variant="contained"
       color="primary"
       size="large"
-      disabled
       onClick={handleSeeMoreGallery}
       sx={{
         width: "150px",
