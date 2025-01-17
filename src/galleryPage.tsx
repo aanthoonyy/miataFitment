@@ -41,6 +41,7 @@ const GalleryPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
   const itemsPerPage = 9;
 
@@ -76,9 +77,22 @@ const GalleryPage: React.FC = () => {
 
   const handleOpenDialog = (car: any) => {
     setSelectedCar(car);
+    setCurrentImageIndex(0);
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
+
+  const handleNextImage = () => {
+    if (
+      selectedCar?.src &&
+      selectedCar.src.length > 1 &&
+      selectedCar.src[currentImageIndex + 1]
+    ) {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex + 1) % selectedCar.src.length
+      );
+    }
+  };
 
   return (
     <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh", py: 4 }}>
@@ -222,20 +236,30 @@ const GalleryPage: React.FC = () => {
       >
         <DialogTitle>{selectedCar?.model}</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Box sx={{ flex: 1 }}>
               <img
-                src={selectedCar?.src[0]}
+                src={selectedCar?.src?.[currentImageIndex] || ""}
                 alt={selectedCar?.model}
                 style={{ width: "100%", borderRadius: "8px" }}
               />
             </Box>
+            <Button variant="contained" onClick={handleNextImage} size="small">
+              Next
+            </Button>
             <Box sx={{ flex: 1 }}>
               <Typography>
                 <strong>Wheel Size:</strong> {selectedCar?.diameter}x
                 {selectedCar?.width}
-                {selectedCar?.width &&
-                  ` | ${selectedCar?.diameter2}x${selectedCar?.wheelWidth2}`}
+                {selectedCar?.width2 &&
+                  ` | ${selectedCar?.diameter2}x${selectedCar?.width2}`}
               </Typography>
               <Typography>
                 <strong>Tire:</strong> {selectedCar?.tirewidth}/
