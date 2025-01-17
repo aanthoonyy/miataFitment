@@ -86,6 +86,7 @@ const GalleryPage: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    event.preventDefault(); // tf does event need to be here for
     setCurrentImageIndex(value - 1);
   };
 
