@@ -77,21 +77,16 @@ const GalleryPage: React.FC = () => {
 
   const handleOpenDialog = (car: any) => {
     setSelectedCar(car);
-    setCurrentImageIndex(0);
+    setCurrentImageIndex(0); // Reset to the first image
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
 
-  const handleNextImage = () => {
-    if (
-      selectedCar?.src &&
-      selectedCar.src.length > 1 &&
-      selectedCar.src[currentImageIndex + 1]
-    ) {
-      setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % selectedCar.src.length
-      );
-    }
+  const handleImageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setCurrentImageIndex(value - 1);
   };
 
   return (
@@ -251,9 +246,14 @@ const GalleryPage: React.FC = () => {
                 style={{ width: "100%", borderRadius: "8px" }}
               />
             </Box>
-            <Button variant="contained" onClick={handleNextImage} size="small">
-              Next
-            </Button>
+            <Pagination
+              count={selectedCar?.src?.length || 0}
+              page={currentImageIndex + 1}
+              onChange={handleImageChange}
+              siblingCount={0}
+              size="small"
+              sx={{ mt: 2 }}
+            />
             <Box sx={{ flex: 1 }}>
               <Typography>
                 <strong>Wheel Size:</strong> {selectedCar?.diameter}x
