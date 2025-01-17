@@ -86,6 +86,7 @@ const GalleryPage: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    event.preventDefault();
     setCurrentImageIndex(value - 1);
   };
 
