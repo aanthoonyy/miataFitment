@@ -86,7 +86,6 @@ const GalleryPage: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    event.preventDefault(); // tf does event need to be here for
     setCurrentImageIndex(value - 1);
   };
 
@@ -232,29 +231,29 @@ const GalleryPage: React.FC = () => {
       >
         <DialogTitle>{selectedCar?.model}</DialogTitle>
         <DialogContent>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ flex: 1 }}>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <img
                 src={selectedCar?.src?.[currentImageIndex] || ""}
                 alt={selectedCar?.model}
                 style={{ width: "100%", borderRadius: "8px" }}
               />
+              <Pagination
+                count={selectedCar?.src?.length || 0}
+                page={currentImageIndex + 1}
+                onChange={handleImageChange}
+                siblingCount={0}
+                size="small"
+                sx={{ mt: 2 }}
+              />
             </Box>
-            <Pagination
-              count={selectedCar?.src?.length || 0}
-              page={currentImageIndex + 1}
-              onChange={handleImageChange}
-              siblingCount={0}
-              size="small"
-              sx={{ mt: 2 }}
-            />
             <Box sx={{ flex: 1 }}>
               <Typography>
                 <strong>Wheel Size:</strong> {selectedCar?.diameter}x
