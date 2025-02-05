@@ -56,7 +56,7 @@ const GalleryPage: React.FC = () => {
   const fetchCarData = async () => {
     const { data: items } = await client.models.CarData.list();
     console.log("carData", items);
-    setCarData(sampleImages);
+    setCarData(items);
   };
 
   useEffect(() => {
