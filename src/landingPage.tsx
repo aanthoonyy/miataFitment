@@ -11,6 +11,9 @@ import {
   Grid,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Footer } from "./assets/footer";
+import { Header } from "./header";
+import BuyMeACoffee from "./assets/buymecoffee";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -60,41 +63,13 @@ const LandingPage: React.FC = () => {
       />
 
       <Marketplace handleGoMarketplace={handleGoMarketplace} />
-
+      <BuyMeACoffee link="https://www.buymeacoffee.com/miatafitment" />
       <Footer />
     </Box>
   );
 };
 
 export default LandingPage;
-
-// Header Component
-export const Header: React.FC = () => (
-  <Box
-    sx={{
-      py: 0,
-      backgroundColor: "#1976D2",
-      color: "#FFFFFF",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <Box>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <img
-          src="/faviconNoBG.png"
-          alt="Miata Fitment Logo"
-          style={{
-            height: "100px",
-            width: "auto",
-            cursor: "pointer",
-          }}
-        />
-      </Link>
-    </Box>
-  </Box>
-);
 
 // Main Image Component
 const MainImage: React.FC = () => (
@@ -318,27 +293,4 @@ const Marketplace: React.FC<MarketplaceSectionProps> = ({
       </Grid>
     </Grid>
   </Container>
-);
-
-// Footer Component
-export const Footer: React.FC = () => (
-  <Box
-    sx={{
-      backgroundColor: "#1976D2",
-      color: "white",
-      py: 3,
-      mt: 4,
-      textAlign: "center",
-    }}
-  >
-    <Typography variant="h6" gutterBottom>
-      Miata Fitment
-    </Typography>
-    <Typography variant="body2">
-      &copy; {new Date().getFullYear()} Miata Fitment. All Rights Reserved.
-    </Typography>
-    <Typography variant="body2">
-      Designed with 💙 for Miata enthusiasts.
-    </Typography>
-  </Box>
 );

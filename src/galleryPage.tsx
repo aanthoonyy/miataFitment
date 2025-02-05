@@ -14,20 +14,49 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  useMediaQuery,
 } from "@mui/material";
-import { Footer, Header } from "./landingPage";
 import { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/api";
+import { Footer } from "./assets/footer";
+import { Header } from "./header";
 
 const client = generateClient<Schema>();
 
 const GalleryPage: React.FC = () => {
   const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
+  const sampleImages = [
+    {
+      content:
+        "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+      idnumber: "1",
+      src: [
+        "/landingpagegallery/miata1.png",
+        "/landingpagegallery/miata2.png",
+        "/landingpagegallery/miata3.png",
+      ],
+      diameter: "15",
+      diameter2: "15",
+      width: "7",
+      width2: "7",
+      tirewidth: "195",
+      tirewidth2: "195",
+      tireSidewall: "50",
+      tireSidewall2: "50",
+      offset: "+0",
+      offset2: "+0",
+      style: "track",
+      model: "NA Miata",
+      chassis: "NA",
+      description:
+        "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+    },
+  ];
 
   const fetchCarData = async () => {
     const { data: items } = await client.models.CarData.list();
     console.log("carData", items);
-    setCarData(items);
+    setCarData(sampleImages);
   };
 
   useEffect(() => {
@@ -77,7 +106,7 @@ const GalleryPage: React.FC = () => {
 
   const handleOpenDialog = (car: any) => {
     setSelectedCar(car);
-    setCurrentImageIndex(0); // Reset to the first image
+    setCurrentImageIndex(0);
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
@@ -90,9 +119,19 @@ const GalleryPage: React.FC = () => {
     setCurrentImageIndex(value - 1);
   };
 
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   return (
-    <Box sx={{ backgroundColor: "#F9F9F9", minHeight: "100vh", py: 4 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundColor: "#F9F9F9",
+      }}
+    >
       <Header />
+
       <Container maxWidth="lg">
         <Typography paddingTop="3" variant="h3" align="center" gutterBottom>
           Gallery
@@ -223,7 +262,6 @@ const GalleryPage: React.FC = () => {
           />
         </Box>
       </Container>
-
       <Dialog
         open={isDialogOpen}
         onClose={handleCloseDialog}
@@ -232,7 +270,13 @@ const GalleryPage: React.FC = () => {
       >
         <DialogTitle>{selectedCar?.model}</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: 2,
+            }}
+          >
             <Box
               sx={{
                 flex: 1,
