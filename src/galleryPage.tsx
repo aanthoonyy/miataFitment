@@ -25,33 +25,33 @@ const client = generateClient<Schema>();
 
 const GalleryPage: React.FC = () => {
   const [carData, setCarData] = useState<Schema["CarData"]["type"][]>([]);
-  const sampleImages = [
-    {
-      content:
-        "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-      idnumber: "1",
-      src: [
-        "/landingpagegallery/miata1.png",
-        "/landingpagegallery/miata2.png",
-        "/landingpagegallery/miata3.png",
-      ],
-      diameter: "15",
-      diameter2: "15",
-      width: "7",
-      width2: "7",
-      tirewidth: "195",
-      tirewidth2: "195",
-      tireSidewall: "50",
-      tireSidewall2: "50",
-      offset: "+0",
-      offset2: "+0",
-      style: "track",
-      model: "NA Miata",
-      chassis: "NA",
-      description:
-        "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
-    },
-  ];
+  // const sampleImages = [
+  //   {
+  //     content:
+  //       "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+  //     idnumber: "1",
+  //     src: [
+  //       "/landingpagegallery/miata1.png",
+  //       "/landingpagegallery/miata2.png",
+  //       "/landingpagegallery/miata3.png",
+  //     ],
+  //     diameter: "15",
+  //     diameter2: "15",
+  //     width: "7",
+  //     width2: "7",
+  //     tirewidth: "195",
+  //     tirewidth2: "195",
+  //     tireSidewall: "50",
+  //     tireSidewall2: "50",
+  //     offset: "+0",
+  //     offset2: "+0",
+  //     style: "track",
+  //     model: "NA Miata",
+  //     chassis: "NA",
+  //     description:
+  //       "A track-prepped NA Miata with lightweight wheels and suspension upgrades.",
+  //   },
+  // ];
 
   const fetchCarData = async () => {
     const { data: items } = await client.models.CarData.list();
