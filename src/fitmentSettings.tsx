@@ -1,11 +1,45 @@
 import { useState, useEffect } from "react";
-import "../src/assets/CSS/alignmentSettings.css";
+import {
+  Box,
+  Grid,
+  Slider,
+  TextField,
+  Typography,
+  Divider,
+  Tabs,
+  Tab,
+  Paper,
+} from "@mui/material";
 
 type SettingsProps = {
   updateModel: (model: any) => void;
 };
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+      style={{ width: "100%" }}
+    >
+      {value === index && <Box sx={{ p: 1.5 }}>{children}</Box>}
+    </div>
+  );
+}
+
 const CombinedSettings = ({ updateModel }: SettingsProps) => {
+  const [tabValue, setTabValue] = useState(0);
   const [frontCamber, setFrontCamber] = useState(-4.1);
   const [rearCamber, setRearCamber] = useState(-4.1);
   const [frontCaster, setFrontCaster] = useState(5);
@@ -27,6 +61,10 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
   const [rearWheelOffset, setRearWheelOffset] = useState(-7);
   const [rearWheelSpacer, setRearWheelSpacer] = useState(0);
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
   useEffect(() => {
     updateModel({
       frontCamber,
@@ -34,20 +72,20 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
       frontCaster,
       frontToe,
       rearToe,
-      rideHeight: rideHeightFront,
+      rideHeightFront,
       rideHeightRear,
-      tireWidth: frontTireWidth,
-      tireSidewall: frontTireSidewall,
-      wheelWidth: frontWheelWidth,
-      wheelDiameter: frontWheelDiameter,
-      wheelOffset: frontWheelOffset,
-      wheelSpacer: frontWheelSpacer,
-      test1: rearTireWidth,
-      test2: rearTireSidewall,
-      test3: rearWheelWidth,
-      test4: rearWheelDiameter,
-      test5: rearWheelOffset,
-      test6: rearWheelSpacer,
+      frontTireWidth,
+      frontTireSidewall,
+      frontWheelWidth,
+      frontWheelDiameter,
+      frontWheelOffset,
+      frontWheelSpacer,
+      rearTireWidth,
+      rearTireSidewall,
+      rearWheelWidth,
+      rearWheelDiameter,
+      rearWheelOffset,
+      rearWheelSpacer,
     });
   }, [
     frontCamber,
@@ -72,251 +110,227 @@ const CombinedSettings = ({ updateModel }: SettingsProps) => {
     updateModel,
   ]);
 
+  const renderSlider = (
+    label: string,
+    value: number,
+    onChange: (value: number) => void,
+    min: number,
+    max: number,
+    step: number,
+    unit: string = ""
+  ) => (
+    <Box sx={{ mb: 1 }}>
+      <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
+        {label}: {value}
+        {unit}
+      </Typography>
+      <Slider
+        value={value}
+        onChange={(_, newValue) => onChange(newValue as number)}
+        min={min}
+        max={max}
+        step={step}
+        valueLabelDisplay="auto"
+        size="small"
+      />
+    </Box>
+  );
+
+  const renderNumberInput = (
+    label: string,
+    value: number,
+    onChange: (value: number) => void,
+    placeholder: string
+  ) => (
+    <TextField
+      fullWidth
+      label={label}
+      type="number"
+      value={value}
+      onChange={(e) => onChange(parseFloat(e.target.value))}
+      placeholder={placeholder}
+      size="small"
+      sx={{ mb: 1 }}
+      InputProps={{ style: { fontSize: "0.875rem" } }}
+      InputLabelProps={{ style: { fontSize: "0.875rem" } }}
+    />
+  );
+
   return (
-    <div id="sliderContainer">
-      <div className="input-group">
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightFront">Front Ride Height</label>
-          </div>
-          <input
-            id="rideHeightFront"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightFront}
-            onChange={(e) => {
-              setRideHeightFront(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rideHeightRear">Rear Ride Height</label>
-          </div>
-          <input
-            id="rideHeightRear"
-            type="range"
-            min="-3"
-            max="-2"
-            step="0.01"
-            value={rideHeightRear}
-            onChange={(e) => {
-              setRideHeightRear(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCamber">Front Camber</label>
-            <span>{frontCamber}°</span>
-          </div>
-          <input
-            id="frontCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={frontCamber}
-            onChange={(e) => {
-              setFrontCamber(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearCamber">Rear Camber</label>
-            <span>{rearCamber}°</span>
-          </div>
-          <input
-            id="rearCamber"
-            type="range"
-            min="-20"
-            max="1"
-            step="0.1"
-            value={rearCamber}
-            onChange={(e) => setRearCamber(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontCaster">Front Caster</label>
-            <span>{frontCaster}°</span>
-          </div>
-          <input
-            id="frontCaster"
-            type="range"
-            min="5"
-            defaultValue={5.7}
-            max="8"
-            step="0.1"
-            value={frontCaster}
-            onChange={(e) => setFrontCaster(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="frontToe">Front Toe</label>
-            <span>{frontToe}°</span>
-          </div>
-          <input
-            id="frontToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={frontToe}
-            onChange={(e) => setFrontToe(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <div className="label-value">
-            <label htmlFor="rearToe">Rear Toe</label>
-            <span>{rearToe} °</span>
-          </div>
-          <input
-            id="rearToe"
-            type="range"
-            min="-0.05"
-            max="0.05"
-            step="0.01"
-            value={rearToe}
-            onChange={(e) => setRearToe(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-      <div className="input-group-grid">
-        <div className="input-item">
-          <label htmlFor="frontTireWidth">Front Tire Width</label>
-          <input
-            id="frontTireWidth"
-            type="number"
-            min="0"
-            placeholder="Width (mm)"
-            value={frontTireWidth}
-            onChange={(e) => setFrontTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireWidth">Rear Tire Width</label>
-          <input
-            id="rearTireWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireWidth}
-            onChange={(e) => setRearTireWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontTireSidewall">Front Tire Sidewall</label>
-          <input
-            id="frontTireSidewall"
-            type="number"
-            min="0"
-            placeholder="Sidewall (%)"
-            value={frontTireSidewall}
-            onChange={(e) => setFrontTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearTireSidewall">Rear Tire Sidewall</label>
-          <input
-            id="rearTireSidewall"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearTireSidewall}
-            onChange={(e) => setRearTireSidewall(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelWidth">Front Wheel Width</label>
-          <input
-            id="frontWheelWidth"
-            type="number"
-            min="0"
-            placeholder="Width (in)"
-            value={frontWheelWidth}
-            onChange={(e) => setFrontWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelWidth">Rear Wheel Width</label>
-          <input
-            id="rearWheelWidth"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelWidth}
-            onChange={(e) => setRearWheelWidth(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelDiameter">Front Wheel Diameter</label>
-          <input
-            id="frontWheelDiameter"
-            type="number"
-            min="0"
-            placeholder="Diameter (in)"
-            value={frontWheelDiameter}
-            onChange={(e) => {
-              setFrontWheelDiameter(parseFloat(e.target.value));
-            }}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelDiameter">Rear Wheel Diameter</label>
-          <input
-            id="rearWheelDiameter"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelDiameter}
-            onChange={(e) => setRearWheelDiameter(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelOffset">Front Wheel Offset</label>
-          <input
-            id="frontWheelOffset"
-            type="number"
-            placeholder="Offset (mm)"
-            value={frontWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setFrontWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelOffset">Rear Wheel Offset</label>
-          <input
-            id="rearWheelOffset"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelOffset}
-            // @ts-ignore
-            onChange={(e) => setRearWheelOffset(e.target.value)}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="frontWheelSpacer">Front Wheel Spacer</label>
-          <input
-            id="frontWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={frontWheelSpacer}
-            onChange={(e) => setFrontWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="input-item">
-          <label htmlFor="rearWheelSpacer">Rear Spacer</label>
-          <input
-            id="rearWheelSpacer"
-            type="number"
-            placeholder="Spacer (mm)"
-            value={rearWheelSpacer}
-            onChange={(e) => setRearWheelSpacer(parseFloat(e.target.value))}
-          />
-        </div>
-      </div>
-    </div>
+    <Box sx={{ display: "flex", height: "100%" }}>
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={tabValue}
+        onChange={handleTabChange}
+        sx={{
+          borderRight: 1,
+          borderColor: "divider",
+          minWidth: 120,
+          bgcolor: "background.paper",
+        }}
+      >
+        <Tab label="Front" />
+        <Tab label="Rear" />
+        <Tab label="Wheels" />
+        <Tab label="Tires" />
+      </Tabs>
+
+      <Box sx={{ flex: 1, overflow: "auto" }}>
+        <TabPanel value={tabValue} index={0}>
+          <Typography variant="subtitle1" gutterBottom>
+            Front Settings
+          </Typography>
+          <Divider sx={{ mb: 1.5 }} />
+          {renderSlider(
+            "Ride Height",
+            rideHeightFront,
+            setRideHeightFront,
+            -3,
+            -2,
+            0.01
+          )}
+          {renderSlider(
+            "Camber",
+            frontCamber,
+            setFrontCamber,
+            -20,
+            1,
+            0.1,
+            "°"
+          )}
+          {renderSlider("Caster", frontCaster, setFrontCaster, 5, 8, 0.1, "°")}
+          {renderSlider("Toe", frontToe, setFrontToe, -0.05, 0.05, 0.01, "°")}
+        </TabPanel>
+
+        <TabPanel value={tabValue} index={1}>
+          <Typography variant="subtitle1" gutterBottom>
+            Rear Settings
+          </Typography>
+          <Divider sx={{ mb: 1.5 }} />
+          {renderSlider(
+            "Ride Height",
+            rideHeightRear,
+            setRideHeightRear,
+            -3,
+            -2,
+            0.01
+          )}
+          {renderSlider("Camber", rearCamber, setRearCamber, -20, 1, 0.1, "°")}
+          {renderSlider("Toe", rearToe, setRearToe, -0.05, 0.05, 0.01, "°")}
+        </TabPanel>
+
+        <TabPanel value={tabValue} index={2}>
+          <Typography variant="subtitle1" gutterBottom>
+            Wheel Settings
+          </Typography>
+          <Divider sx={{ mb: 1.5 }} />
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
+                Front Wheels
+              </Typography>
+              {renderNumberInput(
+                "Width",
+                frontWheelWidth,
+                setFrontWheelWidth,
+                "Width (in)"
+              )}
+              {renderNumberInput(
+                "Diameter",
+                frontWheelDiameter,
+                setFrontWheelDiameter,
+                "Diameter (in)"
+              )}
+              {renderNumberInput(
+                "Offset",
+                frontWheelOffset,
+                setFrontWheelOffset,
+                "Offset (mm)"
+              )}
+              {renderNumberInput(
+                "Spacer",
+                frontWheelSpacer,
+                setFrontWheelSpacer,
+                "Spacer (mm)"
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
+                Rear Wheels
+              </Typography>
+              {renderNumberInput(
+                "Width",
+                rearWheelWidth,
+                setRearWheelWidth,
+                "Width (in)"
+              )}
+              {renderNumberInput(
+                "Diameter",
+                rearWheelDiameter,
+                setRearWheelDiameter,
+                "Diameter (in)"
+              )}
+              {renderNumberInput(
+                "Offset",
+                rearWheelOffset,
+                setRearWheelOffset,
+                "Offset (mm)"
+              )}
+              {renderNumberInput(
+                "Spacer",
+                rearWheelSpacer,
+                setRearWheelSpacer,
+                "Spacer (mm)"
+              )}
+            </Grid>
+          </Grid>
+        </TabPanel>
+
+        <TabPanel value={tabValue} index={3}>
+          <Typography variant="subtitle1" gutterBottom>
+            Tire Settings
+          </Typography>
+          <Divider sx={{ mb: 1.5 }} />
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
+                Front Tires
+              </Typography>
+              {renderNumberInput(
+                "Width",
+                frontTireWidth,
+                setFrontTireWidth,
+                "Width (mm)"
+              )}
+              {renderNumberInput(
+                "Sidewall",
+                frontTireSidewall,
+                setFrontTireSidewall,
+                "Sidewall (%)"
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="caption" sx={{ display: "block", mb: 0.5 }}>
+                Rear Tires
+              </Typography>
+              {renderNumberInput(
+                "Width",
+                rearTireWidth,
+                setRearTireWidth,
+                "Width (mm)"
+              )}
+              {renderNumberInput(
+                "Sidewall",
+                rearTireSidewall,
+                setRearTireSidewall,
+                "Sidewall (%)"
+              )}
+            </Grid>
+          </Grid>
+        </TabPanel>
+      </Box>
+    </Box>
   );
 };
 

@@ -17,6 +17,9 @@ import { getTireWidthRear } from "./assets/buttons/getTireWidthRear";
 import { getTireSidewallFront } from "./assets/buttons/getTireSidewallFront";
 import { getTireSidewallRear } from "./assets/buttons/getTireSidewallRear";
 import { adjustCar } from "./assets/common/wheelPosition";
+import { Box, IconButton, useTheme } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import CloseIcon from "@mui/icons-material/Close";
 
 const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -24,6 +27,60 @@ const useThreeScene = () => {
   const carRefs = useRef<THREE.Object3D[]>([]);
   const wheelRefs = useRef<THREE.Object3D[]>([]);
   const tireRefs = useRef<THREE.Object3D[]>([]);
+
+  const createAndAddWheels = useCallback(
+    (
+      x: number,
+      y: number,
+      z: number,
+      position: string,
+      wheelDiameter: number,
+      wheelWidth: number
+    ) => {
+      if (!sceneRef.current) return;
+      const wheels = makeWheels(
+        THREE,
+        x,
+        y,
+        z,
+        wheelWidth,
+        wheelDiameter,
+        position
+      );
+      wheelRefs.current.push(wheels);
+      sceneRef.current.add(wheels);
+    },
+    []
+  );
+
+  const createAndAddTires = useCallback(
+    (
+      x: number,
+      y: number,
+      z: number,
+      position: string,
+      wheelDiameter: number,
+      wheelWidth: number,
+      tireWidth: number,
+      tireSidewall: number
+    ) => {
+      if (!sceneRef.current) return;
+      const tires = makeTires(
+        THREE,
+        x,
+        y,
+        z,
+        wheelDiameter,
+        wheelWidth,
+        tireWidth,
+        tireSidewall,
+        position
+      );
+      tireRefs.current.push(tires);
+      sceneRef.current.add(tires);
+    },
+    []
+  );
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -40,28 +97,6 @@ const useThreeScene = () => {
       const car = makeCar(THREE, -1.4);
       carRefs.current.push(car);
       scene.add(car);
-    };
-
-    const createAndAddWheels = (
-      x: number,
-      y: number,
-      z: number,
-      position: string,
-      wheelDiameter: number,
-      wheelWidth: number
-    ) => {
-      const wheels = makeWheels(
-        THREE,
-        x,
-        y,
-        z,
-        wheelWidth,
-        wheelDiameter,
-        position
-      );
-
-      wheelRefs.current.push(wheels);
-      scene.add(wheels);
     };
 
     createAndAddCar();
@@ -97,31 +132,6 @@ const useThreeScene = () => {
       getWheelDiameterFront(),
       getWheelWidthFront()
     );
-
-    const createAndAddTires = (
-      x: number,
-      y: number,
-      z: number,
-      position: string,
-      wheelDiameter: number,
-      wheelWidth: number,
-      tireWidth: number,
-      tireSidewall: number
-    ) => {
-      const tires = makeTires(
-        THREE,
-        x,
-        y,
-        z,
-        wheelDiameter,
-        wheelWidth,
-        tireWidth,
-        tireSidewall,
-        position
-      );
-      tireRefs.current.push(tires);
-      scene.add(tires);
-    };
 
     createAndAddTires(
       4.45 - adjustCar(),
@@ -159,7 +169,7 @@ const useThreeScene = () => {
       1,
       "FR",
       getWheelDiameterFront(),
-      getWheelDiameterFront(),
+      getWheelWidthFront(),
       getTireWidthFront(),
       getTireSidewallFront()
     );
@@ -174,195 +184,94 @@ const useThreeScene = () => {
     return () => {
       container?.removeChild(renderer.domElement);
     };
-  }, []);
+  }, [createAndAddWheels, createAndAddTires]);
 
   return { sceneRef, wheelRefs, tireRefs, carRefs };
 };
 
 const MainComponent = () => {
   const { sceneRef, wheelRefs, tireRefs, carRefs } = useThreeScene();
-  const [settings, setSettings] = useState({
-    tireWidth: 0,
-    tireSidewall: 0,
-    tireRadius: 0,
-    wheelWidth: 5.5,
-    wheelDiameter: 14,
-    wheelOffset: 0,
-    frontCamber: 0,
-    rearCamber: 0,
-    frontCaster: 0,
-    frontToe: 0,
-    rearToe: 0,
-    rideHeight: 0,
-    spacer: 0,
-  });
+  const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+  const theme = useTheme();
 
   const updateModel = useCallback((newSettings: any) => {
-    setSettings(newSettings);
+    // Update the model with new settings
+    console.log("Updating model with settings:", newSettings);
   }, []);
 
-  useEffect(() => {
-    if (
-      sceneRef.current &&
-      wheelRefs.current.length &&
-      tireRefs.current.length &&
-      carRefs.current.length
-    ) {
-      // @ts-ignore
-      const car = carRefs.current[0];
-
-      const updateWheelsAndTires = (refs: any, createFn: any) => {
-        refs.current.forEach((object: any) => {
-          object.traverse((obj: any) => {
-            if (obj instanceof THREE.Mesh) {
-              obj.geometry.dispose();
-              if (Array.isArray(obj.material)) {
-                obj.material.forEach((material) => material.dispose());
-              } else {
-                obj.material.dispose();
-              }
-            }
-          });
-          sceneRef.current?.remove(object);
-        });
-        refs.current = [];
-        createFn();
-      };
-
-      updateWheelsAndTires(wheelRefs, () => {
-        const createAndAddWheels = (
-          x: number,
-          y: number,
-          z: number,
-          position: string,
-          wheelDiameter: number,
-          wheelWidth: number
-        ) => {
-          const wheels = makeWheels(
-            THREE,
-            x,
-            y,
-            z,
-            wheelWidth,
-            wheelDiameter,
-            position
-          );
-          wheelRefs.current.push(wheels);
-          sceneRef.current?.add(wheels);
-        };
-
-        createAndAddWheels(
-          -10 - adjustCar(),
-          2.52,
-          1,
-          "FL",
-          getWheelDiameterFront(),
-          getWheelWidthFront()
-        );
-        createAndAddWheels(
-          -2.2 - adjustCar(),
-          2.55,
-          1,
-          "BL",
-          getWheelDiameterRear(),
-          getWheelWidthRear()
-        );
-        createAndAddWheels(
-          -2.2 - adjustCar(),
-          -2.55,
-          1,
-          "BR",
-          getWheelDiameterRear(),
-          getWheelWidthRear()
-        );
-        createAndAddWheels(
-          -10 - adjustCar(),
-          -2.52,
-          1,
-          "FR",
-          getWheelDiameterFront(),
-          getWheelWidthFront()
-        );
-      });
-
-      updateWheelsAndTires(tireRefs, () => {
-        const createAndAddTires = (
-          x: number,
-          y: number,
-          z: number,
-          position: string,
-          wheelDiameter: number,
-          wheelWidth: number,
-          tireWidth: number,
-          tireSidewall: number
-        ) => {
-          const tires = makeTires(
-            THREE,
-            x,
-            y,
-            z,
-            wheelDiameter,
-            wheelWidth,
-            tireWidth,
-            tireSidewall,
-            position
-          );
-          tireRefs.current.push(tires);
-          sceneRef.current?.add(tires);
-        };
-
-        createAndAddTires(
-          -10 - adjustCar(),
-          2.52,
-          1,
-          "FL",
-          getWheelDiameterFront(),
-          getWheelWidthFront(),
-          getTireWidthFront(),
-          getTireSidewallFront()
-        );
-        createAndAddTires(
-          -2.2 - adjustCar(),
-          2.55,
-          1,
-          "BL",
-          getWheelDiameterRear(),
-          getWheelWidthRear(),
-          getTireWidthRear(),
-          getTireSidewallRear()
-        );
-        createAndAddTires(
-          -2.2 - adjustCar(),
-          -2.55,
-          1,
-          "BR",
-          getWheelDiameterRear(),
-          getWheelWidthRear(),
-          getTireWidthRear(),
-          getTireSidewallRear()
-        );
-        createAndAddTires(
-          -10 - adjustCar(),
-          -2.52,
-          1,
-          "FR",
-          getWheelDiameterFront(),
-          getWheelWidthFront(),
-          getTireWidthFront(),
-          getTireSidewallFront()
-        );
-      });
-    }
-  }, [settings, sceneRef, wheelRefs, tireRefs, carRefs]);
-
   return (
-    <div>
-      <FitmentSettings updateModel={updateModel} />
-      <div
-        id="three-container"
-        style={{ width: "100%", height: "100vh", overflow: "hidden" }}
-      />
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+        width: "100vw",
+        position: "fixed",
+        top: 0,
+        left: 0,
+      }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          position: "relative",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <div
+          id="three-container"
+          style={{
+            width: "100%",
+            height: "100%",
+            overflow: "hidden",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+        <IconButton
+          onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+          sx={{
+            position: "absolute",
+            right: isSettingsOpen ? "350px" : "20px",
+            top: "20px",
+            zIndex: 2,
+            bgcolor: "background.paper",
+            boxShadow: 1,
+            transition: theme.transitions.create(["right"], {
+              duration: theme.transitions.duration.standard,
+              easing: theme.transitions.easing.easeInOut,
+            }),
+            "&:hover": {
+              bgcolor: "background.paper",
+            },
+          }}
+        >
+          {isSettingsOpen ? <CloseIcon /> : <SettingsIcon />}
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          height: "100%",
+          width: "350px",
+          bgcolor: "background.paper",
+          borderLeft: "1px solid",
+          borderColor: "divider",
+          zIndex: 1,
+          transform: isSettingsOpen ? "translateX(0)" : "translateX(100%)",
+          transition: theme.transitions.create(["transform"], {
+            duration: theme.transitions.duration.standard,
+            easing: theme.transitions.easing.easeInOut,
+          }),
+          boxShadow: "-2px 0 8px rgba(0,0,0,0.1)",
+        }}
+      >
+        <FitmentSettings updateModel={updateModel} />
+      </Box>
+    </Box>
   );
 };
 
