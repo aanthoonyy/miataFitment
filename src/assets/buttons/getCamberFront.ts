@@ -1,8 +1,11 @@
-import { getSettings } from "../store/settingsStore";
+import * as THREE from 'three';
 
 function getCamberFront() {
-    const settings = getSettings();
-    return settings.frontCamber;
+    let camber = document.getElementById('frontCamber') as HTMLInputElement;
+
+    let camb = camber?.value ? parseFloat(camber?.value) : 14;
+    
+    return THREE.MathUtils.degToRad(camb);
 }
 
-export { getCamberFront };
+export { getCamberFront };  
