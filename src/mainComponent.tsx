@@ -493,12 +493,14 @@ const MainComponent = () => {
           onClick={() => setIsSettingsOpen(!isSettingsOpen)}
           sx={{
             position: "absolute",
-            right: isSettingsOpen ? "350px" : "20px",
+            right: "20px",
             top: "20px",
             zIndex: 2,
             bgcolor: "background.paper",
             boxShadow: 1,
-            transition: theme.transitions.create(["right"], {
+            opacity: isSettingsOpen ? 0 : 1,
+            visibility: isSettingsOpen ? "hidden" : "visible",
+            transition: theme.transitions.create(["opacity", "visibility"], {
               duration: theme.transitions.duration.standard,
               easing: theme.transitions.easing.easeInOut,
             }),
@@ -507,7 +509,7 @@ const MainComponent = () => {
             },
           }}
         >
-          {isSettingsOpen ? <CloseIcon /> : <SettingsIcon />}
+          <SettingsIcon />
         </IconButton>
       </Box>
       <Box
@@ -529,7 +531,23 @@ const MainComponent = () => {
           boxShadow: "-2px 0 8px rgba(0,0,0,0.1)",
         }}
       >
-        <FitmentSettings updateModel={updateModel} />
+        <Box sx={{ position: "relative" }}>
+          <IconButton
+            onClick={() => setIsSettingsOpen(false)}
+            sx={{
+              position: "absolute",
+              right: "8px",
+              top: "8px",
+              zIndex: 2,
+              "&:hover": {
+                bgcolor: "action.hover",
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <FitmentSettings updateModel={updateModel} />
+        </Box>
       </Box>
     </Box>
   );
