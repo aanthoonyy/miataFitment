@@ -1,5 +1,6 @@
-import rollingDiameter from "./common/rollingDiameter";
 import { Settings } from "./common/settingsStore";
+import rollingDiameter from "./common/rollingDiameter";
+import { calculateWheelPosition, WheelPosition } from "./common/wheelPositionCalculator";
 
 export function makeTires(
     THREE: any,
@@ -9,17 +10,17 @@ export function makeTires(
     wheelDiameter: number,
     wheelWidth: number,
     tireWidth: number,
-    tireSideWall: number,
-    position: string,
+    tireSidewall: number,
+    position: WheelPosition,
     settings: Settings
 ) {
-    const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSideWall);
+    const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSidewall);
     let points = [];
-    let beadleft = new THREE.Vector2( wheelDiameter/2, -1 * (wheelWidth - 0.0)/2);
-    let treadleft = new THREE.Vector2( totalDiameter/2, -1 * tireWidth/2/12/2);
-    let treadright = new THREE.Vector2( totalDiameter/2, tireWidth/2/12/2);
-    let treadmidpoint = new THREE.Vector2( totalDiameter/2, 0);
-    let beadright = new THREE.Vector2( wheelDiameter/2, (wheelWidth - 0.0)/2);
+    let beadleft = new THREE.Vector2(wheelDiameter/2, -1 * (wheelWidth - 0.0)/2);
+    let treadleft = new THREE.Vector2(totalDiameter/2, -1 * tireWidth/2/12/2);
+    let treadright = new THREE.Vector2(totalDiameter/2, tireWidth/2/12/2);
+    let treadmidpoint = new THREE.Vector2(totalDiameter/2, 0);
+    let beadright = new THREE.Vector2(wheelDiameter/2, (wheelWidth - 0.0)/2);
     beadleft = beadleft.divideScalar(12);
     treadleft = treadleft.divideScalar(12);
     treadright = treadright.divideScalar(12);
@@ -34,7 +35,6 @@ export function makeTires(
 
     points.push(beadleft);
 
-    // generate bezier points
     let numpoints = 10;
     for (let i = 0; i < numpoints; i++){
         let t = i / numpoints;
@@ -42,7 +42,6 @@ export function makeTires(
         let y = (1 - t) * (1 - t) * betweenbeadleftandtreadleft.y + 2 * (1 - t) * t * treadleft.y + t * t * betweentreadleftandmidpoint.y;
         points.push(new THREE.Vector2(x, y));
     }
-    // mirror the bezier points
     for (let i = numpoints; i > 0; i--){
         let t = i / numpoints;
         let x = (1 - t) * (1 - t) * betweenbeadrightandtreadright.x + 2 * (1 - t) * t * treadright.x + t * t * betweentreadrightandmidpoint.x;
@@ -57,73 +56,14 @@ export function makeTires(
     tireMaterial.metalness = 0;
     tireMaterial.specularIntensity = 0.1;
     const tire = new THREE.Mesh(tireGeometry, tireMaterial);
+
+    const wheelData = calculateWheelPosition(position, settings);
     
-
-    tire.rotation.x = Math.PI / 2;
-    tire.position.x = x;
-    tire.position.z = y;
-    tire.position.y = z;
-    
-    if (position === "FL"){
-        const camberRad = (Math.min(Math.max(settings.frontCamber, -20), 1) * Math.PI) / 180;
-        const toeRadiusComp = (rollingDiameter(settings.frontWheelDiameter, settings.frontTireWidth, settings.frontTireSidewall) * Math.sin(settings.frontToe)/12);
-        const baseX = -4.45 + settings.frontCaster / 5.74 / 12;
-        const baseZ = 3.04;
-        const offset = -(settings.frontWheelOffset / 25.4);
-        const spacer = settings.frontWheelSpacer / 25.4;
-        const zPos = baseZ + offset + spacer;
-
-        tire.rotation.x = Math.PI / 2 + camberRad;
-        tire.rotation.z = toeRadiusComp;
-        tire.position.x = baseX;
-        tire.position.z = zPos;
-        tire.position.y = settings.rideHeightFront;
-    }
-    if (position === "FR"){
-        const camberRad = (Math.min(Math.max(-settings.frontCamber, -20), 1) * Math.PI) / 180;
-        const toeRadiusComp = (rollingDiameter(settings.frontWheelDiameter, settings.frontTireWidth, settings.frontTireSidewall) * -Math.sin(settings.frontToe)/12);
-        const baseX = -4.45 + settings.frontCaster / 5.74 / 12;
-        const baseZ = -3.04;
-        const offset = settings.frontWheelOffset / 25.4;
-        const spacer = -(settings.frontWheelSpacer / 25.4);
-        const zPos = baseZ + offset + spacer;
-
-        tire.rotation.x = Math.PI / 2 + camberRad;
-        tire.rotation.z = toeRadiusComp;
-        tire.position.x = baseX;
-        tire.position.z = zPos;
-        tire.position.y = settings.rideHeightFront;
-    }
-    if (position === "BL"){
-        const camberRad = (Math.min(Math.max(settings.rearCamber, -20), 1) * Math.PI) / 180;
-        const toeRadiusComp = (rollingDiameter(settings.rearWheelDiameter, settings.rearTireWidth, settings.rearTireSidewall) * Math.sin(settings.rearToe)/12);
-        const baseX = 4.45;
-        const baseZ = 3.08;
-        const offset = -(settings.rearWheelOffset / 25.4);
-        const spacer = settings.rearWheelSpacer / 25.4;
-        const zPos = baseZ + offset + spacer;
-
-        tire.rotation.x = Math.PI / 2 + camberRad;
-        tire.rotation.z = toeRadiusComp;
-        tire.position.x = baseX;
-        tire.position.z = zPos;
-        tire.position.y = settings.rideHeightRear;
-    }
-    if (position === "BR"){
-        const camberRad = (Math.min(Math.max(-settings.rearCamber, -20), 1) * Math.PI) / 180;
-        const toeRadiusComp = (rollingDiameter(settings.rearWheelDiameter, settings.rearTireWidth, settings.rearTireSidewall) * -Math.sin(settings.rearToe)/12);
-        const baseX = 4.45;
-        const baseZ = -3.08;
-        const offset = settings.rearWheelOffset / 25.4;
-        const spacer = -(settings.rearWheelSpacer / 25.4);
-        const zPos = baseZ + offset + spacer;
-
-        tire.rotation.x = Math.PI / 2 + camberRad;
-        tire.rotation.z = toeRadiusComp;
-        tire.position.x = baseX;
-        tire.position.z = zPos;
-        tire.position.y = settings.rideHeightRear;
-    }
+    tire.rotation.x = wheelData.rotation.x;
+    tire.rotation.z = wheelData.rotation.z;
+    tire.position.x = wheelData.position.x;
+    tire.position.y = wheelData.position.y;
+    tire.position.z = wheelData.position.z;
 
     return tire;
 }
