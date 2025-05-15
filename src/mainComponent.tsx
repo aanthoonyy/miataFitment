@@ -146,8 +146,9 @@ const useThreeScene = (settings: Settings) => {
 
   const updateWheelAndTireSizes = useCallback((settings: Settings) => {
     if (sceneRef.current && wheelRefs.current.length > 0) {
-      // Remove old wheels
+      // Remove old wheels and tires
       wheelRefs.current.forEach((wheel) => sceneRef.current?.remove(wheel));
+      tireRefs.current.forEach((tire) => sceneRef.current?.remove(tire));
 
       // Create and add new wheels with updated dimensions
       const wheels = [
@@ -195,27 +196,59 @@ const useThreeScene = (settings: Settings) => {
       wheelRefs.current = wheels;
       wheels.forEach((wheel) => sceneRef.current?.add(wheel));
 
-      // Update tire sizes
-      tireRefs.current[0].scale.set(
-        settings.frontTireWidth / 185,
-        settings.frontTireSidewall / 55,
-        settings.frontTireWidth / 185
-      );
-      tireRefs.current[1].scale.set(
-        settings.rearTireWidth / 185,
-        settings.rearTireSidewall / 55,
-        settings.rearTireWidth / 185
-      );
-      tireRefs.current[2].scale.set(
-        settings.rearTireWidth / 185,
-        settings.rearTireSidewall / 55,
-        settings.rearTireWidth / 185
-      );
-      tireRefs.current[3].scale.set(
-        settings.frontTireWidth / 185,
-        settings.frontTireSidewall / 55,
-        settings.frontTireWidth / 185
-      );
+      // Create and add new tires with updated dimensions
+      const tires = [
+        makeTires(
+          THREE,
+          -4.45,
+          3.04,
+          1,
+          settings.frontWheelDiameter,
+          settings.frontWheelWidth,
+          settings.frontTireWidth,
+          settings.frontTireSidewall,
+          WheelPosition.FRONT_LEFT,
+          settings
+        ),
+        makeTires(
+          THREE,
+          4.45,
+          3.08,
+          1,
+          settings.rearWheelDiameter,
+          settings.rearWheelWidth,
+          settings.rearTireWidth,
+          settings.rearTireSidewall,
+          WheelPosition.REAR_LEFT,
+          settings
+        ),
+        makeTires(
+          THREE,
+          4.45,
+          -3.08,
+          1,
+          settings.rearWheelDiameter,
+          settings.rearWheelWidth,
+          settings.rearTireWidth,
+          settings.rearTireSidewall,
+          WheelPosition.REAR_RIGHT,
+          settings
+        ),
+        makeTires(
+          THREE,
+          -4.45,
+          -3.04,
+          1,
+          settings.frontWheelDiameter,
+          settings.frontWheelWidth,
+          settings.frontTireWidth,
+          settings.frontTireSidewall,
+          WheelPosition.FRONT_RIGHT,
+          settings
+        ),
+      ];
+      tireRefs.current = tires;
+      tires.forEach((tire) => sceneRef.current?.add(tire));
     }
   }, []);
 
