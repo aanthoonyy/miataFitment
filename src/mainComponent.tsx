@@ -70,7 +70,7 @@ const useThreeScene = (settings: Settings) => {
       switch (position) {
         case WheelPosition.FRONT_LEFT:
           camberDeg = settings.frontCamber;
-          offset = settings.frontWheelOffset / 25.4;
+          offset = -(settings.frontWheelOffset / 25.4);
           spacer = settings.frontWheelSpacer / 25.4;
           toe = settings.frontToe;
           baseX = -4.45 + settings.frontCaster / 5.74 / 12;
@@ -81,7 +81,7 @@ const useThreeScene = (settings: Settings) => {
         case WheelPosition.FRONT_RIGHT:
           camberDeg = -settings.frontCamber;
           offset = settings.frontWheelOffset / 25.4;
-          spacer = settings.frontWheelSpacer / 25.4;
+          spacer = -(settings.frontWheelSpacer / 25.4);
           toe = -settings.frontToe;
           baseX = -4.45 + settings.frontCaster / 5.74 / 12;
           baseZ = -3.04;
@@ -90,7 +90,7 @@ const useThreeScene = (settings: Settings) => {
 
         case WheelPosition.REAR_LEFT:
           camberDeg = settings.rearCamber;
-          offset = settings.rearWheelOffset / 25.4;
+          offset = -(settings.rearWheelOffset / 25.4);
           spacer = settings.rearWheelSpacer / 25.4;
           toe = settings.rearToe;
           baseX = 4.45;
@@ -101,7 +101,7 @@ const useThreeScene = (settings: Settings) => {
         case WheelPosition.REAR_RIGHT:
           camberDeg = -settings.rearCamber;
           offset = settings.rearWheelOffset / 25.4;
-          spacer = settings.rearWheelSpacer / 25.4;
+          spacer = -(settings.rearWheelSpacer / 25.4);
           toe = -settings.rearToe;
           baseX = 4.45;
           baseZ = -3.08;
@@ -280,7 +280,8 @@ const useThreeScene = (settings: Settings) => {
           settings.frontWheelWidth,
           settings.frontTireWidth,
           settings.frontTireSidewall,
-          WheelPosition.FRONT_LEFT
+          WheelPosition.FRONT_LEFT,
+          settings
         ),
         makeTires(
           THREE,
@@ -291,7 +292,8 @@ const useThreeScene = (settings: Settings) => {
           settings.rearWheelWidth,
           settings.rearTireWidth,
           settings.rearTireSidewall,
-          WheelPosition.REAR_LEFT
+          WheelPosition.REAR_LEFT,
+          settings
         ),
         makeTires(
           THREE,
@@ -302,7 +304,8 @@ const useThreeScene = (settings: Settings) => {
           settings.rearWheelWidth,
           settings.rearTireWidth,
           settings.rearTireSidewall,
-          WheelPosition.REAR_RIGHT
+          WheelPosition.REAR_RIGHT,
+          settings
         ),
         makeTires(
           THREE,
@@ -313,7 +316,8 @@ const useThreeScene = (settings: Settings) => {
           settings.frontWheelWidth,
           settings.frontTireWidth,
           settings.frontTireSidewall,
-          WheelPosition.FRONT_RIGHT
+          WheelPosition.FRONT_RIGHT,
+          settings
         ),
       ];
       tireRefs.current = tires;

@@ -1,23 +1,18 @@
-import { getCamberFront } from "./buttons/getCamberFront";
-import { getCamberRear } from "./buttons/getCamberRear";
-import { getCaster } from "./buttons/getCaster";
-import { getRideHeightFront } from "./buttons/getRideHeightFront";
-import { getRideHeightRear } from "./buttons/getRideHeightRear";
-import { getTireSidewallFront } from "./buttons/getTireSidewallFront";
-import { getTireSidewallRear } from "./buttons/getTireSidewallRear";
-import { getTireWidthFront } from "./buttons/getTireWidthFront";
-import { getTireWidthRear } from "./buttons/getTireWidthRear";
-import { getToeFront } from "./buttons/getToeFront";
-import { getToeRear } from "./buttons/getToeRear";
-import { getWheelDiameterFront } from "./buttons/getWheelDiameterFront";
-import { getWheelDiameterRear } from "./buttons/getWheelDiameterRear";
-import { getWheelOffsetFront } from "./buttons/getWheelOffsetFront";
-import { getWheelOffsetRear } from "./buttons/getWheelOffsetRear";
-import { getWheelSpacerFront } from "./buttons/getWheelSpacerFront";
-import { getWheelSpacerRear } from "./buttons/getWheelSpacerRear";
 import rollingDiameter from "./common/rollingDiameter";
+import { Settings } from "./common/settingsStore";
 
-export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiameter: number, wheelWidth: number, tireWidth: number, tireSideWall: number, position: string) {
+export function makeTires(
+    THREE: any,
+    x: number,
+    y: number,
+    z: number,
+    wheelDiameter: number,
+    wheelWidth: number,
+    tireWidth: number,
+    tireSideWall: number,
+    position: string,
+    settings: Settings
+) {
     const totalDiameter = rollingDiameter(wheelDiameter, tireWidth, tireSideWall);
     let points = [];
     let beadleft = new THREE.Vector2( wheelDiameter/2, -1 * (wheelWidth - 0.0)/2);
@@ -70,39 +65,64 @@ export function makeTires(THREE: any, x: number, y: number, z: number, wheelDiam
     tire.position.y = z;
     
     if (position === "FL"){
-        tire.rotation.x = Math.PI / 2 + getCamberFront()
-        tire.rotation.z = (rollingDiameter(getWheelDiameterFront(), getTireWidthFront(), getTireSidewallFront()) *  Math.sin(getToeFront())/12)
-        tire.position.x += (getCaster() / 5.74)/12;
-        tire.position.z -= getWheelOffsetFront()/12;
-        tire.position.z -= getWheelSpacerFront()/12;
-        tire.position.y = getRideHeightFront()
+        const camberRad = (Math.min(Math.max(settings.frontCamber, -20), 1) * Math.PI) / 180;
+        const toeRadiusComp = (rollingDiameter(settings.frontWheelDiameter, settings.frontTireWidth, settings.frontTireSidewall) * Math.sin(settings.frontToe)/12);
+        const baseX = -4.45 + settings.frontCaster / 5.74 / 12;
+        const baseZ = 3.04;
+        const offset = -(settings.frontWheelOffset / 25.4);
+        const spacer = settings.frontWheelSpacer / 25.4;
+        const zPos = baseZ + offset + spacer;
 
+        tire.rotation.x = Math.PI / 2 + camberRad;
+        tire.rotation.z = toeRadiusComp;
+        tire.position.x = baseX;
+        tire.position.z = zPos;
+        tire.position.y = settings.rideHeightFront;
     }
     if (position === "FR"){
-        tire.rotation.x = Math.PI / 2 - getCamberFront()
-        tire.rotation.z = (rollingDiameter(getWheelDiameterFront(), getTireWidthRear(), getTireSidewallFront()) *  -Math.sin(getToeFront())/12)
-        tire.position.x += (getCaster() / 5.74)/12;
-        tire.position.z += getWheelOffsetFront()/12;
-        tire.position.z += getWheelSpacerFront()/12;
-        tire.position.y = getRideHeightFront()
+        const camberRad = (Math.min(Math.max(-settings.frontCamber, -20), 1) * Math.PI) / 180;
+        const toeRadiusComp = (rollingDiameter(settings.frontWheelDiameter, settings.frontTireWidth, settings.frontTireSidewall) * -Math.sin(settings.frontToe)/12);
+        const baseX = -4.45 + settings.frontCaster / 5.74 / 12;
+        const baseZ = -3.04;
+        const offset = settings.frontWheelOffset / 25.4;
+        const spacer = -(settings.frontWheelSpacer / 25.4);
+        const zPos = baseZ + offset + spacer;
 
+        tire.rotation.x = Math.PI / 2 + camberRad;
+        tire.rotation.z = toeRadiusComp;
+        tire.position.x = baseX;
+        tire.position.z = zPos;
+        tire.position.y = settings.rideHeightFront;
     }
     if (position === "BL"){
-        tire.rotation.x = Math.PI / 2 + getCamberRear()
-        tire.rotation.z = (rollingDiameter(getWheelDiameterRear(), getTireWidthRear(), getTireSidewallRear()) *  Math.sin(getToeRear())/12)
-        tire.position.z -= getWheelOffsetRear()/12;
-        tire.position.z -= getWheelSpacerRear()/12;
-        tire.position.y = getRideHeightRear()
+        const camberRad = (Math.min(Math.max(settings.rearCamber, -20), 1) * Math.PI) / 180;
+        const toeRadiusComp = (rollingDiameter(settings.rearWheelDiameter, settings.rearTireWidth, settings.rearTireSidewall) * Math.sin(settings.rearToe)/12);
+        const baseX = 4.45;
+        const baseZ = 3.08;
+        const offset = -(settings.rearWheelOffset / 25.4);
+        const spacer = settings.rearWheelSpacer / 25.4;
+        const zPos = baseZ + offset + spacer;
 
-
+        tire.rotation.x = Math.PI / 2 + camberRad;
+        tire.rotation.z = toeRadiusComp;
+        tire.position.x = baseX;
+        tire.position.z = zPos;
+        tire.position.y = settings.rideHeightRear;
     }
     if (position === "BR"){
-        tire.rotation.x = Math.PI / 2 - getCamberRear()
-        tire.rotation.z = (rollingDiameter(getWheelDiameterRear(), getTireWidthFront(), getTireSidewallRear()) *  -Math.sin(getToeRear())/12)
-        tire.position.z += getWheelOffsetRear()/12;
-        tire.position.z += getWheelSpacerRear()/12;
-        tire.position.y = getRideHeightRear()
+        const camberRad = (Math.min(Math.max(-settings.rearCamber, -20), 1) * Math.PI) / 180;
+        const toeRadiusComp = (rollingDiameter(settings.rearWheelDiameter, settings.rearTireWidth, settings.rearTireSidewall) * -Math.sin(settings.rearToe)/12);
+        const baseX = 4.45;
+        const baseZ = -3.08;
+        const offset = settings.rearWheelOffset / 25.4;
+        const spacer = -(settings.rearWheelSpacer / 25.4);
+        const zPos = baseZ + offset + spacer;
 
+        tire.rotation.x = Math.PI / 2 + camberRad;
+        tire.rotation.z = toeRadiusComp;
+        tire.position.x = baseX;
+        tire.position.z = zPos;
+        tire.position.y = settings.rideHeightRear;
     }
 
     return tire;
