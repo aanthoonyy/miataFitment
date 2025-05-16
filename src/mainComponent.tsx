@@ -46,7 +46,6 @@ let WHEEL_POSITIONS = {
   },
 };
 
-// Export the wheel positions so they can be imported by other files
 export { WHEEL_POSITIONS };
 
 enum WheelPosition {
@@ -116,7 +115,7 @@ const useThreeScene = (settings: Settings) => {
           break;
 
         case WheelPosition.FRONT_RIGHT:
-          camberDeg = -settings.frontCamber;
+          camberDeg = settings.frontCamber;
           offset = mmToFeet(settings.frontWheelOffset); // Convert mm to feet
           spacer = -mmToFeet(settings.frontWheelSpacer); // Convert mm to feet
           toe = -settings.frontToe;
@@ -138,7 +137,7 @@ const useThreeScene = (settings: Settings) => {
           break;
 
         case WheelPosition.REAR_RIGHT:
-          camberDeg = -settings.rearCamber;
+          camberDeg = settings.rearCamber;
           offset = mmToFeet(settings.rearWheelOffset); // Convert mm to feet
           spacer = -mmToFeet(settings.rearWheelSpacer); // Convert mm to feet
           toe = -settings.rearToe;

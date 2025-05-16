@@ -35,7 +35,7 @@ export function calculateWheelPosition(position: WheelPosition, settings: Settin
         ? (isLeft ? WHEEL_POSITIONS.FRONT.LEFT : WHEEL_POSITIONS.FRONT.RIGHT)
         : (isLeft ? WHEEL_POSITIONS.REAR.LEFT : WHEEL_POSITIONS.REAR.RIGHT);
 
-    const camberRad = (Math.min(Math.max(isLeft ? camber : -camber, -20), 1) * Math.PI) / 180;
+    const camberRad = (Math.min(Math.max(camber, -20), 1) * Math.PI) / 180;
     const toeRadiusComp = (rollingDiameter(wheelDiameter, tireWidth, tireSidewall) * 
         Math.sin(isLeft ? toe : -toe)) / 12;
 
@@ -49,7 +49,7 @@ export function calculateWheelPosition(position: WheelPosition, settings: Settin
 
     return {
         rotation: {
-            x: Math.PI / 2 + camberRad,
+            x: isLeft ? Math.PI / 2 + camberRad : Math.PI / 2 - camberRad,
             z: toeRadiusComp
         },
         position: {
