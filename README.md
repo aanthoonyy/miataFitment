@@ -1,5 +1,24 @@
 # Miatafitment.com
 
+## Update (May 25, 2025)
+
+This repository is no longer being actively maintained as of March 2025. After winning 5th place in WSU's Business Plan Competition (and winning some money), I've decided to move the project to a private repository as I work towards making this a side business!
+
+The live version of [miatafitment.com](https://miatafitment.com) is now running on a completely different codebase with significant improvements:
+
+- Migrated to NextJS
+- Improved code quality and architecture
+- Removed AWS Amplify in favor of Vercel hosting
+- Enhanced UI/UX
+- Better ThreeJS implementation
+- Codebase refactor
+- Numerous Bug Fixes
+- And many more improvements!
+
+While this repository contains some cool code, a lot of it isn't stuff I'd write today... I've kept it public as a reference, but please don't judge the project based on this codebase's quality haha
+
+Thanks for checking out the repository regardless!
+
 ## About the Project
 
 ![alt text](/public/websiteExample1.png)
