@@ -14,6 +14,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSetting } from "@/hooks/useSetting";
 import { useFitmentStore, type CarModel } from "@/stores";
 import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
+import {
+  BODY_SLOTS,
+  bodyPartsFor,
+  resolveBodyPart,
+  type BodySlot,
+} from "@/constants/bodyParts";
 import { STRINGS } from "@/i18n/strings";
 
 const SPRING_PRESETS = [
@@ -38,18 +44,11 @@ const CAR_COLORS = [
   { value: "silver", label: STRINGS.car.colors.silver },
 ] as const;
 
-const CAR_KITS = [
-  { value: "stock", label: STRINGS.car.kitOptions.stock },
-  { value: "lip", label: STRINGS.car.kitOptions.lip },
-  { value: "aero", label: STRINGS.car.kitOptions.aero },
-  { value: "widebody", label: STRINGS.car.kitOptions.widebody },
-] as const;
-
 // Shown when a persisted rate is missing or corrupt, so the slider still has a
 // preset to sit on.
 const FALLBACK_SPRING_RATE_LB_IN = 2500;
 
-// Colour and kit pickers are built but have nothing behind them yet.
+// The colour picker is built but has nothing behind it yet.
 const CUSTOMISATION_DISABLED = true;
 
 function closestPresetIndex(springRateLbIn: number) {
@@ -102,6 +101,39 @@ const ComingSoonSelect = ({
     </Select>
   </div>
 );
+
+// One slot of bodywork. Which slot is the parent's to say; everything about
+// what is in it comes from the store.
+const BodyPartSelect = ({ slot }: { slot: BodySlot }) => {
+  const model = useFitmentStore((state) => state.model);
+  const selected = useFitmentStore((state) => state.bodyParts[slot]);
+  const setBodyPart = useFitmentStore((state) => state.setBodyPart);
+
+  const parts = bodyPartsFor(model, slot);
+
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-xs text-muted-foreground">
+        {STRINGS.car.bodySlots[slot]}
+      </Label>
+      <Select
+        value={resolveBodyPart(model, slot, selected)}
+        onValueChange={(value) => setBodyPart(slot, value)}
+      >
+        <SelectTrigger className="h-9">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="max-h-72 bg-white text-black border shadow-md">
+          {parts.map((part) => (
+            <SelectItem key={part.value} value={part.value}>
+              {part.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};
 
 const CarSelectionSettings = () => {
   const model = useFitmentStore((state) => state.model);
@@ -223,7 +255,6 @@ const CarSelectionSettings = () => {
       <SettingsCard title={STRINGS.car.customizationTitle}>
         <div className="space-y-4">
           <ComingSoonSelect label={STRINGS.car.color} options={CAR_COLORS} />
-          <ComingSoonSelect label={STRINGS.car.kits} options={CAR_KITS} />
 
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">
@@ -247,6 +278,10 @@ const CarSelectionSettings = () => {
               </SelectContent>
             </Select>
           </div>
+
+          {BODY_SLOTS.map((slot) => (
+            <BodyPartSelect key={slot} slot={slot} />
+          ))}
 
           <p className="text-xs text-muted-foreground">
             {STRINGS.car.customizationBlurb}

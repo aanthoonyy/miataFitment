@@ -107,7 +107,6 @@ export const STRINGS = {
 
     customizationTitle: "Car Customization",
     color: "Color",
-    kits: "Kits",
     wheelDesign: "Wheel Design",
     wheelDesignPlaceholder: "Select a wheel design",
     comingSoon: "Coming soon",
@@ -117,14 +116,18 @@ export const STRINGS = {
       black: "Black",
       silver: "Silver",
     },
-    kitOptions: {
-      stock: "Stock",
-      lip: "Front Lip",
-      aero: "Aero Kit",
-      widebody: "Widebody",
+    bodySlots: {
+      bumperFront: "Front Bumper",
+      bumperRear: "Rear Bumper",
+      fendersFront: "Front Fenders",
+      fendersRear: "Rear Fenders",
+      skirts: "Side Skirts",
+      hood: "Hood",
+      wing: "Wing",
+      mirrors: "Mirrors",
     },
     customizationBlurb:
-      "Wheel design only changes how the wheel is drawn — sizing and fitment are unaffected. Color and kits are coming soon.",
+      "Wheel design and body parts only change how the car is drawn — sizing and fitment are unaffected. Color is coming soon.",
 
     loginToChangeSelection: "change car selection",
     loginToChangeSuspension: "change suspension settings",
