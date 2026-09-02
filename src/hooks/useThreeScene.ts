@@ -2,7 +2,14 @@ import * as THREE from "three";
 import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { useCallback, useEffect, useRef } from "react";
 
-import { makeCar } from "@/assets/carMaker";
+import {
+  addBody,
+  buildBody,
+  dropBody,
+  removeBody,
+  syncBodyParts,
+  type CarBody,
+} from "@/assets/body";
 import { makeCamera } from "@/assets/cameraMaker";
 import { render } from "@/assets/renderer";
 import { setUpLighting } from "@/assets/lighting";
@@ -23,18 +30,15 @@ import {
   stepBounce,
 } from "@/utils/bounceSimulation";
 import { bounceCornerRotation } from "@/utils/bounceFrame";
-import { inchesToFeet } from "@/utils/unitConversions";
 
 const SCENE_BACKGROUND_COLOR = "#d3d3d3";
 const CAMERA_DISTANCE_FT = 25;
-const CAR_BODY_Y_FT = -1.4;
 const SCENE_CONTAINER_ID = "three-container";
 
 export const useThreeScene = () => {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
-  const carRef = useRef<THREE.Object3D | null>(null);
-  const carLoadIdRef = useRef(0);
+  const bodyRef = useRef<CarBody | null>(null);
   const cornersRef = useRef<Corners>(noCorners());
   const bounceStateRef = useRef<BounceState | null>(null);
   const bounceClockRef = useRef(0);
@@ -42,37 +46,37 @@ export const useThreeScene = () => {
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
   const wheelDesign = useFitmentStore((s) => s.wheelDesign);
+  const bodyParts = useFitmentStore((s) => s.bodyParts);
   const bounceRequested = useUIStore((s) => s.bounceRequested);
 
   // Every callback below reads what it needs off the store rather than closing
   // over it, so all of them keep a stable identity and no effect has to silence
   // the exhaustive-deps rule to avoid being rebuilt each render.
 
-  const loadCar = useCallback(async () => {
-    if (!sceneRef.current) return;
+  // Each model inside the body downloads on its own and attaches when it
+  // lands, so this returns with an empty car that fills in over the next few
+  // frames.
+  const rebuildBody = useCallback(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
 
-    const { model: currentModel } = useFitmentStore.getState();
-    const loadId = ++carLoadIdRef.current;
+    const { model: currentModel, bodyParts: parts } =
+      useFitmentStore.getState();
 
-    if (carRef.current) {
-      sceneRef.current.remove(carRef.current);
-      carRef.current = null;
-    }
+    if (bodyRef.current) removeBody(scene, bodyRef.current);
+    bodyRef.current = buildBody(currentModel, parts);
+    addBody(scene, bodyRef.current);
+  }, []);
 
-    let car: THREE.Object3D;
-    try {
-      car = await makeCar(CAR_BODY_Y_FT, currentModel);
-    } catch (error) {
-      console.error("Failed to load car model", { model: currentModel }, error);
-      return;
-    }
+  // Reloads only the slots that changed, so swapping a bumper does not take the
+  // rest of the car down with it.
+  const syncBody = useCallback(() => {
+    const body = bodyRef.current;
+    if (!body) return;
 
-    // A newer request started while this one was in flight, so its car is the
-    // one that belongs on screen.
-    if (loadId !== carLoadIdRef.current || !sceneRef.current) return;
-
-    carRef.current = car;
-    sceneRef.current.add(car);
+    const { model: currentModel, bodyParts: parts } =
+      useFitmentStore.getState();
+    syncBodyParts(body, currentModel, parts);
   }, []);
 
   const rebuildCorners = useCallback(() => {
@@ -90,9 +94,7 @@ export const useThreeScene = () => {
   const applyBounceFrame = useCallback((bodyDropIn: number) => {
     const { settings: current } = useFitmentStore.getState();
 
-    if (carRef.current) {
-      carRef.current.position.y = -inchesToFeet(bodyDropIn);
-    }
+    if (bodyRef.current) dropBody(bodyRef.current, bodyDropIn);
 
     CORNERS.forEach((corner, index) => {
       const { xRad, zRad } = bounceCornerRotation(corner, current, bodyDropIn);
@@ -107,7 +109,7 @@ export const useThreeScene = () => {
 
   const settleBounce = useCallback(() => {
     bounceStateRef.current = null;
-    if (carRef.current) carRef.current.position.y = 0;
+    if (bodyRef.current) dropBody(bodyRef.current, 0);
 
     const { settings: current, model: currentModel } =
       useFitmentStore.getState();
@@ -143,8 +145,12 @@ export const useThreeScene = () => {
   }, [bounceRequested]);
 
   useEffect(() => {
-    loadCar();
-  }, [model, loadCar]);
+    rebuildBody();
+  }, [model, rebuildBody]);
+
+  useEffect(() => {
+    syncBody();
+  }, [bodyParts, syncBody]);
 
   useEffect(() => {
     rebuildCorners();
@@ -161,7 +167,7 @@ export const useThreeScene = () => {
     controlsRef.current = controls;
 
     const disposeLighting = setUpLighting(scene, renderer);
-    loadCar();
+    rebuildBody();
     rebuildCorners();
 
     let frameId = 0;
@@ -184,10 +190,12 @@ export const useThreeScene = () => {
       cancelAnimationFrame(frameId);
       controlsRef.current?.dispose?.();
       disposeLighting();
+      if (bodyRef.current) removeBody(scene, bodyRef.current);
+      bodyRef.current = null;
       removeCorners(scene, cornersRef.current);
       cornersRef.current = noCorners();
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [loadCar, rebuildCorners, stepBounceFrame]);
+  }, [rebuildBody, rebuildCorners, stepBounceFrame]);
 };

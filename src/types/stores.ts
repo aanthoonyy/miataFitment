@@ -2,6 +2,7 @@ import type { Settings } from "./settings";
 import type { SavedConfig, SavedConfigPayload } from "./garage";
 import type { CarModel } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
+import type { BodyParts, BodySlot } from "@/constants/bodyParts";
 
 // The model plus settings pair that gets saved, shared and restored.
 export interface FitmentConfig {
@@ -16,6 +17,9 @@ export interface FitmentStore {
     // Purely how the wheel is drawn, so it stays out of Settings and out of
     // saved/shared configs.
     wheelDesign: WheelDesign;
+    // Which part sits in each body slot. Purely how the car is drawn, so like
+    // wheelDesign it stays out of Settings and out of saved/shared configs.
+    bodyParts: BodyParts;
 
     // Whether the rear axle tracks the front. Lives here rather than with the
     // UI state because it decides what the settings themselves are, and the
@@ -26,6 +30,7 @@ export interface FitmentStore {
     // Actions
     setModel: (model: CarModel) => void;
     setWheelDesign: (design: WheelDesign) => void;
+    setBodyPart: (slot: BodySlot, value: string) => void;
     updateSettings: (patch: Partial<Settings>) => void;
     resetSettings: () => void;
     loadConfig: (config: FitmentConfig) => void;

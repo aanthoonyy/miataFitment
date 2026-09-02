@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
+import { DEFAULT_BODY_PARTS } from "@/constants/bodyParts";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
 import type { FitmentStore } from "@/types/stores";
 import type { Settings } from "@/types/settings";
@@ -54,12 +55,16 @@ export const useFitmentStore = create<FitmentStore>()(
       model: "na",
       settings: DEFAULT_SETTINGS,
       wheelDesign: DEFAULT_WHEEL_DESIGN,
+      bodyParts: DEFAULT_BODY_PARTS,
       matchWheels: false,
       matchTires: false,
 
       setModel: (model) => set({ model }),
 
       setWheelDesign: (design) => set({ wheelDesign: design }),
+
+      setBodyPart: (slot, value) =>
+        set((state) => ({ bodyParts: { ...state.bodyParts, [slot]: value } })),
 
       updateSettings: (patch) =>
         set((state) => ({
@@ -118,6 +123,10 @@ export const useFitmentStore = create<FitmentStore>()(
         return {
           ...currentState,
           ...typedState,
+          // A slot added after this browser last saved is absent from the
+          // persisted record, and an undefined selection would load nothing at
+          // all rather than the stock part.
+          bodyParts: { ...DEFAULT_BODY_PARTS, ...typedState.bodyParts },
           settings: {
             ...DEFAULT_SETTINGS,
             ...(persisted as unknown as Partial<Settings>),
