@@ -22,6 +22,12 @@ const CHASSIS_X_FT = 5;
 const CHASSIS_Y_FT = -1.4;
 const CHASSIS_ROTATION_Y_RAD = Math.PI / 2;
 
+// Which materials the colour picker drives. Every model names its painted
+// panels with this prefix, so glass, lenses, trim and brakes keep the finish
+// they were authored with and no part needs a list of its own. A part exported
+// with a differently named material simply will not take the body colour.
+const PAINT_MATERIAL_PREFIX = "Miata_Paint_";
+
 // The shell loads through the same path as a part, so it needs a slot name of
 // its own to be tracked alongside them.
 const SHELL = "shell";
@@ -43,6 +49,10 @@ export interface CarBody {
     // A slot can be swapped again while its file is still downloading, so each
     // carries a request id and discards anything that arrives stale.
     requestIds: Record<LoadSlot, number>;
+
+    // Held so a model that lands later is painted on arrival rather than
+    // popping in red and being corrected a frame afterwards.
+    paintHex: string;
 }
 
 const noneLoaded = () =>
@@ -79,6 +89,19 @@ function disposeBodyModel(object: THREE.Object3D) {
     for (const material of materials) disposeMaterial(material);
 }
 
+// Materials are parsed fresh for each body model and shared with nothing else,
+// so this recolours in place rather than replacing them.
+function paintModel(object: THREE.Object3D, paintHex: string) {
+    object.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        for (const material of ([] as THREE.Material[]).concat(mesh.material)) {
+            if (!material.name.startsWith(PAINT_MATERIAL_PREFIX)) continue;
+            (material as THREE.MeshStandardMaterial).color.set(paintHex);
+        }
+    });
+}
+
 function unload(body: CarBody, slot: LoadSlot) {
     const loaded = body.loaded[slot];
     if (!loaded) return;
@@ -102,6 +125,7 @@ function load(body: CarBody, slot: LoadSlot, path: string | null) {
                 disposeBodyModel(gltf.scene);
                 return;
             }
+            paintModel(gltf.scene, body.paintHex);
             body.loaded[slot] = gltf.scene;
             body.chassis.add(gltf.scene);
         },
@@ -128,7 +152,18 @@ export function syncBodyParts(
     }
 }
 
-export function buildBody(model: CarModel, bodyParts: BodyParts): CarBody {
+export function paintBody(body: CarBody, paintHex: string) {
+    body.paintHex = paintHex;
+    for (const loaded of Object.values(body.loaded)) {
+        if (loaded) paintModel(loaded, paintHex);
+    }
+}
+
+export function buildBody(
+    model: CarModel,
+    bodyParts: BodyParts,
+    paintHex: string,
+): CarBody {
     const root = new THREE.Group();
 
     const chassis = new THREE.Group();
@@ -145,6 +180,7 @@ export function buildBody(model: CarModel, bodyParts: BodyParts): CarBody {
         loaded: noneLoaded(),
         showing: noneShowing(),
         requestIds: noRequests(),
+        paintHex,
     };
     load(body, SHELL, shellModelPath(model));
     syncBodyParts(body, model, bodyParts);

@@ -21,6 +21,7 @@ import {
   type BodySlot,
 } from "@/constants/bodyParts";
 import { STRINGS } from "@/i18n/strings";
+import CarColorPicker from "./CarColorPicker";
 
 const SPRING_PRESETS = [
   { label: STRINGS.car.springPresets.floaty, value: 100 },
@@ -37,19 +38,9 @@ const GENERATIONS: readonly { value: CarModel; selectable: boolean }[] = [
   { value: "nd", selectable: true },
 ];
 
-const CAR_COLORS = [
-  { value: "red", label: STRINGS.car.colors.red },
-  { value: "white", label: STRINGS.car.colors.white },
-  { value: "black", label: STRINGS.car.colors.black },
-  { value: "silver", label: STRINGS.car.colors.silver },
-] as const;
-
 // Shown when a persisted rate is missing or corrupt, so the slider still has a
 // preset to sit on.
 const FALLBACK_SPRING_RATE_LB_IN = 2500;
-
-// The colour picker is built but has nothing behind it yet.
-const CUSTOMISATION_DISABLED = true;
 
 function closestPresetIndex(springRateLbIn: number) {
   let bestIndex = 0;
@@ -75,31 +66,6 @@ const LoginPrompt = ({ action }: { action: string }) => (
     </RouterLink>
     {STRINGS.car.loginPrompt.split("{link}")[1].replace("{action}", action)}
   </p>
-);
-
-// A picker with nothing wired up behind it yet, kept so the layout is real.
-const ComingSoonSelect = ({
-  label,
-  options,
-}: {
-  label: string;
-  options: readonly { value: string; label: string }[];
-}) => (
-  <div className="space-y-1.5">
-    <Label className="text-xs text-muted-foreground">{label}</Label>
-    <Select disabled={CUSTOMISATION_DISABLED} value="">
-      <SelectTrigger className="h-9">
-        <SelectValue placeholder={STRINGS.car.comingSoon} />
-      </SelectTrigger>
-      <SelectContent className="bg-white text-black border shadow-md">
-        {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  </div>
 );
 
 // One slot of bodywork. Which slot is the parent's to say; everything about
@@ -254,7 +220,7 @@ const CarSelectionSettings = () => {
 
       <SettingsCard title={STRINGS.car.customizationTitle}>
         <div className="space-y-4">
-          <ComingSoonSelect label={STRINGS.car.color} options={CAR_COLORS} />
+          <CarColorPicker />
 
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground">

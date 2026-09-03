@@ -20,6 +20,9 @@ export interface FitmentStore {
     // Which part sits in each body slot. Purely how the car is drawn, so like
     // wheelDesign it stays out of Settings and out of saved/shared configs.
     bodyParts: BodyParts;
+    // A free-form hex, so it is whatever the colour wheel last landed on rather
+    // than a name from a list.
+    carColor: string;
 
     // Whether the rear axle tracks the front. Lives here rather than with the
     // UI state because it decides what the settings themselves are, and the
@@ -31,6 +34,7 @@ export interface FitmentStore {
     setModel: (model: CarModel) => void;
     setWheelDesign: (design: WheelDesign) => void;
     setBodyPart: (slot: BodySlot, value: string) => void;
+    setCarColor: (hex: string) => void;
     updateSettings: (patch: Partial<Settings>) => void;
     resetSettings: () => void;
     loadConfig: (config: FitmentConfig) => void;

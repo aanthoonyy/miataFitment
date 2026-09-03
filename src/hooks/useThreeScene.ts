@@ -6,6 +6,7 @@ import {
   addBody,
   buildBody,
   dropBody,
+  paintBody,
   removeBody,
   syncBodyParts,
   type CarBody,
@@ -47,6 +48,7 @@ export const useThreeScene = () => {
   const settings = useFitmentStore((s) => s.settings);
   const wheelDesign = useFitmentStore((s) => s.wheelDesign);
   const bodyParts = useFitmentStore((s) => s.bodyParts);
+  const carColor = useFitmentStore((s) => s.carColor);
   const bounceRequested = useUIStore((s) => s.bounceRequested);
 
   // Every callback below reads what it needs off the store rather than closing
@@ -60,11 +62,11 @@ export const useThreeScene = () => {
     const scene = sceneRef.current;
     if (!scene) return;
 
-    const { model: currentModel, bodyParts: parts } =
+    const { model: currentModel, bodyParts: parts, carColor: paint } =
       useFitmentStore.getState();
 
     if (bodyRef.current) removeBody(scene, bodyRef.current);
-    bodyRef.current = buildBody(currentModel, parts);
+    bodyRef.current = buildBody(currentModel, parts, paint);
     addBody(scene, bodyRef.current);
   }, []);
 
@@ -77,6 +79,13 @@ export const useThreeScene = () => {
     const { model: currentModel, bodyParts: parts } =
       useFitmentStore.getState();
     syncBodyParts(body, currentModel, parts);
+  }, []);
+
+  const repaintBody = useCallback(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+
+    paintBody(body, useFitmentStore.getState().carColor);
   }, []);
 
   const rebuildCorners = useCallback(() => {
@@ -151,6 +160,10 @@ export const useThreeScene = () => {
   useEffect(() => {
     syncBody();
   }, [bodyParts, syncBody]);
+
+  useEffect(() => {
+    repaintBody();
+  }, [carColor, repaintBody]);
 
   useEffect(() => {
     rebuildCorners();

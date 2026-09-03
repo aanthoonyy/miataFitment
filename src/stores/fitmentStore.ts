@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
 import { DEFAULT_BODY_PARTS } from "@/constants/bodyParts";
+import { DEFAULT_CAR_COLOR } from "@/constants/carColors";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
 import type { FitmentStore } from "@/types/stores";
 import type { Settings } from "@/types/settings";
@@ -56,6 +57,7 @@ export const useFitmentStore = create<FitmentStore>()(
       settings: DEFAULT_SETTINGS,
       wheelDesign: DEFAULT_WHEEL_DESIGN,
       bodyParts: DEFAULT_BODY_PARTS,
+      carColor: DEFAULT_CAR_COLOR,
       matchWheels: false,
       matchTires: false,
 
@@ -65,6 +67,8 @@ export const useFitmentStore = create<FitmentStore>()(
 
       setBodyPart: (slot, value) =>
         set((state) => ({ bodyParts: { ...state.bodyParts, [slot]: value } })),
+
+      setCarColor: (hex) => set({ carColor: hex }),
 
       updateSettings: (patch) =>
         set((state) => ({

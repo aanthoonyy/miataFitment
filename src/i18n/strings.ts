@@ -106,15 +106,18 @@ export const STRINGS = {
     springRateWipRest: " this is very WIP and very simplified",
 
     customizationTitle: "Car Customization",
-    color: "Color",
+    color: "Paint Color",
+    colorBrightness: "Brightness",
     wheelDesign: "Wheel Design",
     wheelDesignPlaceholder: "Select a wheel design",
-    comingSoon: "Coming soon",
     colors: {
-      red: "Classic Red",
-      white: "White",
-      black: "Black",
-      silver: "Silver",
+      classicRed: "Classic Red",
+      marinerBlue: "Mariner Blue",
+      britishRacingGreen: "British Racing Green",
+      sunburstYellow: "Sunburst Yellow",
+      crystalWhite: "Crystal White",
+      brilliantBlack: "Brilliant Black",
+      silverStone: "Silver Stone",
     },
     bodySlots: {
       bumperFront: "Front Bumper",
@@ -127,7 +130,7 @@ export const STRINGS = {
       mirrors: "Mirrors",
     },
     customizationBlurb:
-      "Wheel design and body parts only change how the car is drawn — sizing and fitment are unaffected. Color is coming soon.",
+      "Paint, wheel design and body parts only change how the car is drawn — sizing and fitment are unaffected.",
 
     loginToChangeSelection: "change car selection",
     loginToChangeSuspension: "change suspension settings",
