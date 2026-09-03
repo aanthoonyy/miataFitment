@@ -46,19 +46,34 @@ interface BodyPart {
 
 export const STOCK_BODY_PART = "stock";
 
-// The stock car is still one body mesh per generation, so every slot's stock
-// part is already inside the shell and has nothing of its own to load. Until
-// the stock panels are split out, a part is drawn over the stock one rather
-// than in place of it.
-const stockPart = (): BodyPart => ({
+// Generations whose stock panels have been cut out of the shell into their own
+// models, and those still carrying them inside it. The NC has no model of its
+// own and borrows the NA shell, so it borrows the NA panels with it.
+const SPLIT_SHELL: readonly CarModel[] = ["na", "nc"];
+const WHOLE_SHELL: readonly CarModel[] = ["nb", "nd"];
+
+// A slot whose stock panel is still part of the shell has nothing of its own to
+// load, so picking stock draws nothing and the shell supplies the panel.
+const stockPart = (fits?: readonly CarModel[]): BodyPart => ({
   value: STOCK_BODY_PART,
   label: "Stock",
   model: null,
+  fits,
+});
+
+// A slot whose stock panel has been cut out of the NA shell. Shell plus this is
+// the original body exactly, so picking stock restores the car it came from.
+const naStockPart = (slot: string): BodyPart => ({
+  value: STOCK_BODY_PART,
+  label: "Stock",
+  model: `/body/na/${slot}/stock.glb`,
+  fits: SPLIT_SHELL,
 });
 
 const BODY_PARTS: Record<BodySlot, readonly BodyPart[]> = {
   bumperFront: [
-    stockPart(),
+    naStockPart("bumper-front"),
+    stockPart(WHOLE_SHELL),
     {
       value: "bn",
       label: "BN Style",
@@ -67,7 +82,8 @@ const BODY_PARTS: Record<BodySlot, readonly BodyPart[]> = {
     },
   ],
   bumperRear: [
-    stockPart(),
+    naStockPart("bumper-rear"),
+    stockPart(WHOLE_SHELL),
     {
       value: "bn",
       label: "BN Style",
@@ -79,7 +95,8 @@ const BODY_PARTS: Record<BodySlot, readonly BodyPart[]> = {
   flaresFront: [stockPart()],
   flaresRear: [stockPart()],
   skirts: [
-    stockPart(),
+    naStockPart("skirts"),
+    stockPart(WHOLE_SHELL),
     {
       value: "bn",
       label: "BN Style",
