@@ -2,27 +2,31 @@
 // shell holds everything that never swaps (cabin, roof, doors, glass, lights)
 // and each slot below holds one piece that does.
 //
-// To add a part: export the .glb from the car's origin with nothing centred or
-// re-zeroed, drop it in public/, and add a line to the slot's list. Nothing
-// else. A part that shares the car's origin needs no placement code at all --
-// it is added straight to the chassis group, which carries the one transform
-// the whole car shares.
+// To add a part: fit it against Miata_Body in the kit .blend, name it
+// Miata_Aero_*, list it in scripts/export-na-body-parts.py, run that script,
+// and add a line to the slot's list here. The export carries the object's
+// transform, so a fitted part needs no placement code at all -- it is added
+// straight to the chassis group, which carries the one transform the whole car
+// shares.
 //
 // Labels are shown as-is in the picker; rename them freely, but leave `value`
 // alone once shipped, since it is what gets persisted in the user's browser.
 
 import type { CarModel } from "@/constants/wheelPositions";
 
-// Every slot, in the order the picker lists them.
+// Every slot, in the order the picker lists them. A slot with nothing but its
+// stock part is not shown, so listing one before its parts exist costs nothing.
 export const BODY_SLOTS = [
   "bumperFront",
   "bumperRear",
   "fendersFront",
-  "fendersRear",
+  "flaresFront",
+  "flaresRear",
   "skirts",
-  "hood",
+  "roof",
   "wing",
-  "mirrors",
+  "headlights",
+  "rack",
 ] as const;
 
 export type BodySlot = (typeof BODY_SLOTS)[number];
@@ -43,34 +47,50 @@ interface BodyPart {
 export const STOCK_BODY_PART = "stock";
 
 // The stock car is still one body mesh per generation, so every slot's stock
-// part is already inside the shell and has nothing of its own to load. When a
-// generation's stock panels get exported separately, this becomes a real path
-// per slot and the shell loses them.
+// part is already inside the shell and has nothing of its own to load. Until
+// the stock panels are split out, a part is drawn over the stock one rather
+// than in place of it.
 const stockPart = (): BodyPart => ({
   value: STOCK_BODY_PART,
   label: "Stock",
   model: null,
 });
 
-// Scaffolding, so a slot's load, attach and teardown path is exercisable before
-// any real part exists. It is the whole NA body, so it lands exactly on top of
-// the shell -- which is the point: a part needing no placement code is what the
-// shared-origin export rule buys. Replace these with real parts as they land.
-const placeholderPart = (): BodyPart => ({
-  value: "placeholder",
-  label: "Placeholder (na_render)",
-  model: "/na_render.glb",
-});
-
 const BODY_PARTS: Record<BodySlot, readonly BodyPart[]> = {
-  bumperFront: [stockPart(), placeholderPart()],
-  bumperRear: [stockPart(), placeholderPart()],
-  fendersFront: [stockPart(), placeholderPart()],
-  fendersRear: [stockPart(), placeholderPart()],
-  skirts: [stockPart(), placeholderPart()],
-  hood: [stockPart(), placeholderPart()],
-  wing: [stockPart(), placeholderPart()],
-  mirrors: [stockPart(), placeholderPart()],
+  bumperFront: [
+    stockPart(),
+    {
+      value: "bn",
+      label: "BN Style",
+      model: "/body/na/bumper-front/bn.glb",
+      fits: ["na"],
+    },
+  ],
+  bumperRear: [
+    stockPart(),
+    {
+      value: "bn",
+      label: "BN Style",
+      model: "/body/na/bumper-rear/bn.glb",
+      fits: ["na"],
+    },
+  ],
+  fendersFront: [stockPart()],
+  flaresFront: [stockPart()],
+  flaresRear: [stockPart()],
+  skirts: [
+    stockPart(),
+    {
+      value: "bn",
+      label: "BN Style",
+      model: "/body/na/skirts/bn.glb",
+      fits: ["na"],
+    },
+  ],
+  roof: [stockPart()],
+  wing: [stockPart()],
+  headlights: [stockPart()],
+  rack: [stockPart()],
 };
 
 // Everything that never swaps, for one generation.
@@ -100,6 +120,12 @@ export function bodyPartsFor(
   return BODY_PARTS[slot].filter(
     (part) => !part.fits || part.fits.includes(model),
   );
+}
+
+// Slots worth showing: one holding nothing but the stock part is a dropdown
+// with a single entry and no decision in it.
+export function slotsWithChoices(model: CarModel): readonly BodySlot[] {
+  return BODY_SLOTS.filter((slot) => bodyPartsFor(model, slot).length > 1);
 }
 
 // A selection made on one generation can name a part the next one does not

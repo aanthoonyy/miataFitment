@@ -15,9 +15,9 @@ import { useSetting } from "@/hooks/useSetting";
 import { useFitmentStore, type CarModel } from "@/stores";
 import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
 import {
-  BODY_SLOTS,
   bodyPartsFor,
   resolveBodyPart,
+  slotsWithChoices,
   type BodySlot,
 } from "@/constants/bodyParts";
 import { STRINGS } from "@/i18n/strings";
@@ -245,7 +245,7 @@ const CarSelectionSettings = () => {
             </Select>
           </div>
 
-          {BODY_SLOTS.map((slot) => (
+          {slotsWithChoices(model).map((slot) => (
             <BodyPartSelect key={slot} slot={slot} />
           ))}
 
