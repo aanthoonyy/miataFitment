@@ -23,6 +23,7 @@ export interface FitmentStore {
     // A free-form hex, so it is whatever the colour wheel last landed on rather
     // than a name from a list.
     carColor: string;
+    carMetallic: boolean;
 
     // Whether the rear axle tracks the front. Lives here rather than with the
     // UI state because it decides what the settings themselves are, and the
@@ -35,6 +36,7 @@ export interface FitmentStore {
     setWheelDesign: (design: WheelDesign) => void;
     setBodyPart: (slot: BodySlot, value: string) => void;
     setCarColor: (hex: string) => void;
+    setCarMetallic: (metallic: boolean) => void;
     updateSettings: (patch: Partial<Settings>) => void;
     resetSettings: () => void;
     loadConfig: (config: FitmentConfig) => void;

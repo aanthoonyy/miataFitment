@@ -22,6 +22,7 @@ import {
   removeCorners,
   type Corners,
 } from "@/assets/corners";
+import type { CarPaint } from "@/constants/carColors";
 import { CORNERS } from "@/constants/wheelPositions";
 import { useFitmentStore, useUIStore } from "@/stores";
 import type { BounceState } from "@/types/bounce";
@@ -31,6 +32,13 @@ import {
   stepBounce,
 } from "@/utils/bounceSimulation";
 import { bounceCornerRotation } from "@/utils/bounceFrame";
+
+// The two paint settings live flat in the store; the renderer takes them as
+// one slice, and this is the only place they are put back together.
+const currentPaint = (): CarPaint => {
+  const { carColor, carMetallic } = useFitmentStore.getState();
+  return { hex: carColor, metallic: carMetallic };
+};
 
 const SCENE_BACKGROUND_COLOR = "#d3d3d3";
 const CAMERA_DISTANCE_FT = 25;
@@ -49,6 +57,7 @@ export const useThreeScene = () => {
   const wheelDesign = useFitmentStore((s) => s.wheelDesign);
   const bodyParts = useFitmentStore((s) => s.bodyParts);
   const carColor = useFitmentStore((s) => s.carColor);
+  const carMetallic = useFitmentStore((s) => s.carMetallic);
   const bounceRequested = useUIStore((s) => s.bounceRequested);
 
   // Every callback below reads what it needs off the store rather than closing
@@ -62,11 +71,11 @@ export const useThreeScene = () => {
     const scene = sceneRef.current;
     if (!scene) return;
 
-    const { model: currentModel, bodyParts: parts, carColor: paint } =
+    const { model: currentModel, bodyParts: parts } =
       useFitmentStore.getState();
 
     if (bodyRef.current) removeBody(scene, bodyRef.current);
-    bodyRef.current = buildBody(currentModel, parts, paint);
+    bodyRef.current = buildBody(currentModel, parts, currentPaint());
     addBody(scene, bodyRef.current);
   }, []);
 
@@ -85,7 +94,7 @@ export const useThreeScene = () => {
     const body = bodyRef.current;
     if (!body) return;
 
-    paintBody(body, useFitmentStore.getState().carColor);
+    paintBody(body, currentPaint());
   }, []);
 
   const rebuildCorners = useCallback(() => {
@@ -163,7 +172,7 @@ export const useThreeScene = () => {
 
   useEffect(() => {
     repaintBody();
-  }, [carColor, repaintBody]);
+  }, [carColor, carMetallic, repaintBody]);
 
   useEffect(() => {
     rebuildCorners();

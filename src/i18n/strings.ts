@@ -108,6 +108,7 @@ export const STRINGS = {
     customizationTitle: "Car Customization",
     color: "Paint Color",
     colorBrightness: "Brightness",
+    colorMetallic: "Metallic flake",
     wheelDesign: "Wheel Design",
     wheelDesignPlaceholder: "Select a wheel design",
     colors: {

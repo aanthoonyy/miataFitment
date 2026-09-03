@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { CAR_COLOR_PRESETS } from "@/constants/carColors";
@@ -21,9 +22,13 @@ const MIN_VALUE_PERCENT = 5;
 
 const DEGREES_PER_RADIAN = 180 / Math.PI;
 
+const METALLIC_CHECKBOX_ID = "car-metallic";
+
 const CarColorPicker = () => {
   const carColor = useFitmentStore((state) => state.carColor);
   const setCarColor = useFitmentStore((state) => state.setCarColor);
+  const carMetallic = useFitmentStore((state) => state.carMetallic);
+  const setCarMetallic = useFitmentStore((state) => state.setCarMetallic);
 
   const { hueDeg, saturation, value } = hexToHsv(carColor);
 
@@ -137,6 +142,20 @@ const CarColorPicker = () => {
             setCarColor(hsvToHex({ hueDeg, saturation, value: percent / 100 }))
           }
         />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id={METALLIC_CHECKBOX_ID}
+          checked={carMetallic}
+          onCheckedChange={(value) => setCarMetallic(value === true)}
+        />
+        <Label
+          htmlFor={METALLIC_CHECKBOX_ID}
+          className="text-xs text-muted-foreground"
+        >
+          {STRINGS.car.colorMetallic}
+        </Label>
       </div>
     </div>
   );

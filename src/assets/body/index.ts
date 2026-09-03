@@ -9,6 +9,7 @@ import {
     type BodyParts,
     type BodySlot,
 } from "@/constants/bodyParts";
+import type { CarPaint } from "@/constants/carColors";
 import type { CarModel } from "@/constants/wheelPositions";
 import { inchesToFeet } from "@/utils/unitConversions";
 
@@ -27,6 +28,12 @@ const CHASSIS_ROTATION_Y_RAD = Math.PI / 2;
 // they were authored with and no part needs a list of its own. A part exported
 // with a differently named material simply will not take the body colour.
 const PAINT_MATERIAL_PREFIX = "Miata_Paint_";
+
+// Metal flake under clearcoat, approximated. Not fully metallic: at 1 the base
+// colour stops lighting the surface diffusely and a dark paint goes near black,
+// so this leaves enough of it to still read as the colour picked. The room
+// environment the scene is lit with is what it has to reflect.
+const METALLIC_FINISH = { metalness: 0.7, roughness: 0.25 };
 
 // The shell loads through the same path as a part, so it needs a slot name of
 // its own to be tracked alongside them.
@@ -52,7 +59,7 @@ export interface CarBody {
 
     // Held so a model that lands later is painted on arrival rather than
     // popping in red and being corrected a frame afterwards.
-    paintHex: string;
+    paint: CarPaint;
 }
 
 const noneLoaded = () =>
@@ -89,15 +96,37 @@ function disposeBodyModel(object: THREE.Object3D) {
     for (const material of materials) disposeMaterial(material);
 }
 
+// What the .glb asked for, remembered the first time a material is painted, so
+// turning metallic back off restores the authored finish rather than a guess at
+// it. Weak, so a disposed material does not pin an entry here.
+const authoredFinish = new WeakMap<
+    THREE.Material,
+    { metalness: number; roughness: number }
+>();
+
+function paintMaterial(material: THREE.MeshStandardMaterial, paint: CarPaint) {
+    if (!authoredFinish.has(material)) {
+        authoredFinish.set(material, {
+            metalness: material.metalness,
+            roughness: material.roughness,
+        });
+    }
+
+    const finish = paint.metallic ? METALLIC_FINISH : authoredFinish.get(material)!;
+    material.color.set(paint.hex);
+    material.metalness = finish.metalness;
+    material.roughness = finish.roughness;
+}
+
 // Materials are parsed fresh for each body model and shared with nothing else,
 // so this recolours in place rather than replacing them.
-function paintModel(object: THREE.Object3D, paintHex: string) {
+function paintModel(object: THREE.Object3D, paint: CarPaint) {
     object.traverse((child) => {
         const mesh = child as THREE.Mesh;
         if (!mesh.isMesh) return;
         for (const material of ([] as THREE.Material[]).concat(mesh.material)) {
             if (!material.name.startsWith(PAINT_MATERIAL_PREFIX)) continue;
-            (material as THREE.MeshStandardMaterial).color.set(paintHex);
+            paintMaterial(material as THREE.MeshStandardMaterial, paint);
         }
     });
 }
@@ -125,7 +154,7 @@ function load(body: CarBody, slot: LoadSlot, path: string | null) {
                 disposeBodyModel(gltf.scene);
                 return;
             }
-            paintModel(gltf.scene, body.paintHex);
+            paintModel(gltf.scene, body.paint);
             body.loaded[slot] = gltf.scene;
             body.chassis.add(gltf.scene);
         },
@@ -152,17 +181,17 @@ export function syncBodyParts(
     }
 }
 
-export function paintBody(body: CarBody, paintHex: string) {
-    body.paintHex = paintHex;
+export function paintBody(body: CarBody, paint: CarPaint) {
+    body.paint = paint;
     for (const loaded of Object.values(body.loaded)) {
-        if (loaded) paintModel(loaded, paintHex);
+        if (loaded) paintModel(loaded, paint);
     }
 }
 
 export function buildBody(
     model: CarModel,
     bodyParts: BodyParts,
-    paintHex: string,
+    paint: CarPaint,
 ): CarBody {
     const root = new THREE.Group();
 
@@ -180,7 +209,7 @@ export function buildBody(
         loaded: noneLoaded(),
         showing: noneShowing(),
         requestIds: noRequests(),
-        paintHex,
+        paint,
     };
     load(body, SHELL, shellModelPath(model));
     syncBodyParts(body, model, bodyParts);

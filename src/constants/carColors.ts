@@ -17,3 +17,11 @@ export const CAR_COLOR_PRESETS = [
 export type CarColorPreset = (typeof CAR_COLOR_PRESETS)[number]["key"];
 
 export const DEFAULT_CAR_COLOR = "#b31818";
+export const DEFAULT_CAR_METALLIC = false;
+
+// The paint settings resolved into the one shape the renderer takes, so the
+// body never picks the store apart itself.
+export interface CarPaint {
+  hex: string;
+  metallic: boolean;
+}
