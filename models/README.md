@@ -4,6 +4,10 @@ Body-part art in the form it arrived in. Nothing here is served: it sits outside
 `public/` on purpose, so Vite neither bundles it nor publishes it. What the app
 loads is the `.glb` files under `public/body/`.
 
+The Blender scene the parts are fitted in is `na/bn style kit.blend`. It holds
+`Miata_Body` in the same frame the app's shell uses, which is what makes a
+fitted part land correctly with no placement code.
+
 ## Getting one into the app
 
 An `.obj` here carries no usable placement — the geometry is in its own local
@@ -11,7 +15,7 @@ space, and the parts that have been fitted do not share a transform that could
 be applied to the rest. Each one has to be positioned by hand before it can be
 exported:
 
-1. Import the `.obj` into the kit `.blend` alongside `Miata_Body`.
+1. Import the `.obj` into `na/bn style kit.blend` alongside `Miata_Body`.
 2. Scale, rotate and position it until it sits on the car.
 3. Assign it `Miata_Paint_ClassicRed`, so the colour picker drives it. A part on
    any material not named `Miata_Paint_*` will not take the body colour.
