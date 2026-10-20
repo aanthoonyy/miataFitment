@@ -1,123 +1,102 @@
-// Body parts are a visual choice layered on top of a generation's shell: the
-// shell holds everything that never swaps (cabin, roof, doors, glass, lights)
-// and each slot below holds one piece that does.
-//
-// To add a part: fit it against Miata_Body in the kit .blend, name it
-// Miata_Aero_*, list it in scripts/export-na-body-parts.py, run that script,
-// and add a line to the slot's list here. The export carries the object's
-// transform, so a fitted part needs no placement code at all -- it is added
-// straight to the chassis group, which carries the one transform the whole car
-// shares.
-//
-// Labels are shown as-is in the picker; rename them freely, but leave `value`
-// alone once shipped, since it is what gets persisted in the user's browser.
-
 import type { CarModel } from "@/constants/wheelPositions";
+import { STRINGS } from "@/i18n/strings";
 
-// Every slot, in the order the picker lists them. A slot with nothing but its
-// stock part is not shown, so listing one before its parts exist costs nothing.
 export const BODY_SLOTS = [
-  "bumperFront",
-  "bumperRear",
-  "fendersFront",
-  "flaresFront",
-  "flaresRear",
-  "skirts",
-  "roof",
-  "wing",
-  "headlights",
-  "rack",
+  "bumperFront", "bumperRear", "fendersFront", "flaresFront", "flaresRear",
+  "skirts", "roof", "wing", "headlights", "rack",
 ] as const;
 
 export type BodySlot = (typeof BODY_SLOTS)[number];
-
-// Which part is selected in each slot. Values are per-slot, so two slots may
-// both hold "stock" without meaning the same part.
 export type BodyParts = Record<BodySlot, string>;
 
 interface BodyPart {
   value: string;
   label: string;
-  // null when the part has no model of its own to load.
   model: string | null;
-  // Which generations offer the part. Omitted means all of them.
   fits?: readonly CarModel[];
 }
 
 export const STOCK_BODY_PART = "stock";
-
-// Generations whose stock panels have been cut out of the shell into their own
-// models, and those still carrying them inside it. The NC has no model of its
-// own and borrows the NA shell, so it borrows the NA panels with it.
 const SPLIT_SHELL: readonly CarModel[] = ["na", "nc"];
 const WHOLE_SHELL: readonly CarModel[] = ["nb", "nd"];
 
-// A slot whose stock panel is still part of the shell has nothing of its own to
-// load, so picking stock draws nothing and the shell supplies the panel.
 const stockPart = (fits?: readonly CarModel[]): BodyPart => ({
-  value: STOCK_BODY_PART,
-  label: "Stock",
-  model: null,
-  fits,
+  value: STOCK_BODY_PART, label: STRINGS.car.bodyPartNames.stock, model: null, fits,
 });
 
-// A slot whose stock panel has been cut out of the NA shell. Shell plus this is
-// the original body exactly, so picking stock restores the car it came from.
 const naStockPart = (slot: string): BodyPart => ({
   value: STOCK_BODY_PART,
-  label: "Stock",
+  label: STRINGS.car.bodyPartNames.stock,
   model: `/body/na/${slot}/stock.glb`,
   fits: SPLIT_SHELL,
 });
 
 const BODY_PARTS: Record<BodySlot, readonly BodyPart[]> = {
   bumperFront: [
-    naStockPart("bumper-front"),
-    stockPart(WHOLE_SHELL),
-    {
-      value: "bn",
-      label: "BN Style",
-      model: "/body/na/bumper-front/bn.glb",
-      fits: ["na"],
-    },
+    naStockPart("bumper-front"), stockPart(WHOLE_SHELL),
+    { value: "ak", label: STRINGS.car.bodyPartNames.FrontBarAK, model: "/body/na/bumper-front/ak.glb", fits: ["na"] },
+    { value: "bn", label: STRINGS.car.bodyPartNames.FrontBarBN, model: "/body/na/bumper-front/bn.glb", fits: ["na"] },
+    { value: "hy", label: STRINGS.car.bodyPartNames.FrontBarHY, model: "/body/na/bumper-front/hy.glb", fits: ["na"] },
+    { value: "lip-1", label: STRINGS.car.bodyPartNames.FrontBarLip1, model: "/body/na/bumper-front/lip-1.glb", fits: ["na"] },
+    { value: "lip-2", label: STRINGS.car.bodyPartNames.FrontBarLip2, model: "/body/na/bumper-front/lip-2.glb", fits: ["na"] },
+    { value: "lip-3", label: STRINGS.car.bodyPartNames.FrontBarLip3, model: "/body/na/bumper-front/lip-3.glb", fits: ["na"] },
+    { value: "pitcrew", label: STRINGS.car.bodyPartNames.FrontBarPitcrew, model: "/body/na/bumper-front/pitcrew.glb", fits: ["na"] },
+    { value: "wings-west", label: STRINGS.car.bodyPartNames.WingsWest, model: "/body/na/bumper-front/wings-west.glb", fits: ["na"] },
   ],
   bumperRear: [
-    naStockPart("bumper-rear"),
-    stockPart(WHOLE_SHELL),
-    {
-      value: "bn",
-      label: "BN Style",
-      model: "/body/na/bumper-rear/bn.glb",
-      fits: ["na"],
-    },
+    naStockPart("bumper-rear"), stockPart(WHOLE_SHELL),
+    { value: "bn", label: STRINGS.car.bodyPartNames.RearBarBN, model: "/body/na/bumper-rear/bn.glb", fits: ["na"] },
+    { value: "cut", label: STRINGS.car.bodyPartNames.RearBarCut, model: "/body/na/bumper-rear/cut.glb", fits: ["na"] },
+    { value: "pitcrew", label: STRINGS.car.bodyPartNames.RearBarPitcrew, model: "/body/na/bumper-rear/pitcrew.glb", fits: ["na"] },
+    { value: "pitcrew-2", label: STRINGS.car.bodyPartNames.RearBarPitcrew2, model: "/body/na/bumper-rear/pitcrew-2.glb", fits: ["na"] },
+    { value: "wings-west", label: STRINGS.car.bodyPartNames.WingsWest, model: "/body/na/bumper-rear/wings-west.glb", fits: ["na"] },
   ],
-  fendersFront: [stockPart()],
-  flaresFront: [stockPart()],
-  flaresRear: [stockPart()],
+  fendersFront: [
+    naStockPart("fenders-front"), stockPart(WHOLE_SHELL),
+    { value: "ak", label: STRINGS.car.bodyPartNames.GuardAK, model: "/body/na/fenders-front/ak.glb", fits: ["na"] },
+    { value: "lipped", label: STRINGS.car.bodyPartNames.GuardLipped, model: "/body/na/fenders-front/lipped.glb", fits: ["na"] },
+  ],
+  flaresFront: [
+    stockPart(),
+    { value: "standard", label: STRINGS.car.bodyPartNames.FrontFlare, model: "/body/na/flares-front/standard.glb", fits: ["na"] },
+    { value: "ak", label: STRINGS.car.bodyPartNames.FrontFlareAK, model: "/body/na/flares-front/ak.glb", fits: ["na"] },
+  ],
+  flaresRear: [
+    stockPart(),
+    { value: "standard", label: STRINGS.car.bodyPartNames.RearFlare, model: "/body/na/flares-rear/standard.glb", fits: ["na"] },
+    { value: "ak", label: STRINGS.car.bodyPartNames.RearFlareAK, model: "/body/na/flares-rear/ak.glb", fits: ["na"] },
+    { value: "bl", label: STRINGS.car.bodyPartNames.RearFlareBL, model: "/body/na/flares-rear/bl.glb", fits: ["na"] },
+  ],
   skirts: [
-    naStockPart("skirts"),
-    stockPart(WHOLE_SHELL),
-    {
-      value: "bn",
-      label: "BN Style",
-      model: "/body/na/skirts/bn.glb",
-      fits: ["na"],
-    },
+    naStockPart("skirts"), stockPart(WHOLE_SHELL),
+    { value: "ak", label: STRINGS.car.bodyPartNames.SideskirtsAK, model: "/body/na/skirts/ak.glb", fits: ["na"] },
+    { value: "bn", label: STRINGS.car.bodyPartNames.SideskirtsBN, model: "/body/na/skirts/bn.glb", fits: ["na"] },
+    { value: "fw", label: STRINGS.car.bodyPartNames.SideskirtsFW, model: "/body/na/skirts/fw.glb", fits: ["na"] },
+    { value: "wings-west", label: STRINGS.car.bodyPartNames.WingsWest, model: "/body/na/skirts/wings-west.glb", fits: ["na"] },
   ],
-  roof: [stockPart()],
-  wing: [stockPart()],
-  headlights: [stockPart()],
-  rack: [stockPart()],
+  roof: [
+    naStockPart("roof"), stockPart(WHOLE_SHELL),
+    { value: "oem", label: STRINGS.car.bodyPartNames.RoofOEM, model: "/body/na/roof/oem.glb", fits: ["na"] },
+    { value: "pc", label: STRINGS.car.bodyPartNames.RoofPC, model: "/body/na/roof/pc.glb", fits: ["na"] },
+    { value: "fastback", label: STRINGS.car.bodyPartNames.RoofFastback, model: "/body/na/roof/fastback.glb", fits: ["na"] },
+  ],
+  wing: [
+    stockPart(),
+    { value: "ducktail", label: STRINGS.car.bodyPartNames.SpoilerDuck, model: "/body/na/wing/ducktail.glb", fits: ["na"] },
+    { value: "lip-1", label: STRINGS.car.bodyPartNames.SpoilerLip1, model: "/body/na/wing/lip-1.glb", fits: ["na"] },
+  ],
+  headlights: [
+    stockPart(),
+    { value: "pitcrew", label: STRINGS.car.bodyPartNames.HeadlightsPitcrew, model: "/body/na/headlights/pitcrew.glb", fits: ["na"] },
+  ],
+  rack: [
+    stockPart(),
+    { value: "luggage", label: STRINGS.car.bodyPartNames.Rack, model: "/body/na/rack/luggage.glb", fits: ["na"] },
+  ],
 };
 
-// Everything that never swaps, for one generation.
 const SHELL_MODELS: Record<CarModel, string> = {
-  na: "/na_render.glb",
-  nb: "/nb_render.glb",
-  // There is no NC model yet and the generation is not selectable, but a shell
-  // for every model means no path here can come up empty.
-  nc: "/na_render.glb",
-  nd: "/nd_render.glb",
+  na: "/na_render.glb", nb: "/nb_render.glb", nc: "/na_render.glb", nd: "/nd_render.glb",
 };
 
 export const DEFAULT_BODY_PARTS: BodyParts = Object.fromEntries(
@@ -128,43 +107,52 @@ export function shellModelPath(model: CarModel): string {
   return SHELL_MODELS[model];
 }
 
-// The parts a generation actually offers in a slot. A part with no `fits` is
-// bodywork every generation shares.
-export function bodyPartsFor(
-  model: CarModel,
-  slot: BodySlot,
-): readonly BodyPart[] {
-  return BODY_PARTS[slot].filter(
-    (part) => !part.fits || part.fits.includes(model),
-  );
+export function bodyPartsFor(model: CarModel, slot: BodySlot): readonly BodyPart[] {
+  return BODY_PARTS[slot].filter((part) => !part.fits || part.fits.includes(model));
 }
 
-// Slots worth showing: one holding nothing but the stock part is a dropdown
-// with a single entry and no decision in it.
 export function slotsWithChoices(model: CarModel): readonly BodySlot[] {
   return BODY_SLOTS.filter((slot) => bodyPartsFor(model, slot).length > 1);
 }
 
-// A selection made on one generation can name a part the next one does not
-// offer, so the selection is resolved against the model everywhere it is read
-// rather than being rewritten in the store when the generation changes.
-export function resolveBodyPart(
-  model: CarModel,
-  slot: BodySlot,
-  value: string,
-): string {
-  const offered = bodyPartsFor(model, slot).some((part) => part.value === value);
-  return offered ? value : STOCK_BODY_PART;
+export function resolveBodyPart(model: CarModel, slot: BodySlot, value: string): string {
+  return bodyPartsFor(model, slot).some((part) => part.value === value) ? value : STOCK_BODY_PART;
 }
 
-export function bodyPartModelPath(
-  model: CarModel,
-  slot: BodySlot,
-  value: string,
-): string | null {
+export function bodyPartModelPath(model: CarModel, slot: BodySlot, value: string): string | null {
   const resolved = resolveBodyPart(model, slot, value);
-  return (
-    bodyPartsFor(model, slot).find((part) => part.value === resolved)?.model ??
-    null
-  );
+  return bodyPartsFor(model, slot).find((part) => part.value === resolved)?.model ?? null;
+}
+
+export function resolveBodyParts(model: CarModel, parts: BodyParts): BodyParts {
+  const resolved = Object.fromEntries(
+    BODY_SLOTS.map((slot) => [slot, resolveBodyPart(model, slot, parts[slot])]),
+  ) as BodyParts;
+  if (resolved.bumperFront === "pitcrew" || resolved.headlights === "pitcrew") {
+    resolved.bumperFront = "pitcrew";
+    resolved.headlights = "pitcrew";
+  }
+  // The fastback occupies the trunk mounting surface used by these accessories.
+  if (resolved.roof === "fastback") {
+    resolved.rack = STOCK_BODY_PART;
+    resolved.wing = STOCK_BODY_PART;
+  }
+  return resolved;
+}
+
+export function selectBodyPart(parts: BodyParts, slot: BodySlot, value: string): BodyParts {
+  const selected = { ...parts, [slot]: value };
+  if (slot === "bumperFront") selected.headlights = value === "pitcrew" ? "pitcrew" : STOCK_BODY_PART;
+  if (slot === "headlights") {
+    if (value === "pitcrew") selected.bumperFront = "pitcrew";
+    else if (selected.bumperFront === "pitcrew") selected.bumperFront = STOCK_BODY_PART;
+  }
+  if (slot === "roof" && value === "fastback") {
+    selected.rack = STOCK_BODY_PART;
+    selected.wing = STOCK_BODY_PART;
+  }
+  if ((slot === "rack" || slot === "wing") && value !== STOCK_BODY_PART && selected.roof === "fastback") {
+    selected.roof = STOCK_BODY_PART;
+  }
+  return selected;
 }

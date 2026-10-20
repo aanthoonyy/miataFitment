@@ -4,7 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import {
     BODY_SLOTS,
     bodyPartModelPath,
-    resolveBodyPart,
+    resolveBodyParts,
     shellModelPath,
     type BodyParts,
     type BodySlot,
@@ -172,8 +172,9 @@ export function syncBodyParts(
     model: CarModel,
     bodyParts: BodyParts,
 ) {
+    const resolved = resolveBodyParts(model, bodyParts);
     for (const slot of BODY_SLOTS) {
-        const part = resolveBodyPart(model, slot, bodyParts[slot]);
+        const part = resolved[slot];
         if (part === body.showing[slot]) continue;
 
         body.showing[slot] = part;

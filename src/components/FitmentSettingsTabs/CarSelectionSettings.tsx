@@ -16,7 +16,7 @@ import { useFitmentStore, type CarModel } from "@/stores";
 import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
 import {
   bodyPartsFor,
-  resolveBodyPart,
+  resolveBodyParts,
   slotsWithChoices,
   type BodySlot,
 } from "@/constants/bodyParts";
@@ -72,7 +72,7 @@ const LoginPrompt = ({ action }: { action: string }) => (
 // what is in it comes from the store.
 const BodyPartSelect = ({ slot }: { slot: BodySlot }) => {
   const model = useFitmentStore((state) => state.model);
-  const selected = useFitmentStore((state) => state.bodyParts[slot]);
+  const selected = useFitmentStore((state) => resolveBodyParts(state.model, state.bodyParts)[slot]);
   const setBodyPart = useFitmentStore((state) => state.setBodyPart);
 
   const parts = bodyPartsFor(model, slot);
@@ -83,7 +83,7 @@ const BodyPartSelect = ({ slot }: { slot: BodySlot }) => {
         {STRINGS.car.bodySlots[slot]}
       </Label>
       <Select
-        value={resolveBodyPart(model, slot, selected)}
+        value={selected}
         onValueChange={(value) => setBodyPart(slot, value)}
       >
         <SelectTrigger className="h-9">

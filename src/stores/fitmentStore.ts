@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
 import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
-import { DEFAULT_BODY_PARTS } from "@/constants/bodyParts";
+import { DEFAULT_BODY_PARTS, selectBodyPart } from "@/constants/bodyParts";
 import { DEFAULT_CAR_COLOR, DEFAULT_CAR_METALLIC } from "@/constants/carColors";
 import { SPRING_MASS } from "@/utils/bounceSimulation";
 import type { FitmentStore } from "@/types/stores";
@@ -67,7 +67,7 @@ export const useFitmentStore = create<FitmentStore>()(
       setWheelDesign: (design) => set({ wheelDesign: design }),
 
       setBodyPart: (slot, value) =>
-        set((state) => ({ bodyParts: { ...state.bodyParts, [slot]: value } })),
+        set((state) => ({ bodyParts: selectBodyPart(state.bodyParts, slot, value) })),
 
       setCarColor: (hex) => set({ carColor: hex }),
 

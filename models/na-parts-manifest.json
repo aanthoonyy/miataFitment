@@ -1,0 +1,1044 @@
+[
+  {
+    "source": "FrontBarAK.obj",
+    "slot": "bumper-front",
+    "value": "ak",
+    "label": "AK Style",
+    "path": "/body/na/bumper-front/ak.glb",
+    "bounds_inches": [
+      [
+        -33.28038024902344,
+        33.28037643432617
+      ],
+      [
+        131.17274475097656,
+        148.74899291992188
+      ],
+      [
+        -20.163909912109375,
+        -1.2336395978927612
+      ]
+    ],
+    "vertices": 17684,
+    "faces": 17684,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Paint_ClassicRed",
+      "Miata_Reflector_Chrome"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarAK.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 89,
+      "maximum_return_depth_in": 0.9255
+    }
+  },
+  {
+    "source": "FrontBarBN.obj",
+    "slot": "bumper-front",
+    "value": "bn",
+    "label": "BN Style",
+    "path": "/body/na/bumper-front/bn.glb",
+    "bounds_inches": [
+      [
+        -32.15897750854492,
+        32.159366607666016
+      ],
+      [
+        131.60086059570312,
+        148.75474548339844
+      ],
+      [
+        -22.141754150390625,
+        -1.3186695575714111
+      ]
+    ],
+    "vertices": 28242,
+    "faces": 28752,
+    "materials": [
+      "Miata_Lens_Running",
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarBN.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 82,
+      "contact_vertices": 85,
+      "maximum_return_depth_in": 1.2161
+    }
+  },
+  {
+    "source": "FrontBarHY.obj",
+    "slot": "bumper-front",
+    "value": "hy",
+    "label": "HY Style",
+    "path": "/body/na/bumper-front/hy.glb",
+    "bounds_inches": [
+      [
+        -32.068336486816406,
+        32.0700798034668
+      ],
+      [
+        131.51898193359375,
+        148.7281036376953
+      ],
+      [
+        -20.5242919921875,
+        -1.2336395978927612
+      ]
+    ],
+    "vertices": 23396,
+    "faces": 23392,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Paint_ClassicRed",
+      "Miata_Reflector_Chrome",
+      "Miata_Trim_Satin"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarHY.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 89,
+      "maximum_return_depth_in": 1.0626
+    }
+  },
+  {
+    "source": "FrontBarLip1.obj",
+    "slot": "bumper-front",
+    "value": "lip-1",
+    "label": "Lip 1",
+    "path": "/body/na/bumper-front/lip-1.glb",
+    "bounds_inches": [
+      [
+        -32.068336486816406,
+        32.0700798034668
+      ],
+      [
+        131.51898193359375,
+        148.714111328125
+      ],
+      [
+        -20.645658493041992,
+        -1.2336395978927612
+      ]
+    ],
+    "vertices": 25050,
+    "faces": 25044,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Paint_ClassicRed",
+      "Miata_Reflector_Chrome"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarLip1.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 89,
+      "maximum_return_depth_in": 1.0626
+    }
+  },
+  {
+    "source": "FrontBarLip2.obj",
+    "slot": "bumper-front",
+    "value": "lip-2",
+    "label": "Lip 2",
+    "path": "/body/na/bumper-front/lip-2.glb",
+    "bounds_inches": [
+      [
+        -32.068336486816406,
+        32.0700798034668
+      ],
+      [
+        131.51898193359375,
+        148.714111328125
+      ],
+      [
+        -20.09126853942871,
+        -1.2336395978927612
+      ]
+    ],
+    "vertices": 25050,
+    "faces": 25044,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Paint_ClassicRed",
+      "Miata_Reflector_Chrome"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarLip2.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 89,
+      "maximum_return_depth_in": 1.0626
+    }
+  },
+  {
+    "source": "FrontBarLip3.obj",
+    "slot": "bumper-front",
+    "value": "lip-3",
+    "label": "Lip 3",
+    "path": "/body/na/bumper-front/lip-3.glb",
+    "bounds_inches": [
+      [
+        -32.068336486816406,
+        32.0700798034668
+      ],
+      [
+        131.51898193359375,
+        148.714111328125
+      ],
+      [
+        -20.06423568725586,
+        -1.2336395978927612
+      ]
+    ],
+    "vertices": 23490,
+    "faces": 23484,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Paint_ClassicRed",
+      "Miata_Reflector_Chrome"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarLip3.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 89,
+      "maximum_return_depth_in": 1.0626
+    }
+  },
+  {
+    "source": "FrontBarPitcrew.obj",
+    "slot": "bumper-front",
+    "value": "pitcrew",
+    "label": "Pitcrew",
+    "path": "/body/na/bumper-front/pitcrew.glb",
+    "bounds_inches": [
+      [
+        -33.35374069213867,
+        33.353736877441406
+      ],
+      [
+        124.75736999511719,
+        152.31336975097656
+      ],
+      [
+        -21.389404296875,
+        2.7352168560028076
+      ]
+    ],
+    "vertices": 15660,
+    "faces": 15668,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "FrontBarPitcrew.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 102,
+      "contact_vertices": 105,
+      "maximum_return_depth_in": 1.2353
+    }
+  },
+  {
+    "source": "RearBarBN.obj",
+    "slot": "bumper-rear",
+    "value": "bn",
+    "label": "BN Style",
+    "path": "/body/na/bumper-rear/bn.glb",
+    "bounds_inches": [
+      [
+        -32.52560806274414,
+        32.52761459350586
+      ],
+      [
+        -9.484086990356445,
+        15.870211601257324
+      ],
+      [
+        -21.57974624633789,
+        -4.600645065307617
+      ]
+    ],
+    "vertices": 20210,
+    "faces": 20240,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearBarBN.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 152,
+      "contact_vertices": 154,
+      "maximum_return_depth_in": 0.8187
+    }
+  },
+  {
+    "source": "RearBarCut.obj",
+    "slot": "bumper-rear",
+    "value": "cut",
+    "label": "Cut Bumper",
+    "path": "/body/na/bumper-rear/cut.glb",
+    "bounds_inches": [
+      [
+        -32.580448150634766,
+        32.58045196533203
+      ],
+      [
+        -9.059843063354492,
+        15.899701118469238
+      ],
+      [
+        -18.080419540405273,
+        -4.5924787521362305
+      ]
+    ],
+    "vertices": 9846,
+    "faces": 9860,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearBarCut.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 100,
+      "contact_vertices": 102,
+      "maximum_return_depth_in": 0.8008
+    }
+  },
+  {
+    "source": "RearBarPitcrew.obj",
+    "slot": "bumper-rear",
+    "value": "pitcrew",
+    "label": "Pitcrew",
+    "path": "/body/na/bumper-rear/pitcrew.glb",
+    "bounds_inches": [
+      [
+        -32.42409896850586,
+        32.42080307006836
+      ],
+      [
+        -5.392667770385742,
+        15.728265762329102
+      ],
+      [
+        -17.74556541442871,
+        2.921018600463867
+      ]
+    ],
+    "vertices": 6446,
+    "faces": 6436,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearBarPitcrew.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 86,
+      "contact_vertices": 87,
+      "maximum_return_depth_in": 2.4146
+    }
+  },
+  {
+    "source": "RearBarPitcrew2.obj",
+    "slot": "bumper-rear",
+    "value": "pitcrew-2",
+    "label": "Pitcrew 2",
+    "path": "/body/na/bumper-rear/pitcrew-2.glb",
+    "bounds_inches": [
+      [
+        -32.49161911010742,
+        32.49409866333008
+      ],
+      [
+        -5.596247673034668,
+        16.296415328979492
+      ],
+      [
+        -17.80694580078125,
+        2.9138805866241455
+      ]
+    ],
+    "vertices": 5162,
+    "faces": 5148,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearBarPitcrew2.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 78,
+      "contact_vertices": 79,
+      "maximum_return_depth_in": 2.4753
+    }
+  },
+  {
+    "source": "GuardAK.obj",
+    "slot": "fenders-front",
+    "value": "ak",
+    "label": "AK Style",
+    "path": "/body/na/fenders-front/ak.glb",
+    "bounds_inches": [
+      [
+        -34.758544921875,
+        34.75855255126953
+      ],
+      [
+        89.43959045410156,
+        140.443115234375
+      ],
+      [
+        -20.362964630126953,
+        5.828153133392334
+      ]
+    ],
+    "vertices": 19836,
+    "faces": 19836,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "GuardAK.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 233,
+      "contact_vertices": 236,
+      "maximum_return_depth_in": 0.6347
+    }
+  },
+  {
+    "source": "GuardLipped.obj",
+    "slot": "fenders-front",
+    "value": "lipped",
+    "label": "Lipped",
+    "path": "/body/na/fenders-front/lipped.glb",
+    "bounds_inches": [
+      [
+        -34.14922332763672,
+        34.14923095703125
+      ],
+      [
+        89.43959045410156,
+        140.430419921875
+      ],
+      [
+        -20.359779357910156,
+        5.828449726104736
+      ]
+    ],
+    "vertices": 23500,
+    "faces": 23496,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "GuardLipped.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 254,
+      "contact_vertices": 256,
+      "maximum_return_depth_in": 0.5805
+    }
+  },
+  {
+    "source": "FrontFlare.obj",
+    "slot": "flares-front",
+    "value": "standard",
+    "label": "Overfenders",
+    "path": "/body/na/flares-front/standard.glb",
+    "bounds_inches": [
+      [
+        -37.73195266723633,
+        37.73194885253906
+      ],
+      [
+        104.0518798828125,
+        133.35035705566406
+      ],
+      [
+        -13.57266616821289,
+        0.1229081004858017
+      ]
+    ],
+    "vertices": 18196,
+    "faces": 18192,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "FrontFlare.obj",
+      "side_clearance_shift_in": 1.7083,
+      "return_faces": 104,
+      "contact_vertices": 108,
+      "maximum_return_depth_in": 3.8191
+    }
+  },
+  {
+    "source": "FrontFlareAK.obj",
+    "slot": "flares-front",
+    "value": "ak",
+    "label": "AK Style",
+    "path": "/body/na/flares-front/ak.glb",
+    "bounds_inches": [
+      [
+        -35.923038482666016,
+        35.923038482666016
+      ],
+      [
+        98.89791107177734,
+        145.41883850097656
+      ],
+      [
+        -21.706806182861328,
+        1.3739686012268066
+      ]
+    ],
+    "vertices": 20330,
+    "faces": 20272,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "FrontFlareAK.obj",
+      "side_clearance_shift_in": 1.478,
+      "return_faces": 100,
+      "contact_vertices": 108,
+      "maximum_return_depth_in": 1.1312
+    }
+  },
+  {
+    "source": "RearFlare.obj",
+    "slot": "flares-rear",
+    "value": "standard",
+    "label": "Overfenders",
+    "path": "/body/na/flares-rear/standard.glb",
+    "bounds_inches": [
+      [
+        -36.60550308227539,
+        36.60550308227539
+      ],
+      [
+        10.81635856628418,
+        42.1224250793457
+      ],
+      [
+        -13.939146995544434,
+        0.8242480158805847
+      ]
+    ],
+    "vertices": 19116,
+    "faces": 19112,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearFlare.obj",
+      "side_clearance_shift_in": 0.652,
+      "return_faces": 154,
+      "contact_vertices": 156,
+      "maximum_return_depth_in": 0.6291
+    }
+  },
+  {
+    "source": "RearFlareAK.obj",
+    "slot": "flares-rear",
+    "value": "ak",
+    "label": "AK Style",
+    "path": "/body/na/flares-rear/ak.glb",
+    "bounds_inches": [
+      [
+        -35.45077133178711,
+        35.45077133178711
+      ],
+      [
+        6.0492353439331055,
+        48.312984466552734
+      ],
+      [
+        -19.536869049072266,
+        3.412942409515381
+      ]
+    ],
+    "vertices": 18172,
+    "faces": 18120,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearFlareAK.obj",
+      "side_clearance_shift_in": 0.4212,
+      "return_faces": 114,
+      "contact_vertices": 116,
+      "maximum_return_depth_in": 2.3663
+    }
+  },
+  {
+    "source": "RearFlareBL.obj",
+    "slot": "flares-rear",
+    "value": "bl",
+    "label": "BL Style",
+    "path": "/body/na/flares-rear/bl.glb",
+    "bounds_inches": [
+      [
+        -36.50233459472656,
+        36.50233840942383
+      ],
+      [
+        0.5348088145256042,
+        48.99266815185547
+      ],
+      [
+        -16.516216278076172,
+        8.307127952575684
+      ]
+    ],
+    "vertices": 27316,
+    "faces": 27312,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RearFlareBL.obj",
+      "side_clearance_shift_in": 0.8488,
+      "return_faces": 210,
+      "contact_vertices": 218,
+      "maximum_return_depth_in": 0.5424
+    }
+  },
+  {
+    "source": "SideskirtsAK.obj",
+    "slot": "skirts",
+    "value": "ak",
+    "label": "AK Style",
+    "path": "/body/na/skirts/ak.glb",
+    "bounds_inches": [
+      [
+        -36.188865661621094,
+        36.188621520996094
+      ],
+      [
+        38.31429672241211,
+        107.71186065673828
+      ],
+      [
+        -20.869054794311523,
+        -6.284537315368652
+      ]
+    ],
+    "vertices": 6084,
+    "faces": 7155,
+    "materials": [
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "SideskirtsAK.obj",
+      "side_clearance_shift_in": 0.6926,
+      "return_faces": 40,
+      "contact_vertices": 42,
+      "maximum_return_depth_in": 0.7579
+    }
+  },
+  {
+    "source": "SideskirtsBN.obj",
+    "slot": "skirts",
+    "value": "bn",
+    "label": "BN Style",
+    "path": "/body/na/skirts/bn.glb",
+    "bounds_inches": [
+      [
+        -35.343868255615234,
+        35.34386444091797
+      ],
+      [
+        38.31429672241211,
+        107.71186065673828
+      ],
+      [
+        -22.633365631103516,
+        -6.284537315368652
+      ]
+    ],
+    "vertices": 11388,
+    "faces": 12459,
+    "materials": [
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "SideskirtsBN.obj",
+      "side_clearance_shift_in": 0.6139,
+      "return_faces": 100,
+      "contact_vertices": 104,
+      "maximum_return_depth_in": 1.3023
+    }
+  },
+  {
+    "source": "SideskirtsFW.obj",
+    "slot": "skirts",
+    "value": "fw",
+    "label": "FW Style",
+    "path": "/body/na/skirts/fw.glb",
+    "bounds_inches": [
+      [
+        -34.57602310180664,
+        34.57602310180664
+      ],
+      [
+        38.31429672241211,
+        107.71186065673828
+      ],
+      [
+        -20.869054794311523,
+        -6.284537315368652
+      ]
+    ],
+    "vertices": 7636,
+    "faces": 8707,
+    "materials": [
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "SideskirtsFW.obj",
+      "side_clearance_shift_in": 1.4748,
+      "return_faces": 10,
+      "contact_vertices": 12,
+      "maximum_return_depth_in": 0.8249
+    }
+  },
+  {
+    "source": "RoofOEM.obj",
+    "slot": "roof",
+    "value": "oem",
+    "label": "OEM Hardtop",
+    "path": "/body/na/roof/oem.glb",
+    "bounds_inches": [
+      [
+        -31.220558166503906,
+        31.220558166503906
+      ],
+      [
+        20.841012954711914,
+        73.35267639160156
+      ],
+      [
+        4.172517776489258,
+        22.53510284423828
+      ]
+    ],
+    "vertices": 5899,
+    "faces": 5997,
+    "materials": [
+      "Miata_Glass_Tinted",
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed",
+      "Miata_Trim_Satin"
+    ],
+    "mesh_rework": {
+      "source": "RoofOEM.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 56,
+      "contact_vertices": 58,
+      "maximum_return_depth_in": 0.6137
+    }
+  },
+  {
+    "source": "RoofPC.obj",
+    "slot": "roof",
+    "value": "pc",
+    "label": "PC Hardtop",
+    "path": "/body/na/roof/pc.glb",
+    "bounds_inches": [
+      [
+        -31.220558166503906,
+        31.220558166503906
+      ],
+      [
+        19.171037673950195,
+        73.40740203857422
+      ],
+      [
+        4.172517776489258,
+        22.950475692749023
+      ]
+    ],
+    "vertices": 12903,
+    "faces": 13005,
+    "materials": [
+      "Miata_Glass_Tinted",
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "RoofPC.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 80,
+      "contact_vertices": 82,
+      "maximum_return_depth_in": 0.6139
+    }
+  },
+  {
+    "source": "RoofFastback.obj",
+    "slot": "roof",
+    "value": "fastback",
+    "label": "Fastback",
+    "path": "/body/na/roof/fastback.glb",
+    "bounds_inches": [
+      [
+        -31.220558166503906,
+        31.220558166503906
+      ],
+      [
+        -3.974000930786133,
+        73.28340148925781
+      ],
+      [
+        1.7638366222381592,
+        23.473756790161133
+      ]
+    ],
+    "vertices": 12203,
+    "faces": 12301,
+    "materials": [
+      "Miata_Glass_Tinted",
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed",
+      "Miata_Seal_Rubber"
+    ],
+    "mesh_rework": {
+      "source": "RoofFastback.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 114,
+      "contact_vertices": 116,
+      "maximum_return_depth_in": 1.1537
+    }
+  },
+  {
+    "source": "SpoilerDuck.obj",
+    "slot": "wing",
+    "value": "ducktail",
+    "label": "Ducktail",
+    "path": "/body/na/wing/ducktail.glb",
+    "bounds_inches": [
+      [
+        -22.261606216430664,
+        22.26846694946289
+      ],
+      [
+        -3.688905954360962,
+        21.211057662963867
+      ],
+      [
+        1.756865382194519,
+        9.564407348632812
+      ]
+    ],
+    "vertices": 3490,
+    "faces": 3488,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "SpoilerDuck.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 76,
+      "contact_vertices": 76,
+      "maximum_return_depth_in": 0.9751
+    }
+  },
+  {
+    "source": "SpoilerLip1.obj",
+    "slot": "wing",
+    "value": "lip-1",
+    "label": "Lip Spoiler",
+    "path": "/body/na/wing/lip-1.glb",
+    "bounds_inches": [
+      [
+        -21.60974884033203,
+        21.61017608642578
+      ],
+      [
+        -3.7748794555664062,
+        3.432837963104248
+      ],
+      [
+        5.04850959777832,
+        8.538010597229004
+      ]
+    ],
+    "vertices": 6194,
+    "faces": 6192,
+    "materials": [
+      "Miata_Paint_ClassicRed"
+    ],
+    "mesh_rework": {
+      "source": "SpoilerLip1.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 88,
+      "contact_vertices": 88,
+      "maximum_return_depth_in": 0.3705
+    }
+  },
+  {
+    "source": "HeadlightsPitcrew.obj",
+    "slot": "headlights",
+    "value": "pitcrew",
+    "label": "Pitcrew",
+    "path": "/body/na/headlights/pitcrew.glb",
+    "bounds_inches": [
+      [
+        -29.301191329956055,
+        29.301191329956055
+      ],
+      [
+        143.6177215576172,
+        149.5667266845703
+      ],
+      [
+        -12.897688865661621,
+        -3.441711902618408
+      ]
+    ],
+    "vertices": 1248,
+    "faces": 1130,
+    "materials": [
+      "Miata_Headlight_Reflective",
+      "Miata_Lens_Clear",
+      "Miata_Reflector_Chrome"
+    ],
+    "mesh_rework": {
+      "source": "HeadlightsPitcrew.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 0,
+      "contact_vertices": 0,
+      "maximum_return_depth_in": 0
+    }
+  },
+  {
+    "source": "Rack.obj",
+    "slot": "rack",
+    "value": "luggage",
+    "label": "Luggage Rack",
+    "path": "/body/na/rack/luggage.glb",
+    "bounds_inches": [
+      [
+        -17.524444580078125,
+        17.524444580078125
+      ],
+      [
+        -1.631988763809204,
+        19.227392196655273
+      ],
+      [
+        2.4552419185638428,
+        10.954506874084473
+      ]
+    ],
+    "vertices": 1018,
+    "faces": 916,
+    "materials": [
+      "Miata_Trim_Satin"
+    ],
+    "mesh_rework": {
+      "source": "Rack.obj",
+      "side_clearance_shift_in": 0,
+      "return_faces": 0,
+      "contact_vertices": 0,
+      "maximum_return_depth_in": 0
+    }
+  },
+  {
+    "source": "WingsWestFront",
+    "authored": true,
+    "generator": "scripts/build-wings-west.py",
+    "slot": "bumper-front",
+    "value": "wings-west",
+    "label": "Wings West W-Type Inspired",
+    "path": "/body/na/bumper-front/wings-west.glb",
+    "bounds_inches": [
+      [
+        -32.368797302246094,
+        32.368797302246094
+      ],
+      [
+        130.14425659179688,
+        152.2862091064453
+      ],
+      [
+        -20.0,
+        -0.08519744873046875
+      ]
+    ],
+    "vertices": 12295,
+    "faces": 14236,
+    "materials": [
+      "Miata_Lens_Amber",
+      "Miata_Lens_Running",
+      "Miata_Mirror_Glass.001",
+      "Miata_Paint_ClassicRed",
+      "Miata_Paint_ClassicRed.005",
+      "Miata_Paint_ClassicRed.006"
+    ]
+  },
+  {
+    "source": "WingsWestRear",
+    "authored": true,
+    "generator": "scripts/build-wings-west.py",
+    "slot": "bumper-rear",
+    "value": "wings-west",
+    "label": "Wings West W-Type Inspired",
+    "path": "/body/na/bumper-rear/wings-west.glb",
+    "bounds_inches": [
+      [
+        -32.44169998168945,
+        32.44169998168945
+      ],
+      [
+        -8.743805885314941,
+        16.272663116455078
+      ],
+      [
+        -20.0,
+        -4.839515686035156
+      ]
+    ],
+    "vertices": 8622,
+    "faces": 9268,
+    "materials": [
+      "Miata_Mirror_Glass.001",
+      "Miata_Paint_ClassicRed",
+      "Miata_Paint_ClassicRed.004",
+      "Miata_Paint_ClassicRed.006"
+    ]
+  },
+  {
+    "source": "WingsWestSkirts",
+    "authored": true,
+    "generator": "scripts/build-wings-west.py",
+    "slot": "skirts",
+    "value": "wings-west",
+    "label": "Wings West W-Type Inspired",
+    "path": "/body/na/skirts/wings-west.glb",
+    "bounds_inches": [
+      [
+        -34.41127395629883,
+        34.41127395629883
+      ],
+      [
+        38.31429672241211,
+        107.71186065673828
+      ],
+      [
+        -20.869054794311523,
+        -6.284537315368652
+      ]
+    ],
+    "vertices": 11332,
+    "faces": 12403,
+    "materials": [
+      "Miata_Mirror_Glass",
+      "Miata_Paint_ClassicRed"
+    ]
+  }
+]
