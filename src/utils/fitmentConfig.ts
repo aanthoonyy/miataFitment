@@ -1,3 +1,4 @@
+import { readCarAppearance } from "./carAppearance";
 import { DEFAULT_SETTINGS, type Settings } from "@/types/settings";
 import type { FitmentConfig } from "@/types/stores";
 import { isCarModel } from "@/constants/wheelPositions";
@@ -71,8 +72,13 @@ function completeSettings(input: unknown): Settings {
 export function readFitmentConfig(input: unknown): FitmentConfig {
   const payload = record(input);
   const settings = "settings" in payload || "model" in payload ? payload.settings : payload;
+  const model = isCarModel(payload.model) ? payload.model : "na";
   return {
-    model: isCarModel(payload.model) ? payload.model : "na",
+    model,
+    appearance: readCarAppearance(model, payload.appearance ?? {
+      parts: payload.bodyParts,
+      paint: { hex: payload.carColor, metallic: payload.carMetallic },
+    }),
     settings: completeSettings(settings),
   };
 }

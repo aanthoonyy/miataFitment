@@ -13,8 +13,8 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { useSetting } from "@/hooks/useSetting";
 import { useFitmentStore, type CarModel } from "@/stores";
-import { WHEEL_DESIGNS, type WheelDesign } from "@/constants/wheelDesigns";
 import { STRINGS } from "@/i18n/strings";
+import { CarCustomizationSettings } from "./CarCustomizationSettings";
 
 const SPRING_PRESETS = [
   { label: STRINGS.car.springPresets.floaty, value: 100 },
@@ -31,26 +31,9 @@ const GENERATIONS: readonly { value: CarModel; selectable: boolean }[] = [
   { value: "nd", selectable: true },
 ];
 
-const CAR_COLORS = [
-  { value: "red", label: STRINGS.car.colors.red },
-  { value: "white", label: STRINGS.car.colors.white },
-  { value: "black", label: STRINGS.car.colors.black },
-  { value: "silver", label: STRINGS.car.colors.silver },
-] as const;
-
-const CAR_KITS = [
-  { value: "stock", label: STRINGS.car.kitOptions.stock },
-  { value: "lip", label: STRINGS.car.kitOptions.lip },
-  { value: "aero", label: STRINGS.car.kitOptions.aero },
-  { value: "widebody", label: STRINGS.car.kitOptions.widebody },
-] as const;
-
 // Shown when a persisted rate is missing or corrupt, so the slider still has a
 // preset to sit on.
 const FALLBACK_SPRING_RATE_LB_IN = 2500;
-
-// Colour and kit pickers are built but have nothing behind them yet.
-const CUSTOMISATION_DISABLED = true;
 
 function closestPresetIndex(springRateLbIn: number) {
   let bestIndex = 0;
@@ -78,36 +61,9 @@ const LoginPrompt = ({ action }: { action: string }) => (
   </p>
 );
 
-// A picker with nothing wired up behind it yet, kept so the layout is real.
-const ComingSoonSelect = ({
-  label,
-  options,
-}: {
-  label: string;
-  options: readonly { value: string; label: string }[];
-}) => (
-  <div className="space-y-1.5">
-    <Label className="text-xs text-muted-foreground">{label}</Label>
-    <Select disabled={CUSTOMISATION_DISABLED} value="">
-      <SelectTrigger className="h-9">
-        <SelectValue placeholder={STRINGS.car.comingSoon} />
-      </SelectTrigger>
-      <SelectContent className="bg-white text-black border shadow-md">
-        {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
-            {option.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  </div>
-);
-
 const CarSelectionSettings = () => {
   const model = useFitmentStore((state) => state.model);
   const setModel = useFitmentStore((state) => state.setModel);
-  const wheelDesign = useFitmentStore((state) => state.wheelDesign);
-  const setWheelDesign = useFitmentStore((state) => state.setWheelDesign);
   const [springRateLbIn, setSpringRateLbIn] = useSetting("springRateLbIn");
 
   const { user, loading } = useAuth();
@@ -220,39 +176,7 @@ const CarSelectionSettings = () => {
         </div>
       </SettingsCard>
 
-      <SettingsCard title={STRINGS.car.customizationTitle}>
-        <div className="space-y-4">
-          <ComingSoonSelect label={STRINGS.car.color} options={CAR_COLORS} />
-          <ComingSoonSelect label={STRINGS.car.kits} options={CAR_KITS} />
-
-          <div className="space-y-1.5">
-            <Label className="text-xs text-muted-foreground">
-              {STRINGS.car.wheelDesign}
-            </Label>
-            <Select
-              value={wheelDesign}
-              onValueChange={(value) => setWheelDesign(value as WheelDesign)}
-            >
-              <SelectTrigger className="h-9">
-                <SelectValue placeholder={STRINGS.car.wheelDesignPlaceholder} />
-              </SelectTrigger>
-              {/* Far more designs than fit on screen, so cap the list and let
-                  it scroll rather than running the full window height. */}
-              <SelectContent className="max-h-72 bg-white text-black border shadow-md">
-                {WHEEL_DESIGNS.map((design) => (
-                  <SelectItem key={design.value} value={design.value}>
-                    {design.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <p className="text-xs text-muted-foreground">
-            {STRINGS.car.customizationBlurb}
-          </p>
-        </div>
-      </SettingsCard>
+      <CarCustomizationSettings />
     </div>
   );
 };

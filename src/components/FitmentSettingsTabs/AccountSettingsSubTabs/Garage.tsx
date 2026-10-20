@@ -22,6 +22,7 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_S
   const loadConfig = useFitmentStore((s) => s.loadConfig);
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
+  const appearance = useFitmentStore((s) => s.appearance);
 
   const configs = useGarageStore((s) => s.configs);
   const saveName = useGarageStore((s) => s.saveName);
@@ -51,7 +52,7 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_S
 
   const handleSave = async () => {
     if (!userId) return;
-    await saveConfig(userId, saveName, { model, settings });
+    await saveConfig(userId, saveName, { model, settings, appearance });
   };
 
   const handleLoad = (id: string) => {
@@ -74,7 +75,7 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_S
     );
     if (!existing) return;
 
-    await overwriteConfig(existing.id, { model, settings });
+    await overwriteConfig(existing.id, { model, settings, appearance });
   };
 
   return (

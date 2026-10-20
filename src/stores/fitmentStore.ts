@@ -1,3 +1,5 @@
+import { readCarAppearance } from "@/utils/carAppearance";
+import { resolveBodyParts } from "@/constants/bodyParts";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { DEFAULT_SETTINGS } from "@/types/settings";
@@ -51,12 +53,24 @@ export const useFitmentStore = create<FitmentStore>()(
   persist(
     (set) => ({
       model: "na",
+      appearance: readCarAppearance("na", undefined),
       settings: DEFAULT_SETTINGS,
       wheelDesign: DEFAULT_WHEEL_DESIGN,
       matchWheels: false,
       matchTires: false,
 
-      setModel: (model) => set({ model }),
+      setModel: (model) => set((state) => ({
+        model, appearance: readCarAppearance(model, state.appearance),
+      })),
+      setBodyPart: (slot, value) => set((state) => ({
+        appearance: { ...state.appearance, parts: resolveBodyParts(state.model, state.appearance.parts, { slot, value }) },
+      })),
+      setCarColor: (hex) => set((state) => ({
+        appearance: readCarAppearance(state.model, { ...state.appearance, paint: { ...state.appearance.paint, hex } }),
+      })),
+      setCarMetallic: (metallic) => set((state) => ({
+        appearance: { ...state.appearance, paint: { ...state.appearance.paint, metallic } },
+      })),
 
       setWheelDesign: (design) => set({ wheelDesign: design }),
 
@@ -74,6 +88,7 @@ export const useFitmentStore = create<FitmentStore>()(
       loadConfig: (config) =>
         set((state) => ({
           model: config.model,
+          appearance: readCarAppearance(config.model, config.appearance),
           settings: applyMatching(
             config.settings,
             state.matchWheels,

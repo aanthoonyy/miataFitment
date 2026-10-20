@@ -5,6 +5,7 @@ import { readFitmentConfig } from "./fitmentConfig";
 export function buildShareUrl(config: FitmentConfig): string {
   const params = new URLSearchParams();
   params.set("model", config.model);
+  params.set("appearance", JSON.stringify(config.appearance));
   for (const [key, value] of Object.entries(config.settings)) {
     params.set(key, String(value));
   }
@@ -21,5 +22,11 @@ export function parseShareParams(
   searchParams.forEach((value, key) => {
     if (!(key in settings)) settings[key] = value;
   });
-  return readFitmentConfig({ model, settings });
+  let appearance: unknown;
+  try {
+    appearance = JSON.parse(searchParams.get("appearance") ?? "null");
+  } catch {
+    appearance = undefined;
+  }
+  return readFitmentConfig({ model, settings, appearance });
 }

@@ -21,13 +21,14 @@ export const useThreeScene = () => {
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
   const wheelDesign = useFitmentStore((s) => s.wheelDesign);
+  const appearance = useFitmentStore((s) => s.appearance);
   const bounceRequested = useUIStore((s) => s.bounceRequested);
 
   const replaceFitment = useCallback(() => {
     const fitment = fitmentRef.current;
     if (!fitment) return;
-    const { model, settings, wheelDesign } = useFitmentStore.getState();
-    fitment.replaceFitment({ model, settings, wheelDesign });
+    const { model, settings, wheelDesign, appearance } = useFitmentStore.getState();
+    fitment.replaceFitment({ model, settings, wheelDesign, appearance });
   }, []);
 
   const stepBounceFrame = useCallback(() => {
@@ -58,7 +59,7 @@ export const useThreeScene = () => {
   // Setup makes the first fitment; subsequent store changes use this effect.
   useEffect(() => {
     replaceFitment();
-  }, [model, wheelDesign, settings, replaceFitment]);
+  }, [model, wheelDesign, settings, appearance, replaceFitment]);
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -69,6 +70,9 @@ export const useThreeScene = () => {
     const disposeLighting = setUpLighting(scene, renderer);
     fitmentRef.current = createSceneFitment(scene, ({ kind, cause }) => {
       console.error(`Failed to load ${kind} model`, cause);
+    }, (status) => useUIStore.getState().setBodyLoadStatus(status));
+    const unsubscribeRetry = useUIStore.subscribe((state, previous) => {
+      if (state.bodyRetryRequest !== previous.bodyRetryRequest) replaceFitment();
     });
     replaceFitment();
 
@@ -84,10 +88,12 @@ export const useThreeScene = () => {
     document.getElementById(SCENE_CONTAINER_ID)?.appendChild(renderer.domElement);
 
     return () => {
+      unsubscribeRetry();
       cancelAnimationFrame(frameId);
       controls.dispose();
       fitmentRef.current?.dispose();
       fitmentRef.current = null;
+      useUIStore.getState().setBodyLoadStatus({ phase: "idle", hasBody: false });
       bounceStateRef.current = null;
       disposeLighting();
       renderer.dispose();

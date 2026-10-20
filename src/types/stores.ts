@@ -1,18 +1,23 @@
+import type { BodyLoadStatus } from "./bodyLoad";
+import type { CarAppearance } from "@/utils/carAppearance";
+import type { BodySlot } from "@/constants/bodyParts";
 import type { Settings } from "./settings";
 import type { SavedConfig, SavedConfigPayload } from "./garage";
 import type { CarModel } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 
-// The model plus settings pair that gets saved, shared and restored.
+// The complete model, fitment settings, and body appearance saved and shared.
 export interface FitmentConfig {
     model: CarModel;
     settings: Settings;
+    appearance: CarAppearance;
 }
 
 export interface FitmentStore {
     // State
     model: CarModel;
     settings: Settings;
+    appearance: CarAppearance;
     // Purely how the wheel is drawn, so it stays out of Settings and out of
     // saved/shared configs.
     wheelDesign: WheelDesign;
@@ -22,6 +27,10 @@ export interface FitmentStore {
     // store keeps the pair in step on every write.
     matchWheels: boolean;
     matchTires: boolean;
+
+    setBodyPart: (slot: BodySlot, value: string) => void;
+    setCarColor: (hex: string) => void;
+    setCarMetallic: (metallic: boolean) => void;
 
     // Actions
     setModel: (model: CarModel) => void;
@@ -66,6 +75,10 @@ export interface GarageStore {
 export type SettingsTab = "alignment" | "wheels" | "tires" | "car" | "account";
 
 export interface UIStore {
+    bodyLoadStatus: BodyLoadStatus;
+    bodyRetryRequest: number;
+    setBodyLoadStatus: (status: BodyLoadStatus) => void;
+    retryBody: () => void;
     // Settings panel state
     isSettingsOpen: boolean;
     activeTab: SettingsTab;

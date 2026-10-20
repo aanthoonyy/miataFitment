@@ -16,10 +16,11 @@ const Header = () => {
   const toggleSettings = useUIStore((s) => s.toggleSettings);
   const model = useFitmentStore((s) => s.model);
   const settings = useFitmentStore((s) => s.settings);
+  const appearance = useFitmentStore((s) => s.appearance);
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
-    const url = buildShareUrl({ model, settings });
+    const url = buildShareUrl({ model, settings, appearance });
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), COPIED_FEEDBACK_MS);

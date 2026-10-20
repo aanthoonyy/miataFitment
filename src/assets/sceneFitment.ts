@@ -1,30 +1,25 @@
+import type { BodyLoadStatus } from "@/types/bodyLoad";
 import * as THREE from "three";
 
-import { makeCar } from "./carMaker";
+import { createCarBody } from "./body";
+import type { CarAppearance } from "@/utils/carAppearance";
 import { buildCorners, placeCorners, type Corners } from "./corners";
 import { disposeObject } from "./common/disposeObject";
 import { CORNERS, type CarModel } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 import type { Settings } from "@/types/settings";
 import { bounceCornerRotation } from "@/utils/bounceFrame";
-import { inchesToFeet } from "@/utils/unitConversions";
-
-const CAR_BODY_Y_FT = -1.4;
 
 export interface FitmentSnapshot {
   model: CarModel;
   wheelDesign: WheelDesign;
   settings: Settings;
+  appearance: CarAppearance;
 }
 
 export interface SceneAssetError {
   kind: "car" | "wheel";
   cause: unknown;
-}
-
-export interface SceneFitmentSources {
-  loadCar(model: CarModel): Promise<THREE.Object3D>;
-  buildCorners(settings: Settings, model: CarModel, design: WheelDesign): Corners;
 }
 
 export interface SceneFitment {
@@ -33,34 +28,20 @@ export interface SceneFitment {
   dispose(): void;
 }
 
-const defaultSources: SceneFitmentSources = {
-  loadCar: (model) => makeCar(CAR_BODY_Y_FT, model),
-  buildCorners,
-};
-
 export function createSceneFitment(
   scene: THREE.Scene,
   onAssetError?: (error: SceneAssetError) => void,
-  sources: SceneFitmentSources = defaultSources,
+  onBodyStatus?: (status: BodyLoadStatus) => void,
 ): SceneFitment {
   let snapshot: FitmentSnapshot | null = null;
-  let car: THREE.Object3D | null = null;
+  const body = createCarBody(scene, (cause) => onAssetError?.({ kind: "car", cause }), onBodyStatus);
   let corners: Corners | null = null;
-  let carGeneration = 0;
   let cornerGeneration = 0;
   let bodyDropIn: number | null = null;
   let disposed = false;
 
   const assertOpen = () => {
     if (disposed) throw new Error("Scene fitment has been disposed");
-  };
-
-  const retireCar = () => {
-    carGeneration++;
-    if (!car) return;
-    scene.remove(car);
-    disposeObject(car);
-    car = null;
   };
 
   const retireCorners = () => {
@@ -78,7 +59,7 @@ export function createSceneFitment(
     const currentCorners = corners;
     const dropIn = bodyDropIn;
     if (!current) return;
-    if (car) car.position.y = dropIn === null ? 0 : -inchesToFeet(dropIn);
+    body.showBounce(dropIn);
     if (!currentCorners) return;
 
     if (dropIn === null) {
@@ -94,24 +75,6 @@ export function createSceneFitment(
         object.rotation.z = zRad;
       }
     });
-  };
-
-  const loadCar = (model: CarModel) => {
-    const generation = carGeneration;
-    void (async () => {
-      try {
-        const loaded = await sources.loadCar(model);
-        if (disposed || generation !== carGeneration) {
-          disposeObject(loaded);
-          return;
-        }
-        car = loaded;
-        scene.add(loaded);
-        applyPose();
-      } catch (cause) {
-        if (!disposed && generation === carGeneration) onAssetError?.({ kind: "car", cause });
-      }
-    })();
   };
 
   const installWheels = (current: Corners) => {
@@ -138,13 +101,10 @@ export function createSceneFitment(
         next.settings !== snapshot.settings || next.wheelDesign !== snapshot.wheelDesign;
       snapshot = next;
 
-      if (carChanged) {
-        retireCar();
-        loadCar(next.model);
-      }
+      body.replaceAppearance(next.model, next.appearance);
       if (cornersChanged) {
         retireCorners();
-        corners = sources.buildCorners(next.settings, next.model, next.wheelDesign);
+        corners = buildCorners(next.settings, next.model, next.wheelDesign);
         for (const object of [...corners.wheels, ...corners.tires]) scene.add(object);
         applyPose();
         installWheels(corners);
@@ -158,7 +118,7 @@ export function createSceneFitment(
     dispose() {
       if (disposed) return;
       disposed = true;
-      retireCar();
+      body.dispose();
       retireCorners();
       snapshot = null;
     },

@@ -1,3 +1,4 @@
+import { BodyLoadNotice } from "@/components/BodyLoadNotice";
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
@@ -38,6 +39,7 @@ const VisualizerPage = () => {
           />
         </div>
       </div>
+      <BodyLoadNotice />
       <aside
         className={[
           "fixed right-0 top-0 z-[60] h-full w-[350px]",
