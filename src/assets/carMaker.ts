@@ -1,6 +1,7 @@
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 import { inchesToFeet } from '@/utils/unitConversions';
+import { disposeObject } from './common/disposeObject';
 
 const INCH_SCALE = inchesToFeet(1);
 
@@ -37,7 +38,10 @@ export function makeCar(y: number, model: string = 'na') {
             undefined,
             // Without this the promise never settles when the .glb 404s or
             // fails to parse, and the car silently never appears.
-            (error) => reject(error),
+            (error) => {
+                disposeObject(car);
+                reject(error);
+            },
         );
     });
 }

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Settings } from "@/types/settings";
 import {
     isLeft as isLeftCorner,
@@ -12,6 +12,7 @@ import { calculateWheelPosition } from "./common/wheelPositionCalculator";
 import { axleSettings } from "./common/axleSettings";
 import { inchesToFeet, mmToFeet } from "@/utils/unitConversions";
 import type { WheelPart, WheelModel } from "@/types/wheels";
+import { borrowMaterial, disposeObject } from "./common/disposeObject";
 
 // --- knobs for fitting a .glb design onto the default wheel ---------------
 
@@ -73,6 +74,7 @@ function normalizeWheelModel(scene: THREE.Object3D, path: string): WheelModel {
         if (!mesh.isMesh) return;
         const geometry = mesh.geometry.clone();
         geometry.applyMatrix4(mesh.matrixWorld);
+        borrowMaterial(mesh.material);
         parts.push({ geometry, material: mesh.material });
     });
 
@@ -172,12 +174,25 @@ function loadWheelModel(design: WheelDesign, path: string): Promise<WheelModel> 
         promise = new Promise((resolve, reject) => {
             new GLTFLoader().load(
                 path,
-                (gltf) => resolve(normalizeWheelModel(gltf.scene, path)),
+                (gltf) => {
+                    try {
+                        resolve(normalizeWheelModel(gltf.scene, path));
+                    } catch (error) {
+                        reject(error);
+                    } finally {
+                        disposeObject(gltf.scene);
+                    }
+                },
                 undefined,
                 (error) => reject(error),
             );
         });
         wheelModelPromises.set(design, promise);
+        void promise.catch(() => {
+            if (wheelModelPromises.get(design) === promise) {
+                wheelModelPromises.delete(design);
+            }
+        });
     }
     return promise;
 }
@@ -230,6 +245,12 @@ function fitWheelModel(
     return group;
 }
 
+export interface WheelBuild {
+    wheel: THREE.Object3D;
+    fitted?: Promise<THREE.Object3D>;
+    hideFallback?: () => void;
+}
+
 export function makeWheels(
     wheelWidthIn: number,
     wheelDiameterIn: number,
@@ -237,7 +258,7 @@ export function makeWheels(
     settings: Settings,
     model: CarModel = "na",
     design: WheelDesign = "default"
-) {
+): WheelBuild {
     const plateRadiusFt = inchesToFeet(PLATE_RADIUS_IN);
     const wheelGeometry = new THREE.CylinderGeometry(
         plateRadiusFt,
@@ -284,13 +305,6 @@ export function makeWheels(
 
     const modelPath = wheelModelPath(design);
     if (modelPath) {
-        // Everything above stays exactly where it is -- sizing, placement and
-        // the bounce simulation all still read off these meshes. The default
-        // design just stops being drawn.
-        wheelMaterial.visible = false;
-        sideCylinder1.visible = false;
-        sideCylinder2.visible = false;
-
         const isLeft = isLeftCorner(position);
         const { wheelOffsetMm } = axleSettings(position, settings);
         // The plate mesh sits at the wheel's centreline, so y = 0 is the plate.
@@ -298,9 +312,9 @@ export function makeWheels(
 
         // The model arrives after this returns; the caller has already placed
         // the wheel by then, so it just pops in a frame later.
-        loadWheelModel(design, modelPath)
+        const fitted = loadWheelModel(design, modelPath)
             .then((wheelModel) => {
-                const fitted = fitWheelModel(
+                const model = fitWheelModel(
                     wheelModel.parts,
                     wheelWidthIn,
                     wheelDiameterIn,
@@ -310,13 +324,20 @@ export function makeWheels(
                 // Both sides get the same rotation onto the axle, so local +Y
                 // points outboard on the left of the car and inboard on the
                 // right. Spin the right side round to keep the face outside.
-                if (!isLeft) fitted.rotation.x = Math.PI;
-                wheel.add(fitted);
-            })
-            .catch((error) =>
-                console.error("Failed to load wheel model", modelPath, error),
-            );
+                if (!isLeft) model.rotation.x = Math.PI;
+                return model;
+            });
+        // The scene fitment owner decides whether this result is still current.
+        return {
+            wheel,
+            fitted,
+            hideFallback: () => {
+                wheelMaterial.visible = false;
+                sideCylinder1.visible = false;
+                sideCylinder2.visible = false;
+            },
+        };
     }
 
-    return wheel;
+    return { wheel };
 }

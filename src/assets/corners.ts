@@ -4,7 +4,6 @@ import { makeWheels } from "./wheels";
 import { makeTires } from "./tire";
 import { axleSettings } from "./common/axleSettings";
 import { calculateWheelPosition } from "./common/wheelPositionCalculator";
-import { disposeObject } from "./common/disposeObject";
 import { CORNERS, type CarModel } from "@/constants/wheelPositions";
 import type { WheelDesign } from "@/constants/wheelDesigns";
 import type { Settings } from "@/types/settings";
@@ -16,22 +15,19 @@ import type { Settings } from "@/types/settings";
 export interface Corners {
     wheels: THREE.Object3D[];
     tires: THREE.Object3D[];
+    pendingWheels: {
+        wheel: THREE.Object3D;
+        fitted: Promise<THREE.Object3D>;
+        hideFallback: () => void;
+    }[];
 }
-
-export const noCorners = (): Corners => ({ wheels: [], tires: [] });
-
-const cornerObjects = (corners: Corners): THREE.Object3D[] => [
-    ...corners.wheels,
-    ...corners.tires,
-];
 
 export function buildCorners(
     settings: Settings,
     model: CarModel,
     design: WheelDesign,
 ): Corners {
-    return {
-        wheels: CORNERS.map((corner) => {
+    const wheelBuilds = CORNERS.map((corner) => {
             const { wheelWidthIn, wheelDiameterIn } = axleSettings(corner, settings);
             return makeWheels(
                 wheelWidthIn,
@@ -41,22 +37,16 @@ export function buildCorners(
                 model,
                 design,
             );
-        }),
+        });
+    return {
+        wheels: wheelBuilds.map(({ wheel }) => wheel),
         tires: CORNERS.map((corner) =>
             makeTires(corner, settings, model),
         ),
+        pendingWheels: wheelBuilds.flatMap(({ wheel, fitted, hideFallback }) =>
+            fitted && hideFallback ? [{ wheel, fitted, hideFallback }] : [],
+        ),
     };
-}
-
-export function addCorners(scene: THREE.Scene, corners: Corners): void {
-    for (const object of cornerObjects(corners)) scene.add(object);
-}
-
-export function removeCorners(scene: THREE.Scene, corners: Corners): void {
-    for (const object of cornerObjects(corners)) {
-        scene.remove(object);
-        disposeObject(object);
-    }
 }
 
 // Puts every corner back where the settings say it belongs, undoing whatever
