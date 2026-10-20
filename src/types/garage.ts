@@ -1,6 +1,6 @@
 // What is actually sitting in the database, which is arbitrary JSON written by
 // whatever version of the app saved it. Rows predating the units rename hold
-// the old field names, so readers run it through withCurrentSettingKeys rather
+// the old field names, so readers run it through readFitmentConfig rather
 // than trusting any particular shape.
 export type SavedConfigPayload = {
       version?: number;

@@ -16,7 +16,7 @@ import { GarageCard } from "./GarageCard";
 import { ConfigList } from "./GarageConfigList";
 import { EmptyState } from "./GarageEmptyState";
 import { SaveConfigRow } from "./GarageSaveConfigRow";
-import { payloadToFitmentConfig } from "@/services/fitmentNormalize";
+import { readFitmentConfig } from "@/utils/fitmentConfig";
 
 export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_SAVES }) => {
   const loadConfig = useFitmentStore((s) => s.loadConfig);
@@ -58,7 +58,7 @@ export const Garage: React.FC<GarageProps> = ({ userId, maxSaves = DEFAULT_MAX_S
     const row = configs.find((c) => c.id === id);
     if (!row) return;
 
-    loadConfig(payloadToFitmentConfig(row.payload));
+    loadConfig(readFitmentConfig(row.payload));
   };
 
   const handleDelete = async (id: string) => {

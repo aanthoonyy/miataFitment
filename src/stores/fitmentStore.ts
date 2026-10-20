@@ -2,11 +2,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { DEFAULT_SETTINGS } from "@/types/settings";
 import type { CarModel } from "@/constants/wheelPositions";
-import { DEFAULT_WHEEL_DESIGN } from "@/constants/wheelDesigns";
-import { SPRING_MASS } from "@/utils/bounceSimulation";
+import { DEFAULT_WHEEL_DESIGN, WHEEL_DESIGNS } from "@/constants/wheelDesigns";
 import type { FitmentStore } from "@/types/stores";
 import type { Settings } from "@/types/settings";
-import { withCurrentSettingKeys } from "@/utils/settingsMigration";
+import { readFitmentConfig } from "@/utils/fitmentConfig";
 
 export type { CarModel };
 
@@ -101,31 +100,24 @@ export const useFitmentStore = create<FitmentStore>()(
     {
       name: "fitment-storage",
       merge: (persistedState, currentState) => {
-        const typedState = persistedState as FitmentStore | undefined;
-        if (!typedState) return currentState;
-
-        const persisted = withCurrentSettingKeys(
-          typedState.settings as unknown as Record<string, unknown>,
-        );
-
-        const legacyHz = persisted.springRateHz;
-        // Inverse of omega = sqrt(k / m) — recover lb/in from a legacy Hz value.
-        const legacySpringRateLbIn =
-          typeof legacyHz === "number" && Number.isFinite(legacyHz)
-            ? Math.round(Math.pow(2 * Math.PI * legacyHz, 2) * SPRING_MASS)
-            : undefined;
+        if (!persistedState || typeof persistedState !== "object" || Array.isArray(persistedState)) {
+          return currentState;
+        }
+        const persisted = persistedState as Record<string, unknown>;
+        const config = readFitmentConfig(persisted);
+        const wheelDesign = WHEEL_DESIGNS.find((design) => design.value === persisted.wheelDesign);
+        const matchWheels = typeof persisted.matchWheels === "boolean"
+          ? persisted.matchWheels : currentState.matchWheels;
+        const matchTires = typeof persisted.matchTires === "boolean"
+          ? persisted.matchTires : currentState.matchTires;
 
         return {
           ...currentState,
-          ...typedState,
-          settings: {
-            ...DEFAULT_SETTINGS,
-            ...(persisted as unknown as Partial<Settings>),
-            springRateLbIn:
-              typedState.settings?.springRateLbIn ??
-              legacySpringRateLbIn ??
-              DEFAULT_SETTINGS.springRateLbIn,
-          },
+          ...config,
+          wheelDesign: wheelDesign?.value ?? currentState.wheelDesign,
+          matchWheels,
+          matchTires,
+          settings: applyMatching(config.settings, matchWheels, matchTires),
         };
       },
     }

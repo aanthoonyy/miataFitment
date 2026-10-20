@@ -1,5 +1,6 @@
 import type { SavedConfigPayload } from "@/types/garage";
-import { withCurrentSettingKeys } from "./settingsMigration";
+import { readFitmentConfig } from "./fitmentConfig";
+import { radiansToDegrees } from "./unitConversions";
 
 function isNum(v: unknown): v is number {
   return typeof v === "number" && Number.isFinite(v);
@@ -25,13 +26,9 @@ function up(s?: string) {
 export function payloadToPreview(payload?: SavedConfigPayload): string | null {
   if (!payload || typeof payload !== "object") return null;
 
-  const model = up(payload.model);
-  // Rows saved before units were added to the field names still use the old
-  // ones; without this every preview below comes out blank.
-  const s = withCurrentSettingKeys(payload.settings) as Record<
-    string,
-    number | undefined
-  >;
+  const config = readFitmentConfig(payload);
+  const model = up(config.model);
+  const s = config.settings;
 
   // Wheels
   const fw = fmtIn(s.frontWheelWidthIn);
@@ -45,8 +42,8 @@ export function payloadToPreview(payload?: SavedConfigPayload): string | null {
   // Alignment
   const fc = fmtDeg(s.frontCamberDeg);
   const rc = fmtDeg(s.rearCamberDeg);
-  const ft = fmtDeg(s.frontToeRad);
-  const rt = fmtDeg(s.rearToeRad);
+  const ft = fmtDeg(radiansToDegrees(s.frontToeRad));
+  const rt = fmtDeg(radiansToDegrees(s.rearToeRad));
 
   // Offset/spacer (mm)
   const fOff = fmtMm(s.frontWheelOffsetMm);

@@ -1,9 +1,6 @@
 import type { FitmentConfig } from "@/types/stores";
-import type { CarModel } from "@/constants/wheelPositions";
-import { DEFAULT_SETTINGS } from "@/types/settings";
-import { legacySettingKey } from "./settingsMigration";
-
-const VALID_MODELS: CarModel[] = ["na", "nb", "nc", "nd"];
+import { isCarModel } from "@/constants/wheelPositions";
+import { readFitmentConfig } from "./fitmentConfig";
 
 export function buildShareUrl(config: FitmentConfig): string {
   const params = new URLSearchParams();
@@ -17,26 +14,12 @@ export function buildShareUrl(config: FitmentConfig): string {
 export function parseShareParams(
   searchParams: URLSearchParams
 ): FitmentConfig | null {
-  const rawModel = searchParams.get("model");
-  if (!rawModel || !VALID_MODELS.includes(rawModel as CarModel)) return null;
+  const model = searchParams.get("model");
+  if (!isCarModel(model)) return null;
 
-  const model = rawModel as CarModel;
-  const settings = { ...DEFAULT_SETTINGS };
-
-  for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof typeof DEFAULT_SETTINGS)[]) {
-    // Links shared before units were added to the field names carry the old
-    // ones, and a bookmarked URL cannot be rewritten, so both are accepted.
-    const legacyKey = legacySettingKey(key);
-    const raw =
-      searchParams.get(key) ??
-      (legacyKey ? searchParams.get(legacyKey) : null);
-    if (raw === null) continue;
-
-    const parsed = parseFloat(raw);
-    if (Number.isFinite(parsed)) {
-      (settings as Record<string, number>)[key] = parsed;
-    }
-  }
-
-  return { model, settings };
+  const settings: Record<string, string> = {};
+  searchParams.forEach((value, key) => {
+    if (!(key in settings)) settings[key] = value;
+  });
+  return readFitmentConfig({ model, settings });
 }

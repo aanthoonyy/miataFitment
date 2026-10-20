@@ -19,3 +19,8 @@ export const inchesToFeet = (inches: number): number => inches / INCHES_PER_FOOT
 export const feetToInches = (feet: number): number => feet * INCHES_PER_FOOT;
 
 export const mmToFeet = (mm: number): number => inchesToFeet(mmToInches(mm));
+
+const DEGREES_PER_HALF_TURN = 180;
+
+export const radiansToDegrees = (radians: number): number =>
+  radians * DEGREES_PER_HALF_TURN / Math.PI;
