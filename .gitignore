@@ -30,3 +30,6 @@ amplify_outputs*
 amplifyconfiguration*
 
 .claude/settings.local.json
+
+# Blender auto-saves a .blend1 backup beside every .blend on each save.
+*.blend1
