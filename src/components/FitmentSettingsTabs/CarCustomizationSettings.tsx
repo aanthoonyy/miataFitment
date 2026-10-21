@@ -22,6 +22,7 @@ const BodyPartSelect = ({ slot }: { slot: BodySlot }) => {
         {STRINGS.car.bodySlots[slot]}
       </Label>
       <Select
+        disabled
         value={selected}
         onValueChange={(value) => setBodyPart(slot, value)}
       >
