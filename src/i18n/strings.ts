@@ -164,8 +164,6 @@ export const STRINGS = {
       headlights: "Headlights",
       rack: "Boot Rack",
     },
-    bodyLoading: "Loading selected bodywork…",
-    bodyLoadingPrevious: "Loading selected bodywork. Previous bodywork remains visible.",
     bodyLoadFailed: "Couldn’t load the selected bodywork.",
     bodyLoadFailedPrevious: "Couldn’t load the selected bodywork. Previous bodywork is still shown.",
     retryBody: "Retry bodywork",
